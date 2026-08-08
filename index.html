@@ -71,7 +71,6 @@
 <body>
 <div class="terminal-panel">
 
-    <!-- ШАПКА -->
     <div class="brand-header">
         <div class="logo-frame">
             <img src="photo_2026-01-24_21-23-46-2.jpg" alt="Логотип ССТ" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fa-solid fa-shield-halved\' style=\'color:#ef4444;font-size:40px;\'></i>';">
@@ -87,13 +86,11 @@
         </div>
     </div>
 
-    <!-- НАВИГАЦИЯ -->
     <div class="nav-system">
         <button class="nav-btn active" onclick="switchSection(event, 'main-sec')">База Данных</button>
         <button class="nav-btn" onclick="switchSection(event, 'enemies-sec')">Угрозы TCU</button>
     </div>
 
-    <!-- ВКЛАДКА 1: БАЗА ДАННЫХ -->
     <div id="main-sec" class="section-block active">
 
         <div class="section-title">Главные Основатели</div>
@@ -112,7 +109,6 @@
         <p>Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и по другим интересным играм, где каждый может обратиться за помощью, высказать свои мысли, найти друзей или просто пообщаться.</p>
         <p>Суть союза в том, что каждый участник независим и не находится под чьим-либо влиянием. Наша цель: развитие округа союза, продвижение контента и совместная защита от внешней агрессии.</p>
 
-        <!-- TCU MEDIA -->
         <div class="section-title">TCU Media (Ютуберы Союза)</div>
         <div class="data-row">
             <a href="https://youtube.com/@zhenrov_teletubby" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zhenrov [TCU]</a>
@@ -202,7 +198,6 @@
             <span class="status-badge verified">Ютубер</span>
         </div>
 
-        <!-- TCU CREATORS -->
         <div class="section-title">TCU Creators (Творцы Союза)</div>
         <div class="data-row">
             <a href="https://youtube.com/@linem-0889" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Linem [TCU]</a>
@@ -220,7 +215,6 @@
             </div>
         </div>
 
-        <!-- TCU DIVISIONS -->
         <div class="section-title">TCU Divisions (Союзные Формирования)</div>
         <p class="section-desc">Дочерние фракции и подразделения, действующие под флагом ССТ.</p>
         <div class="data-row">
@@ -232,7 +226,6 @@
         </div>
         <div class="enemy-reason" style="border-left-color: rgba(220, 38, 38, 0.3);">Формирование: Свободный Крашерский Фонд [LCF] — в стадии создания.</div>
 
-        <!-- TCU ALLIES -->
         <div class="section-title">TCU Allies (Союзники ССТ)</div>
         <p class="section-desc">Рядовые участники союза, поддерживающие ССТ.</p>
         <div class="data-row">
@@ -248,7 +241,6 @@
             <span class="status-badge ally">Союзник</span>
         </div>
 
-        <!-- TCU SERVERS -->
         <div class="section-title">TCU Servers (Официальные Сервера)</div>
         <div class="data-row">
             <a href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> SaguloStopol [SG] [TCU]</a>
@@ -267,7 +259,6 @@
             <span class="status-badge verified">Telegram</span>
         </div>
 
-        <!-- ЛЕГЕНДА РОЛЕЙ -->
         <div class="section-title">Легенда Ролей</div>
         <div class="legend-block">
             <div class="legend-item"><span class="legend-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span> Основатель</div>
@@ -282,7 +273,6 @@
             <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span> Союзник</div>
         </div>
 
-        <!-- ФОРМА ЗАЯВОК -->
         <div class="section-title">Подать заявку на вступление</div>
         <p style="font-size: 14px; margin-bottom: 15px;">Заполните анкету ниже, и создатели рассмотрят её в ближайшее время. Ответ придёт вам в указанные соцсети.</p>
         <form id="tcu-form" action="https://formspree.io/f/mzepdrqo" method="POST">
@@ -303,50 +293,109 @@
         </form>
     </div>
 
-    <!-- ВКЛАДКА 2: УГРОЗЫ -->
     <div id="enemies-sec" class="section-block">
         <div class="section-title" style="color: #ef4444;">Реестр Внешних Угроз</div>
         <p>Данные лица или формирования совершали акты агрессии, вредительства или вели дезинформационную деятельность против округа TCU. Любые контакты участников Союза с ними заблокированы.</p>
 
         <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-slash"></i> Демиен</span>
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users"></i> НТ сквад (NT Squad)</span>
+            <span class="status-badge" style="color:#f97316;border-color:rgba(249,115,22,0.4);background:rgba(249,115,22,0.05);">Частично в ЧС</span>
+        </div>
+        <div class="enemy-reason">
+            Формирование с частичным нахождением в ЧС ССТ.<br><br>
+            <span style="color:#22c55e;">✓ Нормальные отношения, НЕ в ЧС, состоят в НТ скваде:</span> CyanicTubbie, Gerit [TCU], maionezz [TCU], Крокодилл<br>
+            <span style="color:#eab308;">≠ Нейтралитет / Разошлись, состоит в НТ скваде, НЕ в ЧС:</span> Горбузик<br>
+            <span style="color:#ef4444;">✗ В ЧС ССТ (враждебное крыло НТ сквада):</span> Демиен / DemienGG, sl3ndy, LeoTheLeus, Runi
+        </div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-slash"></i> Демиен / DemienGG</span>
             <span class="status-badge">Предатель</span>
         </div>
-        <div class="enemy-reason">Действие: Предательство изнутри союза. Разоблачён администратором Barricade228 [SG] [TCU].</div>
+        <div class="enemy-reason">Действие: Предательство изнутри союза, участник враждебного крыла НТ сквада. Разоблачён администратором Barricade228 [SG] [TCU].</div>
 
         <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-triangle-exclamation"></i> Нарушитель_1</span>
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-ban"></i> sl3ndy</span>
+            <span class="status-badge">Предатель</span>
+        </div>
+        <div class="enemy-reason">Действие: Предательство ССТ, поддержка радикальных личностей из чёрного списка ССТ, пренебрежение законами ССТ. Участник НТ сквада.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> LeoTheLeus</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Действие: Участник враждебного крыла НТ сквада. Враждебные действия против округа TCU.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> Runi / Рунии</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Действие: Участник враждебного крыла НТ сквада. Враждебные действия против округа TCU.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #eab308;"><i class="fa-solid fa-circle-minus"></i> Горбузик</span>
+            <span class="status-badge" style="color:#eab308;border-color:rgba(234,179,8,0.4);background:rgba(234,179,8,0.05);">Разошлись</span>
+        </div>
+        <div class="enemy-reason" style="border-left-color: rgba(234,179,8,0.3);">Действие: Участник НТ сквада. Пути с ССТ разошлись. Нейтралитет, в ЧС не состоит.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-skull"></i> MasterHell / Мастер</span>
             <span class="status-badge">Агрессор</span>
         </div>
-        <div class="enemy-reason">Действие: Вредительство на фанатских игровых серверах союза.</div>
+        <div class="enemy-reason">Действие: Агрессия в сторону ССТ, на YouTube заявлял о желании распада ССТ, на Discord-сервере сливал личные данные участника ССТ. Поддерживает КоловраТТ / KolovraTT.</div>
 
         <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-radiation"></i> Вражеский Клан</span>
-            <span class="status-badge">Ликвидирован</span>
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-biohazard"></i> КоловраТТ / KolovraTT</span>
+            <span class="status-badge">ЧС ССТ</span>
         </div>
-        <div class="enemy-reason">Действие: Организованная дезинформация участников ССТ.</div>
+        <div class="enemy-reason">Действие: Участие в радикальной группировке "АкваТим", которая еще до основания ССТ сливала данные Сагулика и его друзей. Слив личных данных в Telegram и Discord. Поддержка националистических взглядов, оскорбления на национальной почве в адрес DezoTubby [SG] [TCU] (2023). Связан с MasterHell.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users-rectangle"></i> FPE: R (многие участники)</span>
+            <span class="status-badge">Вражеский клан</span>
+        </div>
+        <div class="enemy-reason">Действие: Ведение войны против SaguloStopol [SG] [TCU]. Массовая деанонимизация (доксинг) Сагулика со стороны многих участников структуры.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Кроко / Pacifist</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Действие: Деанонимизация участников ССТ, следование взглядам павшей группировки "АкваТим". Не путать с Крокодилл — с ним нормальные отношения, состоит в НТ скваде.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Моралопс</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Действие: Деанонимизация участников ССТ, следование взглядам павшей группировки "АкваТим".</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-ghost"></i> AlivePo [OWL]</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Действие: Конфликт с SaguloStopol [SG] [TCU] с 2024 года, поддержка радикальных личностей из враждебной структуры FPE: R. Владелец сервера AnyaWorks.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-server"></i> AnyaWorks (сервер AlivePo)</span>
+            <span class="status-badge">Вражеский сервер</span>
+        </div>
+        <div class="enemy-reason">Действие: Сервер структуры AlivePo [OWL]. Конфликт с SaguloStopol [SG] [TCU] с 2024 г., укрывательство участников FPE: R.</div>
     </div>
 
 </div>
 
 <script>
-    // Переключение вкладок
     function switchSection(evt, sectionId) {
         document.querySelectorAll('.section-block').forEach(sec => sec.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(sectionId).classList.add('active');
         evt.currentTarget.classList.add('active');
     }
-
-    // AJAX-отправка формы через Formspree
     const form = document.getElementById('tcu-form');
     const msg = document.getElementById('form-msg');
-
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         msg.className = 'form-msg';
         msg.textContent = '';
-
         const data = new FormData(form);
         try {
             const res = await fetch(form.action, {
