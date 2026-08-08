@@ -21,7 +21,8 @@
         .logo-frame img { width: 100%; height: 100%; object-fit: cover; }
         h1 { font-size: 22px; font-weight: 800; color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.2); }
         .subtitle { font-size: 13px; color: #ef4444; margin-top: 3px; font-weight: 700; }
-        .system-status { font-size: 11px; color: #64748b; margin-top: 5px; display: flex; align-items: center; gap: 6px; }
+        .system-status { font-size: 11px; color: #64748b; margin-top: 5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .system-status .stat-item { display: flex; align-items: center; gap: 4px; }
         .nav-system { display: flex; border: 1px solid rgba(239, 68, 68, 0.3); margin-bottom: 20px; background: #05070a; }
         .nav-btn { flex: 1; padding: 12px; background: transparent; border: none; color: #64748b; font-weight: 700; font-size: 13px; cursor: pointer; text-transform: uppercase; text-align: center; font-family: inherit; transition: 0.2s; }
         .nav-btn:hover { color: #fff; background: rgba(239, 68, 68, 0.05); }
@@ -30,18 +31,30 @@
         .section-block.active { display: block; }
         .section-title { font-size: 15px; font-weight: 800; color: #ef4444; text-transform: uppercase; border-left: 3px solid #ef4444; padding-left: 10px; margin: 25px 0 15px; }
         .section-title:first-child { margin-top: 0; }
+        .section-desc { font-size: 13px; color: #64748b; margin-bottom: 15px; }
         p { color: #9ca3af; line-height: 1.6; font-size: 14px; margin-bottom: 15px; text-align: justify; }
         .founders-row { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
         .commander-card { flex: 1; min-width: 150px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; text-align: center; }
         .commander-name { font-weight: 700; color: #fff; font-size: 14px; }
         .commander-rank { font-size: 11px; color: #ef4444; margin-top: 2px; text-transform: uppercase; }
-        .data-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.08); font-size: 14px; gap: 10px; }
+        .data-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.08); font-size: 14px; gap: 10px; flex-wrap: wrap; }
         .data-row a { color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .data-row a:hover { color: #ef4444; text-decoration: underline; }
         .data-label { display: flex; align-items: center; gap: 8px; color: #fff; }
+        .badges-group { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
         .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); padding: 2px 8px; background: rgba(239, 68, 68, 0.05); white-space: nowrap; }
         .status-badge.verified { color: #3b82f6; border-color: rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.05); }
+        .status-badge.founder { color: #ef4444; border-color: rgba(239, 68, 68, 0.6); background: rgba(239, 68, 68, 0.1); box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
+        .status-badge.leader { color: #dc2626; border-color: rgba(220, 38, 38, 0.5); background: rgba(220, 38, 38, 0.08); box-shadow: 0 0 6px rgba(220, 38, 38, 0.2); }
+        .status-badge.deputy { color: #f97316; border-color: rgba(249, 115, 22, 0.5); background: rgba(249, 115, 22, 0.08); box-shadow: 0 0 6px rgba(249, 115, 22, 0.15); }
+        .status-badge.admin { color: #8b5cf6; border-color: rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.08); box-shadow: 0 0 6px rgba(139, 92, 246, 0.2); }
+        .status-badge.moderator { color: #eab308; border-color: rgba(234, 179, 8, 0.4); background: rgba(234, 179, 8, 0.05); }
+        .status-badge.owner { color: #14b8a6; border-color: rgba(20, 184, 166, 0.4); background: rgba(20, 184, 166, 0.05); }
+        .status-badge.artist { color: #ec4899; border-color: rgba(236, 72, 153, 0.4); background: rgba(236, 72, 153, 0.05); }
+        .status-badge.animator { color: #a855f7; border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.05); }
+        .status-badge.ally { color: #94a3b8; border-color: rgba(148, 163, 184, 0.4); background: rgba(148, 163, 184, 0.05); }
         .enemy-reason { font-size: 12px; color: #64748b; margin: 0 0 15px 0; padding: 5px 0 5px 10px; border-left: 2px solid rgba(239, 68, 68, 0.2); }
+        .merit-note { font-size: 12px; color: #22c55e; margin: 0 0 15px 0; padding: 5px 0 5px 10px; border-left: 2px solid rgba(34, 197, 94, 0.4); font-style: italic; }
         .input-group { position: relative; margin-bottom: 15px; }
         input { width: 100%; padding: 12px; background: #05070a; border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-size: 14px; outline: none; font-family: inherit; }
         input:focus { border-color: #ef4444; }
@@ -50,6 +63,9 @@
         .form-msg { margin-top: 15px; padding: 12px; text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; display: none; }
         .form-msg.success { display: block; color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.4); background: rgba(34, 197, 94, 0.05); }
         .form-msg.error { display: block; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.05); }
+        .legend-block { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 15px; }
+        .legend-item { font-size: 11px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     </style>
 </head>
 <body>
@@ -63,7 +79,11 @@
         <div>
             <h1>TELETUBBY COOPERATION UNION</h1>
             <div class="subtitle">СОЮЗ СОТРУДНИЧЕСТВА ТЕЛЕПУЗИКОВ [TCU / ССТ]</div>
-            <div class="system-status"><i class="fa-solid fa-circle" style="color: #ef4444; font-size: 9px;"></i> СТАТУС СОЮЗА: АКТИВЕН</div>
+            <div class="system-status">
+                <span class="stat-item"><i class="fa-solid fa-circle" style="color: #22c55e; font-size: 9px;"></i> АКТИВЕН</span>
+                <span class="stat-item"><i class="fa-solid fa-users" style="color: #3b82f6; font-size: 10px;"></i> 20 УЧАСТНИКОВ</span>
+                <span class="stat-item"><i class="fa-solid fa-server" style="color: #14b8a6; font-size: 10px;"></i> 4 СЕРВЕРА</span>
+            </div>
         </div>
     </div>
 
@@ -92,17 +112,144 @@
         <p>Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и по другим интересным играм, где каждый может обратиться за помощью, высказать свои мысли, найти друзей или просто пообщаться.</p>
         <p>Суть союза в том, что каждый участник независим и не находится под чьим-либо влиянием. Наша цель: развитие округа союза, продвижение контента и совместная защита от внешней агрессии.</p>
 
-        <div class="section-title">Ютуберы Союза (TCU Media)</div>
+        <!-- TCU MEDIA -->
+        <div class="section-title">TCU Media (Ютуберы Союза)</div>
         <div class="data-row">
             <a href="https://youtube.com/@zhenrov_teletubby" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zhenrov [TCU]</a>
-            <span class="status-badge verified">Ютубер</span>
+            <div class="badges-group">
+                <span class="status-badge founder">Основатель</span>
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
         </div>
         <div class="data-row">
             <a href="https://youtube.com/@sagulik" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Sagulik [SG] [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge founder">Основатель</span>
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@gerit742" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Gerit [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge deputy">Заместитель</span>
+                <span class="status-badge artist">Художник</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user-shield" style="color:#8b5cf6;"></i> Barricade228 [SG] [TCU]</span>
+            <div class="badges-group">
+                <span class="status-badge admin">Администратор</span>
+            </div>
+        </div>
+        <div class="merit-note">🏅 Заслуга: разоблачение предателя Демиена, защита округа TCU.</div>
+        <div class="data-row">
+            <a href="https://youtube.com/@soldieranims" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Soldier Anims [SL] [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge moderator">Модератор</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@dezoniyofficial" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> DezoTubby [SG] [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge artist">Художник</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@uraniks_roblox" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Ураникс / UraniksRB [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@itsboom223" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> ItsBOOM [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@zidan_official-stelit" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zidan.official [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@maioonezz-f7w" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> maionezz [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge artist">Дизайнер</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@regiturfst" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Regiturf [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge artist">Художник</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@tvik_tubbie" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Terrov [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge artist">Дизайнер</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@chezabretto" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Pe_The_Teletubby [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@JawCr7sher" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> J.C [TCU]</a>
             <span class="status-badge verified">Ютубер</span>
         </div>
 
-        <div class="section-title">Официальные Сервера (TCU Servers)</div>
+        <!-- TCU CREATORS -->
+        <div class="section-title">TCU Creators (Творцы Союза)</div>
+        <div class="data-row">
+            <a href="https://youtube.com/@linem-0889" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Linem [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge artist">Художница</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@animationfilmssfm" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Emptiness [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge moderator">Модератор</span>
+                <span class="status-badge artist">Дизайнер</span>
+                <span class="status-badge animator">Аниматор</span>
+            </div>
+        </div>
+
+        <!-- TCU DIVISIONS -->
+        <div class="section-title">TCU Divisions (Союзные Формирования)</div>
+        <p class="section-desc">Дочерние фракции и подразделения, действующие под флагом ССТ.</p>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-flag" style="color:#dc2626;"></i> Pel [SG] [LCF] [TCU]</span>
+            <div class="badges-group">
+                <span class="status-badge leader">Лидер LCF</span>
+                <span class="status-badge">В разработке</span>
+            </div>
+        </div>
+        <div class="enemy-reason" style="border-left-color: rgba(220, 38, 38, 0.3);">Формирование: Свободный Крашерский Фонд [LCF] — в стадии создания.</div>
+
+        <!-- TCU ALLIES -->
+        <div class="section-title">TCU Allies (Союзники ССТ)</div>
+        <p class="section-desc">Рядовые участники союза, поддерживающие ССТ.</p>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> dimon</span>
+            <span class="status-badge ally">Союзник</span>
+        </div>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Leoknoopers [TCU]</span>
+            <span class="status-badge ally">Союзник</span>
+        </div>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Мама Габена [TCU]</span>
+            <span class="status-badge ally">Союзник</span>
+        </div>
+
+        <!-- TCU SERVERS -->
+        <div class="section-title">TCU Servers (Официальные Сервера)</div>
         <div class="data-row">
             <a href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> SaguloStopol [SG] [TCU]</a>
             <span class="status-badge verified">Discord</span>
@@ -120,6 +267,22 @@
             <span class="status-badge verified">Telegram</span>
         </div>
 
+        <!-- ЛЕГЕНДА РОЛЕЙ -->
+        <div class="section-title">Легенда Ролей</div>
+        <div class="legend-block">
+            <div class="legend-item"><span class="legend-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span> Основатель</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#dc2626;"></span> Лидер фракции</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f97316;"></span> Заместитель</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#8b5cf6;"></span> Администратор</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#eab308;"></span> Модератор</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#14b8a6;"></span> Владелец сервера</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ec4899;"></span> Художник / Дизайнер</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Аниматор</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#3b82f6;"></span> Ютубер</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span> Союзник</div>
+        </div>
+
+        <!-- ФОРМА ЗАЯВОК -->
         <div class="section-title">Подать заявку на вступление</div>
         <p style="font-size: 14px; margin-bottom: 15px;">Заполните анкету ниже, и создатели рассмотрят её в ближайшее время. Ответ придёт вам в указанные соцсети.</p>
         <form id="tcu-form" action="https://formspree.io/f/mzepdrqo" method="POST">
@@ -146,6 +309,12 @@
         <p>Данные лица или формирования совершали акты агрессии, вредительства или вели дезинформационную деятельность против округа TCU. Любые контакты участников Союза с ними заблокированы.</p>
 
         <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-slash"></i> Демиен</span>
+            <span class="status-badge">Предатель</span>
+        </div>
+        <div class="enemy-reason">Действие: Предательство изнутри союза. Разоблачён администратором Barricade228 [SG] [TCU].</div>
+
+        <div class="data-row">
             <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-triangle-exclamation"></i> Нарушитель_1</span>
             <span class="status-badge">Агрессор</span>
         </div>
@@ -169,7 +338,7 @@
         evt.currentTarget.classList.add('active');
     }
 
-    // AJAX-отправка формы через Formspree (без перехода на их страницу)
+    // AJAX-отправка формы через Formspree
     const form = document.getElementById('tcu-form');
     const msg = document.getElementById('form-msg');
 
