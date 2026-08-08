@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Союз Ютуберов и Серверов</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: #0b0f19; color: #e2e8f0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { max-width: 600px; width: 100%; }
+        .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 30px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .header-card { text-align: center; }
+        .avatar { width: 90px; height: 90px; background: linear-gradient(45deg, #00dbde, #fc00ff); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(45deg, #00f2fe, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 20px; margin-bottom: 15px; color: #00f2fe; display: flex; align-items: center; gap: 10px; }
+        p { color: #94a3b8; line-height: 1.6; font-size: 15px; margin-bottom: 15px; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .list-item:last-child { border: none; }
+        .list-item a { color: #38bdf8; text-decoration: none; font-weight: 600; }
+        .list-item a:hover { text-decoration: underline; }
+        .tag { background: rgba(56, 189, 248, 0.1); color: #38bdf8; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+        input, select { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: #fff; font-size: 15px; margin-bottom: 15px; outline: none; }
+        input:focus { border-color: #00f2fe; background: rgba(255, 255, 255, 0.08); }
+        button { width: 100%; padding: 14px; background: linear-gradient(45deg, #00f2fe, #4facfe); border: none; border-radius: 14px; color: #0b0f19; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card header-card">
+        <div class="avatar">🌐</div>
+        <h1>Союз Ютуберов & Серверов</h1>
+        <p>Уютное сообщество для контент-мейкеров и игровых площадок. Общаемся, развиваемся и растем вместе!</p>
+    </div>
+    <div class="card">
+        <h2>ℹ️ О союзе</h2>
+        <p>Наш проект создан для проведения совместных масштабных ивентов, взаимного пиара и помощи начинающим авторам. Здесь вы сможете найти друзей по интересам или новую аудиторию для вашего сервера.</p>
+    </div>
+    <div class="card">
+        <h2>👥 Наши участники</h2>
+        <div class="list-item">
+            <a href="https://youtube.com" target="_blank">Канал Zhenyae</a>
+            <span class="tag">Ютубер</span>
+        </div>
+        <div class="list-item">
+            <span>Play.MineServer.ru</span>
+            <span class="tag" style="color: #a855f7; background: rgba(168, 85, 247, 0.1);">Minecraft</span>
+        </div>
+    </div>
+    <div class="card">
+        <h2>📝 Подать заявку в Союз</h2>
+        <form action="#" method="POST">
+            <input type="text" name="name" placeholder="Ваш ник / Название проекта" required>
+            <input type="text" name="type" placeholder="Кто вы? (Ютубер / Владелец сервера)" required>
+            <input type="url" name="link" placeholder="Ссылка на канал или IP сервера" required>
+            <input type="text" name="contacts" placeholder="Ваш Discord / Telegram для связи" required>
+            <button type="submit">Отправить заявку</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
