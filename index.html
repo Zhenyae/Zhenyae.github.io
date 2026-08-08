@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCU / ССТ — Teletubby Cooperation Union</title>
-    <!-- Подключаем иконки FontAwesome для YouTube и Discord -->
+    <!-- Подключаем иконки FontAwesome для YouTube, серверов и интерфейса -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -15,98 +15,119 @@
         .card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 24px; padding: 30px; margin-bottom: 20px; backdrop-filter: blur(10px); }
         .header-card { text-align: center; position: relative; overflow: hidden; }
         
-        /* Свечение на фоне */
-        .header-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, transparent 60%); z-index: -1; }
+        /* Атмосферное красное свечение на фоне хоррора */
+        .header-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(239, 68, 68, 0.08) 0%, transparent 60%); z-index: -1; }
         
         .avatar { width: 95px; height: 95px; background: linear-gradient(45deg, #ef4444, #3b82f6); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
         
         h1 { font-size: 26px; font-weight: 800; margin-bottom: 4px; letter-spacing: 0.5px; }
-        .subtitle { font-size: 14px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .subtitle { font-size: 14px; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 700; }
         h2 { font-size: 19px; margin-bottom: 15px; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
         p { color: #94a3b8; line-height: 1.6; font-size: 15px; margin-bottom: 15px; }
         
-        /* Основатели и Участники */
+        /* Сетка для основателей союза */
         .grid-founders { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
         .founder-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); padding: 15px; border-radius: 16px; text-align: center; }
         .founder-name { font-weight: 700; color: #fff; margin-bottom: 5px; }
         
+        /* Списки участников и серверов */
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
         .list-item:last-child { border: none; }
-        .list-item a { color: #f43f5e; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-        .list-item a:hover { text-decoration: underline; }
+        .list-item a { color: #f43f5e; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .list-item a:hover { color: #ef4444; text-decoration: underline; }
+        .server-name { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; }
         
+        /* Красивые теги-метки */
         .tag { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .tag.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .tag.purple { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
 
-        /* Форма заявок */
+        /* Форма обратной связи */
         input, select { width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; color: #fff; font-size: 15px; margin-bottom: 15px; outline: none; transition: 0.3s; }
         input:focus { border-color: #ef4444; background: rgba(255, 255, 255, 0.06); }
         button { width: 100%; padding: 14px; background: linear-gradient(45deg, #ef4444, #f43f5e); border: none; border-radius: 14px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2); }
         button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); }
-        
-        .social-btn { display: inline-flex; align-items: center; gap: 8px; background: #5865F2; color: white; padding: 10px 20px; border-radius: 14px; text-decoration: none; font-weight: 600; margin-top: 10px; transition: 0.3s; }
-        .social-btn:hover { background: #4752c4; transform: translateY(-1px); }
     </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- Главная карточка TCU -->
+    <!-- Главный баннер союза TCU -->
     <div class="card header-card">
         <div class="avatar">☣️</div>
         <h1>Teletubby Cooperation Union</h1>
         <div class="subtitle">Союз Сотрудничества Телепузиков (TCU / ССТ)</div>
-        <p>Официальное объединение контент-мейкеров, разработчиков и игровых серверов, посвященное вселенной Slendytubbies и смежным тематикам.</p>
-        <a href="https://discord.gg" target="_blank" class="social-btn"><i class="fab fa-discord"></i> Наш Discord</a>
+        <p>Официальное объединение контент-мейкеров, разработчиков и игровых площадок, посвященное вселенной Slendytubbies и смежным тематикам.</p>
     </div>
 
-    <!-- Карточка Основателей -->
+    <!-- Главные основатели проекта -->
     <div class="card">
         <h2><i class="fa-solid fa-crown"></i> Главные Основатели</h2>
         <div class="grid-founders">
             <div class="founder-box">
                 <div class="founder-name">Sagulik [SG]</div>
-                <span class="tag">Основатель TCU</span>
+                <span class="tag purple">Основатель TCU</span>
             </div>
             <div class="founder-box">
                 <div class="founder-name">Zhenrov</div>
-                <span class="tag">Основатель TCU</span>
+                <span class="tag purple">Основатель TCU</span>
             </div>
         </div>
     </div>
 
-    <!-- Карточка целей союза -->
+    <!-- Информационный блок -->
     <div class="card">
         <h2><i class="fa-solid fa-circle-info"></i> О нашем Союзе</h2>
-        <p>TCU создан для объединения творческих людей, развития сообщества Slendytubbies, взаимной поддержки авторов каналов и продвижения фанатских серверов. Мы помогаем участникам обмениваться аудиторией и проводить совместные ивенты.</p>
+        <p>TCU создан для объединения творческих людей, развития сообщества Slendytubbies, взаимной поддержки авторов каналов и продвижения фанатских серверов. Мы помогаем участникам обмениваться аудиторией и проводить совместные масштабные ивенты.</p>
     </div>
 
-    <!-- Карточка участников -->
+    <!-- БЛОК 1: Ютуберы Союза -->
     <div class="card">
-        <h2><i class="fa-solid fa-users"></i> Участники Союза</h2>
+        <h2><i class="fab fa-youtube"></i> Ютуберы Союза (TCU Media)</h2>
+        <p style="margin-bottom: 10px; font-size: 13px; color: #64748b;">Официальные контент-мейкеры и блогеры объединения:</p>
         
-        <!-- Пример ютубера -->
         <div class="list-item">
-            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i> Канал Zhenrov</a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i> Zhenrov [TCU]</a>
             <span class="tag">Ютубер</span>
         </div>
-        
-        <!-- Пример сервера -->
         <div class="list-item">
-            <span><i class="fa-solid fa-server"></i> Slendytubbies Fan Server</span>
-            <span class="tag blue">Игровой сервер</span>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i> Sagulik [SG]</a>
+            <span class="tag">Ютубер</span>
+        </div>
+        <div class="list-item">
+            <a href="#" target="_blank"><i class="fab fa-youtube"></i> Пример Ютубера 3</a>
+            <span class="tag">Ютубер</span>
         </div>
     </div>
 
-    <!-- Карточка Заявки -->
+    <!-- БЛОК 2: Игровые сервера -->
+    <div class="card">
+        <h2><i class="fa-solid fa-server"></i> Игровые Сервера (TCU Servers)</h2>
+        <p style="margin-bottom: 10px; font-size: 13px; color: #64748b;">Официальные игровые площадки участников нашего Союза:</p>
+        
+        <div class="list-item">
+            <span class="server-name"><i class="fa-solid fa-square-poll-vertical"></i> TCU Main Server</span>
+            <span class="tag blue">Основной</span>
+        </div>
+        <div class="list-item">
+            <span class="server-name"><i class="fa-solid fa-ghost"></i> Slendytubbies Fan Arena</span>
+            <span class="tag blue">Фанатский</span>
+        </div>
+        <div class="list-item">
+            <span class="server-name"><i class="fa-solid fa-gamepad"></i> Название Сервера 3</span>
+            <span class="tag blue">Сервер</span>
+        </div>
+    </div>
+
+    <!-- Автоматическая форма приёма заявок -->
     <div class="card">
         <h2><i class="fa-solid fa-file-pen"></i> Подать заявку на вступление</h2>
-        <!-- Замените ССЫЛКУ ниже на ваш Formspree ID, чтобы заявки приходили на почту -->
+        <p style="margin-bottom: 15px; font-size: 14px;">Заполните анкету ниже, и создатели рассмотрят её в ближайшее время. Ответ придет вам в соцсети.</p>
         <form action="https://formspree.io/f/mzepdrqo" method="POST">
             <input type="text" name="nickname" placeholder="Ваш ник (и тег, если есть)" required>
             <input type="text" name="role" placeholder="Кто вы? (Ютубер / Владелец сервера / Художник)" required>
-            <input type="url" name="link" placeholder="Ссылка на ваш канал или сервер" required>
+            <input type="url" name="link" placeholder="Ссылка на ваш YouTube канал или сервер" required>
             <input type="text" name="discord_contact" placeholder="Ваш Discord / Telegram для связи" required>
             <button type="submit">Отправить заявку в TCU</button>
         </form>
@@ -116,3 +137,4 @@
 
 </body>
 </html>
+
