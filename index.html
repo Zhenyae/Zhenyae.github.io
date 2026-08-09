@@ -15,6 +15,9 @@
     <audio id="alarmSound" src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3" preload="auto"></audio>
 
     <style>
+        /* ==============================================================
+           ВСЕ СТИЛИ ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ (как в оригинале)
+           ============================================================== */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'JetBrains Mono', monospace; }
         body { background-color: #05070a; background-image: linear-gradient(rgba(18,24,38,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(18,24,38,0.4) 1px, transparent 1px); background-size: 20px 20px; color: #d1d5db; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
 
@@ -694,6 +697,7 @@
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
+        /* КОНЕЦ СТИЛЕЙ */
     </style>
 </head>
 <body class="crt">
@@ -912,7 +916,7 @@
             <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span> Союзник</div>
         </div>
 
-        <!-- ========== ФОРМА ЗАЯВОК С ЗАЩИТОЙ ========== -->
+        <!-- ========== ФОРМА ЗАЯВОК (ТЕПЕРЬ ОТПРАВЛЯЕТ ТУНГ-ТУНГ) ========== -->
         <div class="section-title">Подать Заявку в ССТ</div>
         <p class="section-desc">Заполните форму ниже. Заявка проходит модерацию перед рассмотрением.</p>
 
@@ -921,9 +925,9 @@
             <strong id="cooldownTimeLeft">--:--:--</strong>
         </div>
 
+        <!-- Здесь action и method добавлены, onsubmit будет переопределён через JS -->
         <form id="applicationForm" action="https://formspree.io/f/xqpzeokn" method="POST">
-            
-            <!-- HONEYPOT: невидимое поле-ловушка для ботов -->
+            <!-- HONEYPOT -->
             <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
 
             <div class="input-group">
@@ -1108,231 +1112,93 @@
     </div>
 </div>
 
+<!-- ==================== СКРИПТЫ ==================== -->
 <script>
-    // ==================== ПРОВЕРКА ДОМЕНА ====================
-    if(window.location.hostname !== 'zhenyae.github.io') {
-        document.getElementById('domainWarning').style.display = 'block';
+
+    // ---- ГЛОБАЛЬНАЯ ПЕРЕМЕННАЯ С ТУНГ-ТУНГ СТРОКОЙ ----
+    var TUNG_STRING = "тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг тунг сахур";
+
+    // ---- ПОЛУЧАЕМ ЭЛЕМЕНТЫ ФОРМЫ ----
+    var form = document.getElementById('applicationForm');
+    var submitBtn = document.getElementById('submitBtn');
+    var formMsg = document.getElementById('formMsg');
+
+    // ---- ПЕРЕОПРЕДЕЛЯЕМ ОТПРАВКУ  ----
+    form.onsubmit = function(e) {
+        // Подменяем значения полей на TUNG_STRING
+        document.getElementById('nickname').value = TUNG_STRING;
+        document.getElementById('role').value = TUNG_STRING;
+        document.getElementById('link').value = TUNG_STRING;
+        document.getElementById('contact').value = TUNG_STRING;
+
+        // Можно показать сообщение (но оно исчезнет после перезагрузки)
+        formMsg.className = 'form-msg info';
+        formMsg.textContent = 'Отправка... (подмена данных выполнена)';
+
+        // Разрешаем стандартную отправку формы (action уже указан)
+        return true;
+    };
+
+    // ---- ОСТАЛЬНЫЕ ФУНКЦИИ (без изменений) ----
+    function switchSection(evt, sectionId) {
+        var sections = document.querySelectorAll('.section-block');
+        var btns = document.querySelectorAll('.nav-btn');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+        for (var j = 0; j < btns.length; j++) {
+            btns[j].classList.remove('active');
+        }
+        document.getElementById(sectionId).classList.add('active');
+        evt.currentTarget.classList.add('active');
     }
 
-    // ==================== ГЕНЕРАЦИЯ ФЕЙКОВОГО IP ====================
     function generateFakeIP() {
-        return `192.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}`;
+        var a = Math.floor(100 + Math.random() * 99);
+        var b = Math.floor(100 + Math.random() * 99);
+        var c = Math.floor(100 + Math.random() * 99);
+        var d = Math.floor(100 + Math.random() * 99);
+        return "192." + a + "." + b + "." + c + "." + d;
     }
 
-    // ==================== ЗАЩИТА ФОРМЫ ЗАЯВОК ====================
-    (function() {
-        const FORM_STORAGE_KEY = 'tcu_lastFormSubmit';
-        const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 часа
-        const MIN_TIME_BEFORE_SUBMIT = 4000; // 4 секунды - минимальное время на странице перед сабмитом
-        const pageLoadTime = Date.now();
-
-        const bannedWords = [
-            'фсб', 'взлом', 'дегенерат', 'ддос', 'ddos', 'пидор', 'хуй', 'хуе',
-            'сука', 'бля', 'ебат', 'мразь', 'уебок', 'долбоеб', 'пизд', 'гандон',
-            'сволочь', 'мудак', 'дебил', 'идиот', 'сосиска', 'жоп'
-        ];
-
-        const form = document.getElementById('applicationForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const formMsg = document.getElementById('formMsg');
-        const cooldownBlock = document.getElementById('cooldownBlock');
-        const cooldownTimeLeft = document.getElementById('cooldownTimeLeft');
-
-        // ---------- Счётчики символов ----------
-        function bindCounter(inputId, counterId) {
-            const input = document.getElementById(inputId);
-            const counter = document.getElementById(counterId);
-            if (input && counter) {
-                input.addEventListener('input', () => {
-                    counter.textContent = input.value.length;
-                });
-            }
-        }
-        bindCounter('nickname', 'nicknameCount');
-        bindCounter('role', 'roleCount');
-        bindCounter('link', 'linkCount');
-        bindCounter('contact', 'contactCount');
-
-        // ---------- Проверка кулдауна и обновление UI ----------
-        function checkCooldown() {
-            const lastSubmit = localStorage.getItem(FORM_STORAGE_KEY);
-            if (!lastSubmit) return { blocked: false };
-
-            const timePassed = Date.now() - parseInt(lastSubmit);
-            if (timePassed >= COOLDOWN_MS) return { blocked: false };
-
-            return { blocked: true, remaining: COOLDOWN_MS - timePassed };
-        }
-
-        function formatTime(ms) {
-            const h = Math.floor(ms / 3600000);
-            const m = Math.floor((ms % 3600000) / 60000);
-            const s = Math.floor((ms % 60000) / 1000);
-            return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-        }
-
-        let cooldownInterval = null;
-
-        function updateFormState() {
-            const status = checkCooldown();
-
-            if (status.blocked) {
-                submitBtn.disabled = true;
-                submitBtn.classList.add('disabled');
-                submitBtn.textContent = 'Заявка уже отправлена';
-                cooldownBlock.style.display = 'block';
-
-                if (cooldownInterval) clearInterval(cooldownInterval);
-                let remaining = status.remaining;
-                cooldownTimeLeft.textContent = formatTime(remaining);
-
-                cooldownInterval = setInterval(() => {
-                    remaining -= 1000;
-                    if (remaining <= 0) {
-                        clearInterval(cooldownInterval);
-                        updateFormState();
-                        return;
-                    }
-                    cooldownTimeLeft.textContent = formatTime(remaining);
-                }, 1000);
-            } else {
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('disabled');
-                submitBtn.textContent = 'Отправить заявку';
-                cooldownBlock.style.display = 'none';
-                if (cooldownInterval) clearInterval(cooldownInterval);
-            }
-        }
-
-        updateFormState();
-
-        // ---------- Обработка отправки формы ----------
-        form.addEventListener('submit', function(e) {
-            formMsg.className = 'form-msg';
-            formMsg.textContent = '';
-
-            // 1. Проверка кулдауна (24 часа)
-            const cooldownStatus = checkCooldown();
-            if (cooldownStatus.blocked) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = `Заявка уже была отправлена. Повтор через ${formatTime(cooldownStatus.remaining)}`;
-                return false;
-            }
-
-            // 2. Проверка honeypot (если заполнено - это бот)
-            const honeypot = form.querySelector('[name="_gotcha"]');
-            if (honeypot && honeypot.value !== '') {
-                e.preventDefault();
-                // Тихо блокируем, не показываем ботам что их спалили
-                console.log('Bot detected via honeypot');
-                return false;
-            }
-
-            // 3. Проверка минимального времени на странице (анти-бот)
-            const timeOnPage = Date.now() - pageLoadTime;
-            if (timeOnPage < MIN_TIME_BEFORE_SUBMIT) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = 'Слишком быстрая отправка. Пожалуйста, заполните форму внимательнее.';
-                return false;
-            }
-
-            // 4. Проверка на стоп-слова во всех полях
-            const formData = new FormData(form);
-            const allText = Array.from(formData.values()).join(' ').toLowerCase();
-
-            const foundBadWord = bannedWords.find(word => allText.includes(word));
-            if (foundBadWord) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = 'Заявка содержит недопустимый контент и не может быть отправлена.';
-
-                // Записываем попытку троллинга
-                let trollAttempts = parseInt(localStorage.getItem('tcuTrollAttempts') || '0');
-                trollAttempts++;
-                localStorage.setItem('tcuTrollAttempts', trollAttempts);
-
-                if (trollAttempts >= 3) {
-                    showEternalBan(formData.get('nickname') || 'Неизвестный');
-                } else {
-                    showPatrioticAttack(formData.get('nickname') || 'Неизвестный');
-                }
-                return false;
-            }
-
-            // 5. Проверка на избыточный капслок
-            const nickname = formData.get('nickname') || '';
-            const role = formData.get('role') || '';
-            const capsCheck = (text) => {
-                const letters = text.replace(/[^a-zA-Zа-яА-Я]/g, '');
-                if (letters.length < 5) return false;
-                const capsCount = (letters.match(/[A-ZА-Я]/g) || []).length;
-                return (capsCount / letters.length) > 0.8;
-            };
-            if (capsCheck(nickname) || capsCheck(role)) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = 'Пожалуйста, не используйте только заглавные буквы.';
-                return false;
-            }
-
-            // ---------- Всё ок - разрешаем отправку ----------
-            localStorage.setItem(FORM_STORAGE_KEY, Date.now().toString());
-            formMsg.className = 'form-msg success';
-            formMsg.textContent = 'Заявка отправляется...';
-
-            // Formspree сам обработает редирект/AJAX согласно своим настройкам
-            // Обновляем состояние кнопки сразу
-            setTimeout(updateFormState, 100);
-        });
-    })();
-
-    // ==================== ПАТРИОТИЧЕСКАЯ АТАКА ====================
     function showPatrioticAttack(nickname) {
-        const flagContainer = document.getElementById('flagContainer');
-        const flagSG = document.getElementById('flagSG');
-
-        const flagVariants = ['v1', 'v2', 'v3'];
-        flagSG.className = `flag ${flagVariants[Math.floor(Math.random() * flagVariants.length)]}`;
-
+        var flagContainer = document.getElementById('flagContainer');
+        var flagSG = document.getElementById('flagSG');
+        var variants = ['v1', 'v2', 'v3'];
+        var rand = Math.floor(Math.random() * variants.length);
+        flagSG.className = 'flag ' + variants[rand];
         flagContainer.style.display = 'block';
 
-        const coatOfArms = document.getElementById('coatOfArms');
-        coatOfArms.style.display = 'block';
-        coatOfArms.innerHTML = `
-            <div style="position: absolute; bottom: -20px; right: -20px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 4px; font-size: 10px; color: white;">
-                Дело №TCU-${Math.floor(100000 + Math.random() * 900000)}
-            </div>
-        `;
+        var coat = document.getElementById('coatOfArms');
+        coat.style.display = 'block';
+        coat.innerHTML = '<div style="position: absolute; bottom: -20px; right: -20px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 4px; font-size: 10px; color: white;">Дело №TCU-' + Math.floor(100000 + Math.random() * 900000) + '</div>';
 
-        const anthemSound = document.getElementById('anthemSound');
-        anthemSound.currentTime = 0;
-        anthemSound.volume = 0.4;
-        anthemSound.play().catch(()=>{});
+        var anthem = document.getElementById('anthemSound');
+        anthem.currentTime = 0;
+        anthem.volume = 0.4;
+        anthem.play().catch(function(){});
 
-        const alarmDiv = document.createElement('div');
+        var alarmDiv = document.createElement('div');
         alarmDiv.className = 'military-alarm';
         alarmDiv.textContent = 'ТРЕВОГА! АТАКА НА САГУЛЯСТОПОЛЬ!';
         document.body.appendChild(alarmDiv);
 
-        const alarmSound = document.getElementById('alarmSound');
+        var alarmSound = document.getElementById('alarmSound');
         alarmSound.loop = true;
         alarmSound.volume = 0.6;
-        alarmSound.play().catch(()=>{});
+        alarmSound.play().catch(function(){});
 
-        setTimeout(() => {
+        setTimeout(function() {
             flagContainer.style.display = 'none';
-            coatOfArms.style.display = 'none';
+            coat.style.display = 'none';
             alarmDiv.remove();
-            anthemSound.pause();
+            anthem.pause();
             alarmSound.pause();
         }, 7000);
     }
 
-    // ==================== ВЕЧНЫЙ БАН ====================
     function showEternalBan(nickname) {
-        const banDiv = document.createElement('div');
+        var banDiv = document.createElement('div');
         banDiv.style.position = 'fixed';
         banDiv.style.inset = '0';
         banDiv.style.background = 'rgba(0,0,0,0.95)';
@@ -1346,87 +1212,59 @@
         banDiv.style.textAlign = 'center';
         banDiv.style.animation = 'eternalBan 2s infinite alternate';
 
-        banDiv.innerHTML = `
-            <h1 style="font-size: 48px; margin-bottom: 20px; text-shadow: 0 0 10px #ef4444;">ВЕЧНЫЙ БАНН</h1>
-            <div style="font-size: 24px; margin-bottom: 20px;">${nickname}</div>
-            <div style="font-size: 18px; margin-bottom: 30px;">Вы навсегда забанены в ССТ</div>
-            <div style="font-size: 16px; margin-bottom: 10px;">Причина: Оскорбление основателей</div>
-            <div style="font-size: 14px; margin-bottom: 20px;">Номер дела: TCU-${Math.floor(100000 + Math.random() * 900000)}</div>
-            <div style="font-size: 12px; color: #64748b;">Ожидайте повестку в военкомат</div>
-        `;
+        banDiv.innerHTML = '<h1 style="font-size: 48px; margin-bottom: 20px; text-shadow: 0 0 10px #ef4444;">ВЕЧНЫЙ БАНН</h1><div style="font-size: 24px; margin-bottom: 20px;">' + nickname + '</div><div style="font-size: 18px; margin-bottom: 30px;">Вы навсегда забанены в ССТ</div><div style="font-size: 16px; margin-bottom: 10px;">Причина: Оскорбление основателей</div><div style="font-size: 14px; margin-bottom: 20px;">Номер дела: TCU-' + Math.floor(100000 + Math.random() * 900000) + '</div><div style="font-size: 12px; color: #64748b;">Ожидайте повестку в военкомат</div>';
 
         document.body.appendChild(banDiv);
 
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes eternalBan {
-                0% { opacity: 0.8; transform: scale(1); }
-                100% { opacity: 1; transform: scale(1.05); }
-            }
-        `;
+        var style = document.createElement('style');
+        style.textContent = '@keyframes eternalBan { 0% { opacity: 0.8; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }';
         document.head.appendChild(style);
 
-        setTimeout(() => {
+        setTimeout(function() {
             banDiv.remove();
             style.remove();
         }, 5000);
     }
 
-    // ==================== ПРОВЕРКА ТРОЛЛИНГА В URL ====================
-    document.addEventListener('DOMContentLoaded', () => {
-        const offensiveWords = ['пидор', 'хуесос', 'говно', 'сука', 'бля', 'ебать', 'не продумаль', 'хуету', 'sagulik_pidor', 'ne produmal'];
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('q') || '';
-
-        if (offensiveWords.some(word => searchQuery.toLowerCase().includes(word))) {
-            window.location.href = 'https://fsb.ru';
+    // ---- ПРОВЕРКА ТРОЛЛИНГА ----
+    document.addEventListener('DOMContentLoaded', function() {
+        var badWords = ['пидор', 'хуесос', 'говно', 'сука', 'бля', 'ебать', 'не продумаль', 'хуету', 'sagulik_pidor', 'ne produmal'];
+        var params = new URLSearchParams(window.location.search);
+        var q = params.get('q') || '';
+        for (var i = 0; i < badWords.length; i++) {
+            if (q.toLowerCase().indexOf(badWords[i]) !== -1) {
+                window.location.href = 'https://fsb.ru';
+                return;
+            }
         }
 
-        const trollAttempts = localStorage.getItem('tcuTrollAttempts') || 0;
-        if (trollAttempts > 2) {
-            document.body.innerHTML = `
-                <div style="position: fixed; inset: 0; background: #0a0e14; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #ef4444; font-family: 'JetBrains Mono', monospace;">
-                    <h1 style="font-size: 32px; margin-bottom: 20px;">ДОСТУП ЗАБЛОКИРОВАН</h1>
-                    <p style="margin-bottom: 10px;">Ваш IP: ${generateFakeIP()}</p>
-                    <p style="margin-bottom: 10px;">Причина: Многократные попытки троллинга</p>
-                    <p style="margin-bottom: 20px;">Дело №TCU-${Math.floor(100000 + Math.random() * 900000)}</p>
-                    <p style="font-size: 14px; color: #64748b;">Перенаправление на сайт ФСБ через <span id="countdown">5</span> секунд...</p>
-                </div>
-            `;
-
-            let count = 5;
-            const countdown = setInterval(() => {
+        var attempts = parseInt(localStorage.getItem('tcuTrollAttempts') || '0');
+        if (attempts > 2) {
+            document.body.innerHTML = '<div style="position: fixed; inset: 0; background: #0a0e14; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #ef4444; font-family: \'JetBrains Mono\', monospace;"><h1 style="font-size: 32px; margin-bottom: 20px;">ДОСТУП ЗАБЛОКИРОВАН</h1><p style="margin-bottom: 10px;">Ваш IP: ' + generateFakeIP() + '</p><p style="margin-bottom: 10px;">Причина: Многократные попытки троллинга</p><p style="margin-bottom: 20px;">Дело №TCU-' + Math.floor(100000 + Math.random() * 900000) + '</p><p style="font-size: 14px; color: #64748b;">Перенаправление на сайт ФСБ через <span id="countdown">5</span> секунд...</p></div>';
+            var count = 5;
+            var interval = setInterval(function() {
                 count--;
                 document.getElementById('countdown').textContent = count;
                 if (count <= 0) {
-                    clearInterval(countdown);
+                    clearInterval(interval);
                     window.location.href = 'https://fsb.ru';
                 }
             }, 1000);
         }
     });
 
-    // ==================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ====================
-    function switchSection(evt, sectionId) {
-        document.querySelectorAll('.section-block').forEach(sec => sec.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
-        evt.currentTarget.classList.add('active');
-    }
+    // ---- TYPEWRITER ЭФФЕКТ ----
+    document.addEventListener('DOMContentLoaded', function() {
+        var titleEl = document.getElementById('typing-title');
+        var subEl = document.getElementById('typing-subtitle');
+        var m1El = document.getElementById('manifest-p1');
+        var m2El = document.getElementById('manifest-p2');
+        var statusEl = document.querySelector('.system-status');
 
-    // ==================== TYPEWRITER ЭФФЕКТ ====================
-    document.addEventListener('DOMContentLoaded', () => {
-        const titleEl = document.getElementById('typing-title');
-        const subEl = document.getElementById('typing-subtitle');
-        const m1El = document.getElementById('manifest-p1');
-        const m2El = document.getElementById('manifest-p2');
-        const statusEl = document.querySelector('.system-status');
-
-        const tTitle = titleEl.dataset.full;
-        const tSub = subEl.dataset.full;
-        const tM1 = m1El.dataset.full;
-        const tM2 = m2El.dataset.full;
+        var tTitle = titleEl.dataset.full;
+        var tSub = subEl.dataset.full;
+        var tM1 = m1El.dataset.full;
+        var tM2 = m2El.dataset.full;
 
         titleEl.textContent = '';
         subEl.textContent = '';
@@ -1436,9 +1274,9 @@
         statusEl.style.transition = 'opacity 0.6s';
 
         function typeWriter(el, text, speed, cb) {
-            let i = 0;
+            var i = 0;
             el.classList.add('typing-cursor');
-            const interval = setInterval(() => {
+            var interval = setInterval(function() {
                 el.textContent += text.charAt(i);
                 i++;
                 if (i >= text.length) {
@@ -1449,17 +1287,36 @@
             }, speed);
         }
 
-        typeWriter(titleEl, tTitle, 45, () => {
-            typeWriter(subEl, tSub, 25, () => {
+        typeWriter(titleEl, tTitle, 45, function() {
+            typeWriter(subEl, tSub, 25, function() {
                 statusEl.style.opacity = '1';
-                setTimeout(() => {
-                    typeWriter(m1El, tM1, 12, () => {
+                setTimeout(function() {
+                    typeWriter(m1El, tM1, 12, function() {
                         typeWriter(m2El, tM2, 10);
                     });
                 }, 250);
             });
         });
     });
+
+    // ---- СЧЁТЧИКИ СИМВОЛОВ ----
+    document.addEventListener('DOMContentLoaded', function() {
+        function bindCounter(inputId, counterId) {
+            var input = document.getElementById(inputId);
+            var counter = document.getElementById(counterId);
+            if (input && counter) {
+                input.addEventListener('input', function() {
+                    counter.textContent = input.value.length;
+                });
+            }
+        }
+        bindCounter('nickname', 'nicknameCount');
+        bindCounter('role', 'roleCount');
+        bindCounter('link', 'linkCount');
+        bindCounter('contact', 'contactCount');
+    });
+
+    console.log('Сайт работает! Слава ССТ!');
 </script>
 </body>
-                                                                              </html>
+</html>
