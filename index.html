@@ -9,137 +9,651 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <!-- Патриотические звуки -->
+    <audio id="anthemSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+    <audio id="alarmSound" src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3" preload="auto"></audio>
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'JetBrains Mono', monospace; }
         body { background-color: #05070a; background-image: linear-gradient(rgba(18,24,38,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(18,24,38,0.4) 1px, transparent 1px); background-size: 20px 20px; color: #d1d5db; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
-        .terminal-panel { max-width: 700px; width: 100%; background: #0a0e14; border: 2px solid #ef4444; box-shadow: 0 0 25px rgba(239, 68, 68, 0.15); padding: 25px; position: relative; z-index: 2; }
-        .terminal-panel::before { content: ''; position: absolute; top: -2px; left: -2px; width: 20px; height: 20px; border-top: 4px solid #ef4444; border-left: 4px solid #ef4444; }
-        .terminal-panel::after { content: ''; position: absolute; bottom: -2px; right: -2px; width: 20px; height: 20px; border-bottom: 4px solid #ef4444; border-right: 4px solid #ef4444; }
-        .brand-header { text-align: left; border-bottom: 1px solid rgba(239, 68, 68, 0.3); padding-bottom: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; }
-        .logo-frame { width: 85px; height: 85px; min-width: 85px; border: 2px solid #ef4444; padding: 3px; display: flex; align-items: center; justify-content: center; background: #05070a; }
-        .logo-frame img { width: 100%; height: 100%; object-fit: cover; }
-        h1 { font-size: 22px; font-weight: 800; color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.2); min-height: 24px; }
-        .subtitle { font-size: 13px; color: #ef4444; margin-top: 3px; font-weight: 700; min-height: 16px; }
-        .system-status { font-size: 11px; color: #64748b; margin-top: 5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .system-status .stat-item { display: flex; align-items: center; gap: 4px; }
-        .nav-system { display: flex; border: 1px solid rgba(239, 68, 68, 0.3); margin-bottom: 20px; background: #05070a; }
-        .nav-btn { flex: 1; padding: 12px 8px; background: transparent; border: none; color: #64748b; font-weight: 700; font-size: 12px; cursor: pointer; text-transform: uppercase; text-align: center; font-family: inherit; transition: 0.2s; }
-        .nav-btn:hover { color: #fff; background: rgba(239, 68, 68, 0.05); }
-        .nav-btn.active { background: #ef4444; color: #05070a; }
-        .section-block { display: none; } .section-block.active { display: block; }
-        .section-title { font-size: 15px; font-weight: 800; color: #ef4444; text-transform: uppercase; border-left: 3px solid #ef4444; padding-left: 10px; margin: 25px 0 15px; }
-        .section-desc { font-size: 13px; color: #64748b; margin-bottom: 15px; }
-        p { color: #9ca3af; line-height: 1.6; font-size: 14px; margin-bottom: 15px; text-align: justify; min-height: 1em; }
-        .founders-row { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
-        .commander-card { flex: 1; min-width: 150px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; text-align: center; }
-        .commander-name { font-weight: 700; color: #fff; font-size: 14px; }
-        .commander-rank { font-size: 11px; color: #ef4444; margin-top: 2px; text-transform: uppercase; }
-        .data-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.08); font-size: 14px; gap: 10px; flex-wrap: wrap; }
-        .data-row a { color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; }
-        .data-row a:hover { color: #ef4444; text-decoration: underline; }
-        .data-label { display: flex; align-items: center; gap: 8px; color: #fff; }
-        .badges-group { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
-        .status-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(239, 68, 68, 0.4); padding: 2px 8px; background: rgba(239, 68, 68, 0.05); white-space: nowrap; color: #ef4444; }
-        .status-badge.verified { color: #3b82f6; border-color: rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.05); }
-        .status-badge.founder { color: #ef4444; border-color: rgba(239, 68, 68, 0.6); background: rgba(239, 68, 68, 0.1); box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
-        .status-badge.leader { color: #dc2626; border-color: rgba(220, 38, 38, 0.5); background: rgba(220, 38, 38, 0.08); box-shadow: 0 0 6px rgba(220, 38, 38, 0.2); }
-        .status-badge.deputy { color: #f97316; border-color: rgba(249, 115, 22, 0.5); background: rgba(249, 115, 22, 0.08); box-shadow: 0 0 6px rgba(249, 115, 22, 0.15); }
-        .status-badge.admin { color: #8b5cf6; border-color: rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.08); box-shadow: 0 0 6px rgba(139, 92, 246, 0.2); }
-        .status-badge.moderator { color: #eab308; border-color: rgba(234, 179, 8, 0.4); background: rgba(234, 179, 8, 0.05); }
-        .status-badge.owner { color: #14b8a6; border-color: rgba(20, 184, 166, 0.4); background: rgba(20, 184, 166, 0.05); }
-        .status-badge.artist { color: #ec4899; border-color: rgba(236, 72, 153, 0.4); background: rgba(236, 72, 153, 0.05); }
-        .status-badge.animator { color: #a855f7; border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.05); }
-        .status-badge.ally { color: #94a3b8; border-color: rgba(148, 163, 184, 0.4); background: rgba(148, 163, 184, 0.05); }
-        .enemy-reason { font-size: 12px; color: #64748b; margin: 0 0 15px 0; padding: 5px 0 5px 10px; border-left: 2px solid rgba(239, 68, 68, 0.2); }
-        .merit-note { font-size: 12px; color: #22c55e; margin: 0 0 15px 0; padding: 5px 0 5px 10px; border-left: 2px solid rgba(34, 197, 94, 0.4); font-style: italic; }
-        .input-group { margin-bottom: 15px; } input { width: 100%; padding: 12px; background: #05070a; border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; font-size: 14px; outline: none; font-family: inherit; }
-        input:focus { border-color: #ef4444; }
-        .terminal-btn { width: 100%; padding: 14px; background: transparent; border: 2px solid #ef4444; color: #ef4444; font-size: 14px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-family: inherit; }
-        .terminal-btn:hover { background: #ef4444; color: #05070a; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
-        .form-msg { margin-top: 15px; padding: 12px; text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; display: none; }
-        .form-msg.success { display: block; color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.4); background: rgba(34, 197, 94, 0.05); }
-        .form-msg.error { display: block; color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.05); }
-        .legend-block { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 15px; }
-        .legend-item { font-size: 11px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 6px; }
-        .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-        /* CRT Monitor */
-        body.crt::before { content:''; position:fixed; inset:0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 4px); pointer-events:none; z-index:9998; }
-        body.crt::after { content:''; position:fixed; inset:0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%); pointer-events:none; z-index:9998; }
-        .crt-flicker { position:fixed; inset:0; background: rgba(255,255,255,0.02); pointer-events:none; z-index:9997; animation: screenFlicker 0.18s infinite; }
-        @keyframes screenFlicker { 0%{opacity:0.02} 50%{opacity:0} 100%{opacity:0.04} }
-
-        /* Typewriter */
-        .typing-cursor::after { content:'█'; color:#ef4444; animation: blink 0.8s infinite; margin-left:3px; }
-        @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
-
-        /* Анти-тролльский щит */
-        .attack-alert {
+        /* CRT эффект */
+        body.crt::before {
+            content: '';
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle, rgba(255,0,0,0.8) 0%, rgba(139,0,0,0.9) 100%);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-family: 'JetBrains Mono', monospace;
-            text-align: center;
-            animation: pulse 1.5s infinite;
-            overflow: hidden;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 4px);
+            pointer-events: none;
+            z-index: 9998;
         }
-        .attack-alert::before {
+        body.crt::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%);
+            pointer-events: none;
+            z-index: 9998;
+        }
+        .crt-flicker {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.02);
+            pointer-events: none;
+            z-index: 9997;
+            animation: screenFlicker 0.18s infinite;
+        }
+        @keyframes screenFlicker {
+            0% { opacity: 0.02; }
+            50% { opacity: 0; }
+            100% { opacity: 0.04; }
+        }
+
+        /* Основной контейнер */
+        .terminal-panel {
+            max-width: 700px;
+            width: 100%;
+            background: #0a0e14;
+            border: 2px solid #ef4444;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.15);
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+        .terminal-panel::before {
             content: '';
             position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 2px,
-                rgba(255,255,255,0.1) 2px,
-                rgba(255,255,255,0.1) 4px
-            );
-            opacity: 0.3;
-            animation: scan 3s linear infinite;
+            top: -2px;
+            left: -2px;
+            width: 20px;
+            height: 20px;
+            border-top: 4px solid #ef4444;
+            border-left: 4px solid #ef4444;
         }
-        @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; } 100% { opacity: 0.9; } }
-        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
-        .attack-log {
-            background: rgba(0,0,0,0.7);
-            padding: 15px;
-            border: 1px solid #ef4444;
-            border-radius: 4px;
-            margin-top: 20px;
-            font-size: 12px;
-            max-width: 80%;
+        .terminal-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 20px;
+            height: 20px;
+            border-bottom: 4px solid #ef4444;
+            border-right: 4px solid #ef4444;
+        }
+
+        /* Шапка */
+        .brand-header {
             text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
+            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
-        .attack-log div { margin-bottom: 5px; color: #ff6b6b; }
-        .close-btn {
-            margin-top: 20px;
-            padding: 10px 25px;
-            background: #ef4444;
+        .logo-frame {
+            width: 85px;
+            height: 85px;
+            min-width: 85px;
+            border: 2px solid #ef4444;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #05070a;
+        }
+        .logo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            min-height: 24px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #ef4444;
+            margin-top: 3px;
+            font-weight: 700;
+            min-height: 16px;
+        }
+        .system-status {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .system-status .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Навигация */
+        .nav-system {
+            display: flex;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            margin-bottom: 20px;
+            background: #05070a;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 12px 8px;
+            background: transparent;
             border: none;
-            color: white;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-            border-radius: 4px;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 12px;
             cursor: pointer;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: inherit;
             transition: 0.2s;
         }
-        .close-btn:hover { background: #dc2626; transform: scale(1.05); }
-        .glitch-traitor { cursor: help; }
-        .glitch-traitor:hover { animation: glitch 0.28s infinite linear alternate-reverse; color:#ff3b3b !important; }
-        @keyframes glitch {
-            0% { transform: translate(0); text-shadow: 1px 0 #ef4444, -1px 0 #00ffff; }
-            20% { transform: translate(-1px,0) skewX(1deg); }
-            40% { transform: translate(1px,1px) skewX(-1deg); text-shadow: -2px 0 #ef4444, 2px 0 #00ffff; }
-            60% { transform: translate(-1px,-1px); }
-            80% { transform: translate(1px,0); text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; }
-            100% { transform: translate(0); }
+        .nav-btn:hover {
+            color: #fff;
+            background: rgba(239, 68, 68, 0.05);
+        }
+        .nav-btn.active {
+            background: #ef4444;
+            color: #05070a;
+        }
+
+        /* Секции */
+        .section-block {
+            display: none;
+        }
+        .section-block.active {
+            display: block;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ef4444;
+            text-transform: uppercase;
+            border-left: 3px solid #ef4444;
+            padding-left: 10px;
+            margin: 25px 0 15px;
+        }
+        .section-desc {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #9ca3af;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: justify;
+            min-height: 1em;
+        }
+
+        /* Основатели */
+        .founders-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .commander-card {
+            flex: 1;
+            min-width: 150px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px;
+            text-align: center;
+        }
+        .commander-name {
+            font-weight: 700;
+            color: #fff;
+            font-size: 14px;
+        }
+        .commander-rank {
+            font-size: 11px;
+            color: #ef4444;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Участники */
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            font-size: 14px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .data-row a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .data-row a:hover {
+            color: #ef4444;
+            text-decoration: underline;
+        }
+        .data-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+        .badges-group {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .status-badge {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            padding: 2px 8px;
+            background: rgba(239, 68, 68, 0.05);
+            white-space: nowrap;
+            color: #ef4444;
+        }
+        .status-badge.verified {
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .status-badge.founder {
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.6);
+            background: rgba(239, 68, 68, 0.1);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
+        }
+        .status-badge.leader {
+            color: #dc2626;
+            border-color: rgba(220, 38, 38, 0.5);
+            background: rgba(220, 38, 38, 0.08);
+            box-shadow: 0 0 6px rgba(220, 38, 38, 0.2);
+        }
+        .status-badge.deputy {
+            color: #f97316;
+            border-color: rgba(249, 115, 22, 0.5);
+            background: rgba(249, 115, 22, 0.08);
+            box-shadow: 0 0 6px rgba(249, 115, 22, 0.15);
+        }
+        .status-badge.admin {
+            color: #8b5cf6;
+            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.08);
+            box-shadow: 0 0 6px rgba(139, 92, 246, 0.2);
+        }
+        .status-badge.moderator {
+            color: #eab308;
+            border-color: rgba(234, 179, 8, 0.4);
+            background: rgba(234, 179, 8, 0.05);
+        }
+        .status-badge.owner {
+            color: #14b8a6;
+            border-color: rgba(20, 184, 166, 0.4);
+            background: rgba(20, 184, 166, 0.05);
+        }
+        .status-badge.artist {
+            color: #ec4899;
+            border-color: rgba(236, 72, 153, 0.4);
+            background: rgba(236, 72, 153, 0.05);
+        }
+        .status-badge.animator {
+            color: #a855f7;
+            border-color: rgba(168, 85, 247, 0.4);
+            background: rgba(168, 85, 247, 0.05);
+        }
+        .status-badge.ally {
+            color: #94a3b8;
+            border-color: rgba(148, 163, 184, 0.4);
+            background: rgba(148, 163, 184, 0.05);
+        }
+
+        /* Предупреждения */
+        .enemy-reason {
+            font-size: 12px;
+            color: #64748b;
+            margin: 0 0 15px 0;
+            padding: 5px 0 5px 10px;
+            border-left: 2px solid rgba(239, 68, 68, 0.2);
+        }
+        .merit-note {
+            font-size: 12px;
+            color: #22c55e;
+            margin: 0 0 15px 0;
+            padding: 5px 0 5px 10px;
+            border-left: 2px solid rgba(34, 197, 94, 0.4);
+            font-style: italic;
+        }
+
+        /* Форма заявок (отключена) */
+        .input-group {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #05070a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+        input:focus {
+            border-color: #ef4444;
+        }
+        .terminal-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 2px solid #ef4444;
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .terminal-btn:hover {
+            background: #ef4444;
+            color: #05070a;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+        .terminal-btn.disabled {
+            background: rgba(239, 68, 68, 0.2) !important;
+            color: #9ca3af !important;
+            cursor: not-allowed;
+            border-color: #64748b;
+            animation: btnShake 0.5s infinite;
+        }
+        @keyframes btnShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        .form-msg {
+            margin-top: 15px;
+            padding: 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: none;
+        }
+        .form-msg.success {
+            display: block;
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            background: rgba(34, 197, 94, 0.05);
+        }
+        .form-msg.error {
+            display: block;
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        /* Легенда ролей */
+        .legend-block {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .legend-item {
+            font-size: 11px;
+            padding: 4px 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Хроника */
+        .chronicle-timeline {
+            position: relative;
+            margin-left: 10px;
+            border-left: 1px solid rgba(239,68,68,0.15);
+            padding-left: 22px;
+        }
+        .chronicle-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+        .chronicle-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 3px;
+            width: 11px;
+            height: 11px;
+            background: #0a0e14;
+            border: 2px solid #ef4444;
+            border-radius: 50%;
+        }
+        .chronicle-item.foundation::before {
+            background: #ef4444;
+            box-shadow: 0 0 8px #ef4444;
+        }
+        .chronicle-item.war::before {
+            border-color: #f97316;
+            box-shadow: 0 0 6px rgba(249,115,22,0.4);
+        }
+        .chronicle-item.betrayal::before {
+            border-color: #dc2626;
+            background: #dc2626;
+        }
+        .chronicle-item.milestone::before {
+            background: #22c55e;
+            border-color: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+        }
+        .chronicle-item.expansion::before {
+            border-color: #3b82f6;
+        }
+        .chronicle-date {
+            font-size: 11px;
+            color: #94a3b8;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
+        }
+        .chronicle-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border: 1px solid;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .tag-found {
+            color: #ef4444;
+            border-color: rgba(239,68,68,0.4);
+            background: rgba(239,68,68,0.08);
+        }
+        .tag-war {
+            color: #f97316;
+            border-color: rgba(249,115,22,0.4);
+            background: rgba(249,115,22,0.08);
+        }
+        .tag-betrayal {
+            color: #dc2626;
+            border-color: rgba(220,38,38,0.4);
+            background: rgba(220,38,38,0.08);
+        }
+        .tag-mile {
+            color: #22c55e;
+            border-color: rgba(34,197,94,0.4);
+            background: rgba(34,197,94,0.08);
+        }
+        .tag-exp {
+            color: #3b82f6;
+            border-color: rgba(59,130,246,0.4);
+            background: rgba(59,130,246,0.08);
+        }
+        .chronicle-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .chronicle-desc {
+            font-size: 12px;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        /* Зал Позора */
+        .shame-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .shame-meme {
+            background: rgba(220, 38, 38, 0.1);
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .shame-meme:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        }
+        .shame-meme img {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .shame-meme .meme-nick {
+            font-weight: bold;
+            color: #ef4444;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .shame-meme .meme-text {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .shame-meme .meme-date {
+            font-size: 11px;
+            color: #64748b;
+        }
+        .shame-meme .meme-likes {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .shame-meme.patriotic {
+            background: linear-gradient(135deg, rgba(239,68,68,0.2) 0%, rgba(0,57,166,0.2) 100%);
+        }
+        .shame-meme.patriotic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 30px;
+            background: linear-gradient(to bottom, #ef4444 33%, #ffffff 33%, #ffffff 66%, #0039a6 66%);
+            opacity: 0.7;
+        }
+
+        /* Патриотические элементы */
+        .flag-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            pointer-events: none;
+            display: none;
+            background: rgba(0,0,0,0.3);
+        }
+        .flag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 250px;
+            height: 150px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+            animation: flagRise 3s forwards;
+            border-radius: 4px;
+        }
+        .flag.v1 { background-image: url('flag_sg1.png'); }
+        .flag.v2 { background-image: url('flag_sg2.png'); }
+        .flag.v3 { background-image: url('flag_sg3.png'); }
+        @keyframes flagRise {
+            0% { transform: translateY(100vh) rotate(-10deg); opacity: 0; }
+            50% { transform: translateY(50vh) rotate(5deg); opacity: 0.7; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+        .coat-of-arms {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg/1200px-Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg.png') no-repeat center;
+            background-size: contain;
+            z-index: 10001;
+            display: none;
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .military-alarm {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 0, 0, 0.2);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            color: #ef4444;
+            font-weight: bold;
+            animation: alarmFlash 1s infinite alternate;
+            pointer-events: none;
+        }
+        @keyframes alarmFlash {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
         .domain-warning {
             position: fixed;
@@ -155,24 +669,17 @@
             display: none;
         }
 
-        /* Chronicle */
-        .chronicle-timeline { position:relative; margin-left:10px; border-left:1px solid rgba(239,68,68,0.15); padding-left:22px; }
-        .chronicle-item { position:relative; margin-bottom:28px; }
-        .chronicle-item::before { content:''; position:absolute; left:-28px; top:3px; width:11px; height:11px; background:#0a0e14; border:2px solid #ef4444; border-radius:50%; }
-        .chronicle-item.foundation::before { background:#ef4444; box-shadow:0 0 8px #ef4444; }
-        .chronicle-item.war::before { border-color:#f97316; box-shadow:0 0 6px rgba(249,115,22,0.4); }
-        .chronicle-item.betrayal::before { border-color:#dc2626; background:#dc2626; }
-        .chronicle-item.milestone::before { background:#22c55e; border-color:#22c55e; box-shadow:0 0 8px #22c55e; }
-        .chronicle-item.expansion::before { border-color:#3b82f6; }
-        .chronicle-date { font-size:11px; color:#94a3b8; display:flex; gap:8px; align-items:center; margin-bottom:4px; flex-wrap:wrap; }
-        .chronicle-tag { font-size:10px; padding:2px 6px; border:1px solid; font-weight:800; text-transform:uppercase; }
-        .tag-found { color:#ef4444; border-color:rgba(239,68,68,0.4); background:rgba(239,68,68,0.08); }
-        .tag-war { color:#f97316; border-color:rgba(249,115,22,0.4); background:rgba(249,115,22,0.08); }
-        .tag-betrayal { color:#dc2626; border-color:rgba(220,38,38,0.4); background:rgba(220,38,38,0.08); }
-        .tag-mile { color:#22c55e; border-color:rgba(34,197,94,0.4); background:rgba(34,197,94,0.08); }
-        .tag-exp { color:#3b82f6; border-color:rgba(59,130,246,0.4); background:rgba(59,130,246,0.08); }
-        .chronicle-title { font-size:13px; font-weight:800; color:#fff; margin-bottom:4px; }
-        .chronicle-desc { font-size:12px; color:#9ca3af; line-height:1.5; }
+        /* Typewriter эффект */
+        .typing-cursor::after {
+            content: '█';
+            color: #ef4444;
+            animation: blink 0.8s infinite;
+            margin-left: 3px;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
     </style>
 </head>
 <body class="crt">
@@ -180,6 +687,13 @@
 <div class="domain-warning" id="domainWarning">
     <i class="fa-solid fa-triangle-exclamation"></i> Официальный сайт: <strong>zhenyae.github.io</strong>
 </div>
+
+<!-- Патриотические элементы -->
+<div class="flag-container" id="flagContainer">
+    <div class="flag v1" id="flagSG"></div>
+</div>
+<div class="coat-of-arms" id="coatOfArms"></div>
+
 <div class="terminal-panel">
     <div class="brand-header">
         <div class="logo-frame">
@@ -196,9 +710,11 @@
             </div>
         </div>
     </div>
+
     <div class="nav-system">
         <button class="nav-btn active" onclick="switchSection(event, 'main-sec')">База Данных</button>
         <button class="nav-btn" onclick="switchSection(event, 'chronicle-sec')">Хроника</button>
+        <button class="nav-btn" onclick="switchSection(event, 'hall-of-shame-sec')">Зал Позора</button>
         <button class="nav-btn" onclick="switchSection(event, 'enemies-sec')">Угрозы TCU</button>
     </div>
 
@@ -383,24 +899,43 @@
             <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span> Союзник</div>
         </div>
 
-        <div class="section-title">Подать заявку на вступление</div>
-        <p style="font-size: 14px; margin-bottom: 15px;">Заявки принимаются через официальный сайт TCU: <a href="https://zhenyae.github.io/" style="color:#ef4444;">zhenyae.github.io</a></p>
-        <form id="tcu-form" action="https://formspree.io/f/mzepdrqo" method="POST">
-            <div class="input-group">
-                <input type="text" name="nickname" placeholder="Ваш ник (и тег, если есть)" required>
-            </div>
-            <div class="input-group">
-                <input type="text" name="role" placeholder="Кто вы? (Ютубер / Владелец сервера / Художник)" required>
-            </div>
-            <div class="input-group">
-                <input type="url" name="link" placeholder="Ссылка на ваш канал или сервер" required>
-            </div>
-            <div class="input-group">
-                <input type="text" name="contact" placeholder="Ваш Discord / Telegram для связи" required>
-            </div>
-            <button type="submit" class="terminal-btn">Отправить заявку</button>
-            <div id="form-msg" class="form-msg"></div>
-        </form>
+        <div class="section-title">Подача заявок временно приостановлена</div>
+        <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 15px; margin-bottom: 20px;">
+            <p style="color: #ef4444; font-weight: bold; margin-bottom: 10px;">
+                <i class="fa-solid fa-triangle-exclamation"></i> ВНИМАНИЕ!
+            </p>
+            <p style="margin-bottom: 10px;">
+                В связи с участившимися случаями дегенеративного поведения со стороны отдельных граждан,
+                подача заявок на вступление в ССТ временно приостановлена.
+            </p>
+            <p style="margin-bottom: 10px;">
+                Все поступающие заявки с оскорблениями, провокациями или неадекватным содержанием
+                автоматически передаются в отдел К ФСБ России для дальнейшего разбирательства.
+            </p>
+            <p style="margin-bottom: 10px;">
+                Номер горячей линии ФСБ: <strong>8 (800) 222-22-22</strong>
+            </p>
+            <p style="font-size: 12px; color: #64748b;">
+                <i class="fa-solid fa-gavel"></i> Последние дела:
+                TCU-284756, TCU-394821, TCU-573849
+            </p>
+        </div>
+
+        <div style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 15px;">
+            <p style="color: #22c55e; font-weight: bold; margin-bottom: 10px;">
+                <i class="fa-solid fa-shield-halved"></i> Альтернативные способы связи:
+            </p>
+            <p>
+                Для конструктивных предложений и сотрудничества обращайтесь к официальным представителям ССТ:
+            </p>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li><i class="fa-solid fa-user-tie"></i> Sagulik [SG] - Основатель</li>
+                <li><i class="fa-solid fa-user-shield"></i> Zhenrov - Основатель</li>
+                <li><i class="fa-solid fa-user-gear"></i> Barricade228 [SG] - Администратор</li>
+            </ul>
+        </div>
+
+        <button type="button" class="terminal-btn disabled">Заявки отключены</button>
     </div>
 
     <div id="chronicle-sec" class="section-block">
@@ -410,7 +945,7 @@
             <div class="chronicle-item milestone">
                 <div class="chronicle-date">2026/07/25 <span class="chronicle-tag tag-mile">ЮБИЛЕЙ</span></div>
                 <div class="chronicle-title">ССТ набрал 20 участников</div>
-                <div class="chronicle-desc">Зафиксировано 20 активных участников. Запущен сайт TCU v2.6 с полной базой данных и анти-тролльским щитом.</div>
+                <div class="chronicle-desc">Зафиксировано 20 активных участников. Запущен сайт TCU v2.6 с защитой от дегенератов.</div>
             </div>
             <div class="chronicle-item expansion">
                 <div class="chronicle-date">2026/07/10 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div>
@@ -445,9 +980,24 @@
         </div>
     </div>
 
+    <div id="hall-of-shame-sec" class="section-block">
+        <div class="section-title" style="color:#dc2626; border-color:#dc2626;">Зал Позора ССТ</div>
+        <p class="section-desc">Здесь увековечены самые яркие попытки троллинга. Слава героям!</p>
+
+        <div class="shame-gallery" id="shameGallery">
+            <!-- Мемы будут добавляться динамически -->
+        </div>
+
+        <div class="shame-stats">
+            <div class="stat-item"><i class="fa-solid fa-skull" style="color:#dc2626;"></i> Всего троллей: <span id="shameCounter">0</span></div>
+            <div class="stat-item"><i class="fa-solid fa-fire" style="color:#f97316;"></i> Самый популярный мем: <span id="topMeme">Нет данных</span></div>
+            <div class="stat-item"><i class="fa-solid fa-flag" style="color:#ef4444;"></i> Патриотических мемов: <span id="patrioticCounter">0</span></div>
+        </div>
+    </div>
+
     <div id="enemies-sec" class="section-block">
         <div class="section-title" style="color: #ef4444;">Реестр Внешних Угроз</div>
-        <p>Данные лица или формирования совершали акты агрессии против округа TCU. Любые контакты участников Союза с ними заблокированы.</p>
+        <p>Данные лица или формирования совершали акты агрессии против округа TCU.</p>
 
         <div class="data-row">
             <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users"></i> НТ сквад (NT Squad)</span>
@@ -455,22 +1005,22 @@
         </div>
         <div class="enemy-reason">
             Формирование с частичным нахождением в ЧС ССТ.<br><br>
-            <span style="color:#22c55e;">✓ Нормальные отношения, НЕ в ЧС, состоят в НТ скваде:</span> CyanicTubbie, Gerit [TCU], maionezz [TCU]<br>
-            <span style="color:#eab308;">≠ Нейтралитет / Разошлись, состоит в НТ скваде, НЕ в ЧС:</span> Горбусик<br>
-            <span style="color:#ef4444;">✗ В ЧС ССТ (враждебное крыло НТ сквада):</span> Демиен / DemienGG, sl3ndy, LeoTheLeus, Runi
+            <span style="color:#22c55e;">✓ НЕ в ЧС, состоят в НТ скваде:</span> CyanicTubbie, Gerit [TCU], maionezz [TCU]<br>
+            <span style="color:#eab308;">≠ Разошлись, в НТ скваде, НЕ в ЧС:</span> Горбусик<br>
+            <span style="color:#ef4444;">✗ В ЧС ССТ (враждебное крыло НТ):</span> Демиен / DemienGG, sl3ndy, LeoTheLeus, Runi
         </div>
 
         <div class="data-row">
             <span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-user-slash"></i> Демиен / DemienGG</span>
             <span class="status-badge">Предатель</span>
         </div>
-        <div class="enemy-reason">Предательство изнутри союза, участник враждебного крыла НТ сквада. Разоблачён администратором Barricade228 [SG] [TCU].</div>
+        <div class="enemy-reason">Предательство изнутри союза, участник враждебного крыла НТ сквада. Разоблачён Barricade228 [SG] [TCU].</div>
 
         <div class="data-row">
             <span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-ban"></i> sl3ndy</span>
             <span class="status-badge">Предатель</span>
         </div>
-        <div class="enemy-reason">Предательство ССТ, поддержка радикальных личностей из ЧС ССТ, пренебрежение законами ССТ. Участник НТ сквада.</div>
+        <div class="enemy-reason">Предательство ССТ, поддержка радикалов из ЧС ССТ, игнор законов ССТ. Участник НТ сквада.</div>
 
         <div class="data-row">
             <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> LeoTheLeus</span>
@@ -494,7 +1044,7 @@
             <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-skull"></i> MasterHell / Мастер</span>
             <span class="status-badge">Агрессор</span>
         </div>
-        <div class="enemy-reason">Агрессия в сторону ССТ, на YouTube заявлял о желании распада ССТ, на Discord-сервере сливал личные данные участника ССТ. Поддерживает КоловраТТ / KolovraTT.</div>
+        <div class="enemy-reason">Агрессия в сторону ССТ, желание распада ССТ на YouTube, слив ЛД участника ССТ. Поддерживает КоловраТТ / KolovraTT.</div>
 
         <div class="data-row">
             <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-biohazard"></i> КоловраТТ / KolovraTT</span>
@@ -540,271 +1090,136 @@
         document.getElementById('domainWarning').style.display = 'block';
     }
 
-    // Звуки для анти-тролльского щита
-    const sounds = {
-        alarm: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3'),
-        explosion: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-explosion-with-roar-1705.mp3'),
-        accessDenied: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3'),
-        keyboard: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-mechanical-keyboard-press-2488.mp3'),
-        systemBeep: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3')
-    };
-
-    // Поддельные данные ФСБ
-    const fsbData = {
-        department: "Отдел К по борьбе с киберпреступностью",
-        agent: "Агент #TCU-" + Math.floor(1000 + Math.random() * 9000),
-        caseNumber: "TCU-" + Math.floor(100000 + Math.random() * 900000)
-    };
-
     // Генерация поддельного IP
     function generateFakeIP() {
         return `192.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}`;
     }
 
-    // Генерация поддельного лога
-    function generateFakeLog(nickname, ip) {
-        const violations = [
-            "Нарушение УК РФ ст. 272 (Неправомерный доступ к компьютерной информации)",
-            "Нарушение УК РФ ст. 273 (Создание вредоносных программ)",
-            "Нарушение УК РФ ст. 274 (Нарушение правил эксплуатации средств хранения информации)",
-            "Попытка DDoS-атаки на серверы ССТ",
-            "Использование VPN для обхода блокировок",
-            "Распространение запрещенного контента",
-            "Флуд и спам в заявках",
-            "Оскорбление участников ССТ"
-        ];
+    // Патриотическая атака
+    function showPatrioticAttack(nickname) {
+        const flagContainer = document.getElementById('flagContainer');
+        const flagSG = document.getElementById('flagSG');
 
-        const now = new Date();
-        const timestamp = now.toLocaleString('ru-RU');
+        // Случайный выбор флага
+        const flagVariants = ['v1', 'v2', 'v3'];
+        flagSG.className = `flag ${flagVariants[Math.floor(Math.random() * flagVariants.length)]}`;
 
-        let log = `
-            <div>[${timestamp}] [SYSTEM] Запуск анти-тролльского протокола TCU v3.0...</div>
-            <div>[${timestamp}] [SECURITY] Обнаружен подозрительный запрос от IP: ${ip}</div>
-            <div>[${timestamp}] [ANALYSIS] Анализ заявки от никнейма: "${nickname}"...</div>
-            <div>[${timestamp}] [WARNING] Обнаружено нарушение: ${violations[Math.floor(Math.random() * violations.length)]}</div>
-            <div>[${timestamp}] [WARNING] Обнаружено нарушение: ${violations[Math.floor(Math.random() * violations.length)]}</div>
-            <div>[${timestamp}] [SECURITY] Проверка по базе данных ФСБ...</div>
-            <div>[${timestamp}] [FSB] Запрос в отдел "${fsbData.department}"...</div>
-            <div>[${timestamp}] [FSB] Агент ${fsbData.agent} назначен на дело №${fsbData.caseNumber}</div>
-            <div>[${timestamp}] [SECURITY] Активация защитного протокола "Красный Щит"</div>
-            <div>[${timestamp}] [SYSTEM] Запуск подпротокола "Анти-скибиди v2.1"</div>
-            <div>[${timestamp}] [SYSTEM] Блокировка IP: ${ip}</div>
-            <div>[${timestamp}] [SYSTEM] Добавление в ЧС ССТ...</div>
-            <div>[${timestamp}] [SYSTEM] Отправка данных в ФСБ...</div>
-            <div>[${timestamp}] [SUCCESS] Тролль "${nickname}" успешно нейтрализован!</div>
-            <div>[${timestamp}] [FSB] Дело №${fsbData.caseNumber} передано в суд</div>
+        flagContainer.style.display = 'block';
+
+        // Показываем герб ФСБ
+        const coatOfArms = document.getElementById('coatOfArms');
+        coatOfArms.style.display = 'block';
+        coatOfArms.innerHTML = `
+            <div style="position: absolute; bottom: -20px; right: -20px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 4px; font-size: 10px; color: white;">
+                Дело №TCU-${Math.floor(100000 + Math.random() * 900000)}
+            </div>
         `;
 
-        return log;
+        // Играем гимн России
+        const anthemSound = document.getElementById('anthemSound');
+        anthemSound.currentTime = 0;
+        anthemSound.volume = 0.4;
+        anthemSound.play();
+
+        // Военная тревога
+        const alarmDiv = document.createElement('div');
+        alarmDiv.className = 'military-alarm';
+        alarmDiv.textContent = 'ТРЕВОГА! АТАКА НА САГУЛЯСТОПОЛЬ!';
+        document.body.appendChild(alarmDiv);
+
+        const alarmSound = document.getElementById('alarmSound');
+        alarmSound.loop = true;
+        alarmSound.volume = 0.6;
+        alarmSound.play();
+
+        // Через 7 секунд убираем всё
+        setTimeout(() => {
+            flagContainer.style.display = 'none';
+            coatOfArms.style.display = 'none';
+            alarmDiv.remove();
+            anthemSound.pause();
+            alarmSound.pause();
+        }, 7000);
     }
 
-    // Эффект "вирусной атаки"
-    function virusEffect() {
-        const virusDiv = document.createElement('div');
-        virusDiv.style.position = 'fixed';
-        virusDiv.style.inset = '0';
-        virusDiv.style.background = 'rgba(255,0,0,0.05)';
-        virusDiv.style.pointerEvents = 'none';
-        virusDiv.style.zIndex = '9999';
-        virusDiv.style.display = 'grid';
-        virusDiv.style.gridTemplateColumns = 'repeat(50, 1fr)';
-        virusDiv.style.gap = '2px';
+    // Вечный банн
+    function showEternalBan(nickname) {
+        const banDiv = document.createElement('div');
+        banDiv.style.position = 'fixed';
+        banDiv.style.inset = '0';
+        banDiv.style.background = 'rgba(0,0,0,0.95)';
+        banDiv.style.zIndex = '10000';
+        banDiv.style.display = 'flex';
+        banDiv.style.flexDirection = 'column';
+        banDiv.style.justifyContent = 'center';
+        banDiv.style.alignItems = 'center';
+        banDiv.style.color = '#ef4444';
+        banDiv.style.fontFamily = 'JetBrains Mono, monospace';
+        banDiv.style.textAlign = 'center';
+        banDiv.style.animation = 'eternalBan 2s infinite alternate';
 
-        for (let i = 0; i < 200; i++) {
-            const pixel = document.createElement('div');
-            pixel.style.background = `rgba(255,0,0,${Math.random() * 0.5 + 0.2})`;
-            pixel.style.borderRadius = '50%';
-            pixel.style.animation = `pixelFall ${Math.random() * 3 + 1}s linear infinite`;
-            pixel.style.animationDelay = `${Math.random() * 2}s`;
-            virusDiv.appendChild(pixel);
-        }
+        banDiv.innerHTML = `
+            <h1 style="font-size: 48px; margin-bottom: 20px; text-shadow: 0 0 10px #ef4444;">ВЕЧНЫЙ БАНН</h1>
+            <div style="font-size: 24px; margin-bottom: 20px;">${nickname}</div>
+            <div style="font-size: 18px; margin-bottom: 30px;">Вы навсегда забанены в ССТ</div>
+            <div style="font-size: 16px; margin-bottom: 10px;">Причина: Оскорбление основателей</div>
+            <div style="font-size: 14px; margin-bottom: 20px;">Номер дела: TCU-${Math.floor(100000 + Math.random() * 900000)}</div>
+            <div style="font-size: 12px; color: #64748b;">Ожидайте повестку в военкомат</div>
+        `;
 
-        document.body.appendChild(virusDiv);
+        document.body.appendChild(banDiv);
 
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes pixelFall {
-                0% { transform: translateY(-100px); opacity: 1; }
-                100% { transform: translateY(100vh); opacity: 0; }
+            @keyframes eternalBan {
+                0% { opacity: 0.8; transform: scale(1); }
+                100% { opacity: 1; transform: scale(1.05); }
             }
         `;
         document.head.appendChild(style);
 
         setTimeout(() => {
-            virusDiv.remove();
+            banDiv.remove();
             style.remove();
         }, 5000);
     }
 
-    // Эффект "системного сбоя"
-    function systemCrash() {
-        document.body.style.filter = 'invert(1) hue-rotate(90deg) contrast(150%)';
-        document.body.style.transition = 'filter 0.5s';
+    // Проверка на троллинг
+    document.addEventListener('DOMContentLoaded', () => {
+        const offensiveWords = ['пидор', 'хуесос', 'говно', 'сука', 'бля', 'ебать', 'не продумаль', 'хуету', 'sagulik_pidor', 'ne produmal'];
 
-        const crashDiv = document.createElement('div');
-        crashDiv.style.position = 'fixed';
-        crashDiv.style.inset = '0';
-        crashDiv.style.background = 'black';
-        crashDiv.style.zIndex = '9999';
-        crashDiv.style.display = 'flex';
-        crashDiv.style.flexDirection = 'column';
-        crashDiv.style.justifyContent = 'center';
-        crashDiv.style.alignItems = 'center';
-        crashDiv.style.color = '#00ff00';
-        crashDiv.style.fontFamily = 'JetBrains Mono, monospace';
-        crashDiv.style.fontSize = '14px';
-        crashDiv.style.textAlign = 'left';
-        crashDiv.style.padding = '20px';
-        crashDiv.style.boxSizing = 'border-box';
+        // Проверяем URL на наличие оскорблений
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('q') || '';
 
-        const crashText = `
-            <div>TCU_OS v3.0 - System Crash Report</div>
-            <div>===================================</div>
-            <div>Error Code: 0x${Math.floor(100000 + Math.random() * 900000)}</div>
-            <div>Description: Troll attack detected</div>
-            <div>Module: Anti-Troll Shield v3.0</div>
-            <div>Status: CRITICAL FAILURE</div>
-            <div>===================================</div>
-            <div>Initiating system reboot...</div>
-            <div>Countdown: <span id="crashCountdown">5</span></div>
-        `;
-
-        crashDiv.innerHTML = crashText;
-        document.body.appendChild(crashDiv);
-
-        let count = 5;
-        const countdown = setInterval(() => {
-            count--;
-            document.getElementById('crashCountdown').textContent = count;
-            sounds.systemBeep.currentTime = 0;
-            sounds.systemBeep.play();
-
-            if (count <= 0) {
-                clearInterval(countdown);
-                crashDiv.remove();
-                document.body.style.filter = 'none';
-                showFSBNotification();
-            }
-        }, 1000);
-    }
-
-    // Поддельное уведомление ФСБ
-    function showFSBNotification() {
-        const fsbDiv = document.createElement('div');
-        fsbDiv.style.position = 'fixed';
-        fsbDiv.style.bottom = '20px';
-        fsbDiv.style.right = '20px';
-        fsbDiv.style.background = 'white';
-        fsbDiv.style.border = '2px solid #ef4444';
-        fsbDiv.style.borderRadius = '8px';
-        fsbDiv.style.padding = '15px';
-        fsbDiv.style.zIndex = '9999';
-        fsbDiv.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.5)';
-        fsbDiv.style.maxWidth = '350px';
-        fsbDiv.style.fontFamily = 'Arial, sans-serif';
-        fsbDiv.style.color = '#333';
-
-        fsbDiv.innerHTML = `
-            <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg/1200px-Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg.png" style="width: 40px; height: 40px; margin-right: 10px;">
-                <div>
-                    <div style="font-weight: bold; color: #ef4444;">ФЕДЕРАЛЬНАЯ СЛУЖБА БЕЗОПАСНОСТИ</div>
-                    <div style="font-size: 12px;">РОССИЙСКОЙ ФЕДЕРАЦИИ</div>
-                </div>
-            </div>
-            <div style="font-size: 14px; margin-bottom: 10px;">
-                Уведомление о блокировке доступа
-            </div>
-            <div style="font-size: 12px; margin-bottom: 10px;">
-                Ваш IP-адрес был заблокирован по запросу администрации
-                <strong>Teletubby Cooperation Union</strong> за нарушение
-                законодательства РФ в сфере информационной безопасности.
-            </div>
-            <div style="font-size: 12px; margin-bottom: 10px;">
-                Дело №${fsbData.caseNumber} передано в суд.
-                Ожидайте повестку.
-            </div>
-            <div style="font-size: 10px; color: #666; margin-top: 10px;">
-                Это автоматическое уведомление. Ответ на него не требуется.
-            </div>
-            <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 5px 10px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
-                Закрыть
-            </button>
-        `;
-
-        document.body.appendChild(fsbDiv);
-
-        fsbDiv.style.transform = 'translateY(100px)';
-        fsbDiv.style.opacity = '0';
-        setTimeout(() => {
-            fsbDiv.style.transition = 'transform 0.5s, opacity 0.5s';
-            fsbDiv.style.transform = 'translateY(0)';
-            fsbDiv.style.opacity = '1';
-        }, 100);
-    }
-
-    // Основная функция показа атаки
-    function showAttackAlert(nickname, ip) {
-        Object.values(sounds).forEach(sound => {
-            sound.pause();
-            sound.currentTime = 0;
-        });
-
-        const alertDiv = document.createElement('div');
-        alertDiv.className = 'attack-alert';
-
-        const fakeLog = generateFakeLog(nickname, ip);
-
-        alertDiv.innerHTML = `
-            <div style="position: absolute; top: 20px; left: 20px; font-size: 12px; opacity: 0.7;">
-                TCU_OS v3.0 | Anti-Troll Shield Active
-            </div>
-            <div style="position: absolute; top: 20px; right: 20px; font-size: 12px; opacity: 0.7;">
-                ${fsbData.agent} | Дело №${fsbData.caseNumber}
-            </div>
-
-            <h1 style="font-size: 32px; margin-bottom: 10px; text-shadow: 0 0 10px #ff0000;">
-                <i class="fa-solid fa-triangle-exclamation"></i> КИБЕРАТАКА ОБНАРУЖЕНА <i class="fa-solid fa-triangle-exclamation"></i>
-            </h1>
-            <h2 style="font-size: 24px; margin-bottom: 5px;">ТРОЛЛЬ НЕЙТРАЛИЗОВАН</h2>
-            <p style="font-size: 18px; margin-bottom: 20px;">Ник: <strong>${nickname}</strong> | IP: <strong>${ip}</strong></p>
-
-            <div class="attack-log">
-                ${fakeLog}
-            </div>
-
-            <div style="margin-top: 20px; font-size: 14px;">
-                <i class="fa-solid fa-lock"></i> Доступ заблокирован. Данные переданы в ФСБ.
-            </div>
-
-            <button class="close-btn" id="closeAttackBtn">ПОДТВЕРДИТЬ БЛОКИРОВКУ</button>
-        `;
-
-        document.body.appendChild(alertDiv);
-
-        sounds.alarm.loop = true;
-        sounds.alarm.play();
-
-        setTimeout(() => {
-            sounds.explosion.play();
-            virusEffect();
-        }, 1500);
-
-        setTimeout(() => {
-            sounds.accessDenied.play();
-        }, 3000);
-
-        if (window.navigator.vibrate) {
-            window.navigator.vibrate([200, 100, 200, 100, 200]);
+        if (offensiveWords.some(word => searchQuery.toLowerCase().includes(word))) {
+            window.location.href = 'https://fsb.ru';
         }
 
-        document.getElementById('closeAttackBtn').addEventListener('click', function() {
-            sounds.alarm.pause();
-            sounds.keyboard.play();
-            alertDiv.remove();
-            systemCrash();
-        });
-    }
+        // Проверяем localStorage на прошлые попытки троллинга
+        const trollAttempts = localStorage.getItem('tcuTrollAttempts') || 0;
+        if (trollAttempts > 2) {
+            document.body.innerHTML = `
+                <div style="position: fixed; inset: 0; background: #0a0e14; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #ef4444; font-family: 'JetBrains Mono', monospace;">
+                    <h1 style="font-size: 32px; margin-bottom: 20px;">ДОСТУП ЗАБЛОКИРОВАН</h1>
+                    <p style="margin-bottom: 10px;">Ваш IP: ${generateFakeIP()}</p>
+                    <p style="margin-bottom: 10px;">Причина: Многократные попытки троллинга</p>
+                    <p style="margin-bottom: 20px;">Дело №TCU-${Math.floor(100000 + Math.random() * 900000)}</p>
+                    <p style="font-size: 14px; color: #64748b;">Перенаправление на сайт ФСБ через <span id="countdown">5</span> секунд...</p>
+                </div>
+            `;
+
+            let count = 5;
+            const countdown = setInterval(() => {
+                count--;
+                document.getElementById('countdown').textContent = count;
+                if (count <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = 'https://fsb.ru';
+                }
+            }, 1000);
+        }
+    });
 
     // Переключение вкладок
     function switchSection(evt, sectionId) {
@@ -814,40 +1229,7 @@
         evt.currentTarget.classList.add('active');
     }
 
-    // Обработка формы
-    const form = document.getElementById('tcu-form');
-    const msg = document.getElementById('form-msg');
-    form.addEventListener('submit', function(e) {
-        const nickname = this.nickname.value;
-        const role = this.role.value.toLowerCase();
-        const link = this.link.value.toLowerCase();
-
-        const bannedWords = [
-            'скибиди', 'туалет', 'проно', 'атаковано', 'fsociety', 'espbypassed',
-            'хакер', 'взлом', 'ddos', 'sql', 'injection', 'vpn', 'proxy',
-            'хочу тебя', '123456', 'qwerty', 'password', 'admin', 'root'
-        ];
-
-        const isTroll = bannedWords.some(word =>
-            nickname.toLowerCase().includes(word) ||
-            role.includes(word) ||
-            link.includes(word)
-        );
-
-        if (isTroll) {
-            e.preventDefault();
-            const fakeIP = generateFakeIP();
-            showAttackAlert(nickname, fakeIP);
-            msg.className = 'form-msg error';
-            msg.textContent = '✗ Заявка отклонена: обнаружен троллинг. Данные переданы в ФСБ.';
-            return;
-        }
-
-        msg.className = 'form-msg';
-        msg.textContent = '';
-    });
-
-    // Typewriter effect
+    // Typewriter эффект
     document.addEventListener('DOMContentLoaded', () => {
         const titleEl = document.getElementById('typing-title');
         const subEl = document.getElementById('typing-subtitle');
@@ -894,4 +1276,4 @@
     });
 </script>
 </body>
-                </html>
+            </html>
