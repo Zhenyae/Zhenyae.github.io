@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCU / ССТ — Teletubby Cooperation Union</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +12,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'JetBrains Mono', monospace; }
         body { background-color: #05070a; background-image: linear-gradient(rgba(18,24,38,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(18,24,38,0.4) 1px, transparent 1px); background-size: 20px 20px; color: #d1d5db; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
-        .terminal-panel { max-width: 700px; width: 100%; background: #0a0e14; border: 2px solid #ef4444; box-shadow: 0 0 25px rgba(239, 68, 68, 0.15); padding: 25px; position: relative; z-index:2; }
+        .terminal-panel { max-width: 700px; width: 100%; background: #0a0e14; border: 2px solid #ef4444; box-shadow: 0 0 25px rgba(239, 68, 68, 0.15); padding: 25px; position: relative; z-index: 2; }
         .terminal-panel::before { content: ''; position: absolute; top: -2px; left: -2px; width: 20px; height: 20px; border-top: 4px solid #ef4444; border-left: 4px solid #ef4444; }
         .terminal-panel::after { content: ''; position: absolute; bottom: -2px; right: -2px; width: 20px; height: 20px; border-bottom: 4px solid #ef4444; border-right: 4px solid #ef4444; }
         .brand-header { text-align: left; border-bottom: 1px solid rgba(239, 68, 68, 0.3); padding-bottom: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; }
@@ -61,7 +62,100 @@
         .legend-block { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 15px; }
         .legend-item { font-size: 11px; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 6px; }
         .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-        /* CHRONICLE */
+
+        /* CRT Monitor */
+        body.crt::before { content:''; position:fixed; inset:0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 4px); pointer-events:none; z-index:9998; }
+        body.crt::after { content:''; position:fixed; inset:0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%); pointer-events:none; z-index:9998; }
+        .crt-flicker { position:fixed; inset:0; background: rgba(255,255,255,0.02); pointer-events:none; z-index:9997; animation: screenFlicker 0.18s infinite; }
+        @keyframes screenFlicker { 0%{opacity:0.02} 50%{opacity:0} 100%{opacity:0.04} }
+
+        /* Typewriter */
+        .typing-cursor::after { content:'█'; color:#ef4444; animation: blink 0.8s infinite; margin-left:3px; }
+        @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+
+        /* Анти-тролльский щит */
+        .attack-alert {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, rgba(255,0,0,0.8) 0%, rgba(139,0,0,0.9) 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            animation: pulse 1.5s infinite;
+            overflow: hidden;
+        }
+        .attack-alert::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.1) 2px,
+                rgba(255,255,255,0.1) 4px
+            );
+            opacity: 0.3;
+            animation: scan 3s linear infinite;
+        }
+        @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; } 100% { opacity: 0.9; } }
+        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        .attack-log {
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border: 1px solid #ef4444;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 12px;
+            max-width: 80%;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .attack-log div { margin-bottom: 5px; color: #ff6b6b; }
+        .close-btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .close-btn:hover { background: #dc2626; transform: scale(1.05); }
+        .glitch-traitor { cursor: help; }
+        .glitch-traitor:hover { animation: glitch 0.28s infinite linear alternate-reverse; color:#ff3b3b !important; }
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: 1px 0 #ef4444, -1px 0 #00ffff; }
+            20% { transform: translate(-1px,0) skewX(1deg); }
+            40% { transform: translate(1px,1px) skewX(-1deg); text-shadow: -2px 0 #ef4444, 2px 0 #00ffff; }
+            60% { transform: translate(-1px,-1px); }
+            80% { transform: translate(1px,0); text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; }
+            100% { transform: translate(0); }
+        }
+        .domain-warning {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #ef4444;
+            z-index: 9999;
+            border-radius: 4px;
+            display: none;
+        }
+
+        /* Chronicle */
         .chronicle-timeline { position:relative; margin-left:10px; border-left:1px solid rgba(239,68,68,0.15); padding-left:22px; }
         .chronicle-item { position:relative; margin-bottom:28px; }
         .chronicle-item::before { content:''; position:absolute; left:-28px; top:3px; width:11px; height:11px; background:#0a0e14; border:2px solid #ef4444; border-radius:50%; }
@@ -79,126 +173,725 @@
         .tag-exp { color:#3b82f6; border-color:rgba(59,130,246,0.4); background:rgba(59,130,246,0.08); }
         .chronicle-title { font-size:13px; font-weight:800; color:#fff; margin-bottom:4px; }
         .chronicle-desc { font-size:12px; color:#9ca3af; line-height:1.5; }
-
-        /* === NEW EFFECTS v2.3 === */
-        /* Typewriter cursor */
-        .typing-cursor::after { content:'█'; color:#ef4444; animation: blink 0.8s infinite; margin-left:3px; }
-        @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
-        /* CRT Monitor */
-        body.crt::before { content:''; position:fixed; inset:0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 4px); pointer-events:none; z-index:9998; }
-        body.crt::after { content:''; position:fixed; inset:0; background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%); pointer-events:none; z-index:9998; }
-        .crt-flicker { position:fixed; inset:0; background: rgba(255,255,255,0.02); pointer-events:none; z-index:9997; animation: screenFlicker 0.18s infinite; }
-        @keyframes screenFlicker { 0%{opacity:0.02} 50%{opacity:0} 100%{opacity:0.04} }
-        /* Glitch traitors */
-        .glitch-traitor { cursor: help; }
-        .glitch-traitor:hover { animation: glitch 0.28s infinite linear alternate-reverse; color:#ff3b3b !important; }
-        @keyframes glitch {
-            0% { transform: translate(0); text-shadow: 1px 0 #ef4444, -1px 0 #00ffff; }
-            20% { transform: translate(-1px,0) skewX(1deg); }
-            40% { transform: translate(1px,1px) skewX(-1deg); text-shadow: -2px 0 #ef4444, 2px 0 #00ffff; }
-            60% { transform: translate(-1px,-1px); }
-            80% { transform: translate(1px,0); text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; }
-            100% { transform: translate(0); }
-        }
     </style>
 </head>
 <body class="crt">
 <div class="crt-flicker"></div>
+<div class="domain-warning" id="domainWarning">
+    <i class="fa-solid fa-triangle-exclamation"></i> Официальный сайт: <strong>zhenyae.github.io</strong>
+</div>
 <div class="terminal-panel">
     <div class="brand-header">
-        <div class="logo-frame"><img src="photo_2026-01-24_21-23-46-2.jpg" alt="Логотип ССТ" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fa-solid fa-shield-halved\' style=\'color:#ef4444;font-size:40px;\'></i>';"></div>
+        <div class="logo-frame">
+            <img src="photo_2026-01-24_21-23-46-2.jpg" alt="Логотип ССТ" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fa-solid fa-shield-halved\' style=\'color:#ef4444;font-size:40px;\'></i>';">
+        </div>
         <div>
             <h1 id="typing-title" data-full="TELETUBBY COOPERATION UNION"></h1>
             <div class="subtitle" id="typing-subtitle" data-full="СОЮЗ СОТРУДНИЧЕСТВА ТЕЛЕПУЗИКОВ [TCU / ССТ]"></div>
-            <div class="system-status"><span class="stat-item"><i class="fa-solid fa-circle" style="color: #22c55e; font-size: 9px;"></i> АКТИВЕН</span><span class="stat-item"><i class="fa-solid fa-users" style="color: #3b82f6; font-size: 10px;"></i> 20 УЧАСТНИКОВ</span><span class="stat-item"><i class="fa-solid fa-server" style="color: #14b8a6; font-size: 10px;"></i> 4 СЕРВЕРА</span></div>
+            <div class="system-status">
+                <span class="stat-item"><i class="fa-solid fa-circle" style="color: #22c55e; font-size: 9px;"></i> АКТИВЕН</span>
+                <span class="stat-item"><i class="fa-solid fa-users" style="color: #3b82f6; font-size: 10px;"></i> 20 УЧАСТНИКОВ</span>
+                <span class="stat-item"><i class="fa-solid fa-server" style="color: #14b8a6; font-size: 10px;"></i> 4 СЕРВЕРА</span>
+                <span class="stat-item"><i class="fa-solid fa-globe" style="color: #8b5cf6; font-size: 10px;"></i> zhenyae.github.io</span>
+            </div>
         </div>
     </div>
-    <div class="nav-system"><button class="nav-btn active" onclick="switchSection(event, 'main-sec')">База Данных</button><button class="nav-btn" onclick="switchSection(event, 'chronicle-sec')">Хроника</button><button class="nav-btn" onclick="switchSection(event, 'enemies-sec')">Угрозы TCU</button></div>
+    <div class="nav-system">
+        <button class="nav-btn active" onclick="switchSection(event, 'main-sec')">База Данных</button>
+        <button class="nav-btn" onclick="switchSection(event, 'chronicle-sec')">Хроника</button>
+        <button class="nav-btn" onclick="switchSection(event, 'enemies-sec')">Угрозы TCU</button>
+    </div>
+
     <div id="main-sec" class="section-block active">
-        <div class="section-title">Главные Основатели</div><div class="founders-row"><div class="commander-card"><div class="commander-name">Sagulik [SG]</div><div class="commander-rank">Основатель TCU</div></div><div class="commander-card"><div class="commander-name">Zhenrov</div><div class="commander-rank">Основатель TCU</div></div></div>
+        <div class="section-title">Главные Основатели</div>
+        <div class="founders-row">
+            <div class="commander-card">
+                <div class="commander-name">Sagulik [SG]</div>
+                <div class="commander-rank">Основатель TCU</div>
+            </div>
+            <div class="commander-card">
+                <div class="commander-name">Zhenrov</div>
+                <div class="commander-rank">Основатель TCU</div>
+            </div>
+        </div>
+
         <div class="section-title">Официальный Манифест</div>
-        <p id="manifest-p1" data-full="Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и по другим интересным играм, где каждый может обратиться за помощью, высказать свои мысли, найти друзей или просто пообщаться."></p>
-        <p id="manifest-p2" data-full="Суть союза в том, что каждый участник независим и не находится под чьим-либо влиянием. Наша цель: развитие округа союза, продвижение контента и совместная защита от внешней агрессии."></p>
+        <p id="manifest-p1" data-full="Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и другим играм, где каждый может обратиться за помощью, высказать мысли или найти друзей."></p>
+        <p id="manifest-p2" data-full="Наша цель: развитие округа, продвижение контента и защита от внешней агрессии. Официальный сайт: zhenyae.github.io"></p>
+
         <div class="section-title">TCU Media (Ютуберы Союза)</div>
-        <div class="data-row"><a href="https://youtube.com/@zhenrov_teletubby" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zhenrov [TCU]</a><div class="badges-group"><span class="status-badge founder">Основатель</span><span class="status-badge owner">Владелец</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><a href="https://youtube.com/@sagulik" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Sagulik [SG] [TCU]</a><div class="badges-group"><span class="status-badge founder">Основатель</span><span class="status-badge owner">Владелец</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><a href="https://youtube.com/@gerit742" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Gerit [TCU]</a><div class="badges-group"><span class="status-badge deputy">Заместитель</span><span class="status-badge artist">Художник</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><span class="data-label"><i class="fa-solid fa-user-shield" style="color:#8b5cf6;"></i> Barricade228 [SG] [TCU]</span><div class="badges-group"><span class="status-badge admin">Администратор</span></div></div><div class="merit-note">🏅 Заслуга: разоблачение предателя Демиена, защита округа TCU.</div>
-        <div class="data-row"><a href="https://youtube.com/@soldieranims" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Soldier Anims [SL] [TCU]</a><div class="badges-group"><span class="status-badge moderator">Модератор</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><a href="https://youtube.com/@dezoniyofficial" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> DezoTubby [SG] [TCU]</a><div class="badges-group"><span class="status-badge artist">Художник</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><a href="https://youtube.com/@uraniks_roblox" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Ураникс / UraniksRB [TCU]</a><span class="status-badge verified">Ютубер</span></div>
-        <div class="data-row"><a href="https://youtube.com/@itsboom223" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> ItsBOOM [TCU]</a><span class="status-badge verified">Ютубер</span></div>
-        <div class="data-row"><a href="https://youtube.com/@zidan_official-stelit" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zidan.official [TCU]</a><span class="status-badge verified">Ютубер</span></div>
-        <div class="data-row"><a href="https://youtube.com/@maioonezz-f7w" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> maionezz [TCU]</a><div class="badges-group"><span class="status-badge artist">Дизайнер</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><a href="https://youtube.com/@regiturfst" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Regiturf [TCU]</a><div class="badges-group"><span class="status-badge artist">Художник</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><a href="https://youtube.com/@tvik_tubbie" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Terrov [TCU]</a><div class="badges-group"><span class="status-badge owner">Владелец</span><span class="status-badge artist">Дизайнер</span><span class="status-badge verified">Ютубер</span></div></div>
-        <div class="data-row"><a href="https://youtube.com/@chezabretto" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Pe_The_Teletubby [TCU]</a><span class="status-badge verified">Ютубер</span></div>
-        <div class="data-row"><a href="https://youtube.com/@JawCr7sher" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> J.C [TCU]</a><span class="status-badge verified">Ютубер</span></div>
-        <div class="section-title">TCU Creators</div><div class="data-row"><a href="https://youtube.com/@linem-0889" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Linem [TCU]</a><div class="badges-group"><span class="status-badge owner">Владелец</span><span class="status-badge artist">Художница</span></div></div><div class="data-row"><a href="https://youtube.com/@animationfilmssfm" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Emptiness [TCU]</a><div class="badges-group"><span class="status-badge moderator">Модератор</span><span class="status-badge artist">Дизайнер</span><span class="status-badge animator">Аниматор</span></div></div>
-        <div class="section-title">TCU Divisions</div><p class="section-desc">Дочерние фракции под флагом ССТ.</p><div class="data-row"><span class="data-label"><i class="fa-solid fa-flag" style="color:#dc2626;"></i> Pel [SG] [LCF] [TCU]</span><div class="badges-group"><span class="status-badge leader">Лидер LCF</span><span class="status-badge">В разработке</span></div></div><div class="enemy-reason" style="border-left-color: rgba(220,38,38,0.3);">Свободный Крашерский Фонд [LCF] — в стадии создания.</div>
-        <div class="section-title">TCU Allies</div><p class="section-desc">Рядовые участники.</p><div class="data-row"><span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> dimon</span><span class="status-badge ally">Союзник</span></div><div class="data-row"><span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Leoknoopers [TCU]</span><span class="status-badge ally">Союзник</span></div><div class="data-row"><span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Мама Габена [TCU]</span><span class="status-badge ally">Союзник</span></div>
-        <div class="section-title">TCU Servers</div><div class="data-row"><a href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> SaguloStopol [SG] [TCU]</a><span class="status-badge verified">Discord</span></div><div class="data-row"><a href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Zhenrov Community: Official [TCU]</a><span class="status-badge verified">Discord</span></div><div class="data-row"><a href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Terrov World [TCU]</a><span class="status-badge verified">Discord</span></div><div class="data-row"><a href="https://t.me/linemburg" target="_blank" rel="noopener"><i class="fa-brands fa-telegram" style="color:#29b6f6;"></i> ЛайнемБург</a><span class="status-badge verified">Telegram</span></div>
-        <div class="section-title">Подать заявку</div><form id="tcu-form" action="https://formspree.io/f/mzepdrqo" method="POST"><div class="input-group"><input type="text" name="nickname" placeholder="Ваш ник (и тег, если есть)" required></div><div class="input-group"><input type="text" name="role" placeholder="Кто вы? (Ютубер / Владелец сервера / Художник)" required></div><div class="input-group"><input type="url" name="link" placeholder="Ссылка на ваш YouTube канал или сервер" required></div><div class="input-group"><input type="text" name="contact" placeholder="Ваш Discord / Telegram для связи" required></div><button type="submit" class="terminal-btn">Отправить заявку в TCU</button><div id="form-msg" class="form-msg"></div></form>
+        <div class="data-row">
+            <a href="https://youtube.com/@zhenrov_teletubby" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zhenrov [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge founder">Основатель</span>
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@sagulik" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Sagulik [SG] [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge founder">Основатель</span>
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@gerit742" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Gerit [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge deputy">Заместитель</span>
+                <span class="status-badge artist">Художник</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user-shield" style="color:#8b5cf6;"></i> Barricade228 [SG] [TCU]</span>
+            <div class="badges-group">
+                <span class="status-badge admin">Администратор</span>
+            </div>
+        </div>
+        <div class="merit-note">🏅 Заслуга: разоблачение предателя Демиена, защита округа TCU.</div>
+        <div class="data-row">
+            <a href="https://youtube.com/@soldieranims" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Soldier Anims [SL] [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge moderator">Модератор</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@dezoniyofficial" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> DezoTubby [SG] [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge artist">Художник</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@uraniks_roblox" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Ураникс / UraniksRB [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@itsboom223" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> ItsBOOM [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@zidan_official-stelit" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zidan.official [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@maioonezz-f7w" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> maionezz [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge artist">Дизайнер</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@regiturfst" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Regiturf [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge artist">Художник</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@tvik_tubbie" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Terrov [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge artist">Дизайнер</span>
+                <span class="status-badge verified">Ютубер</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@chezabretto" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Pe_The_Teletubby [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@JawCr7sher" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> J.C [TCU]</a>
+            <span class="status-badge verified">Ютубер</span>
+        </div>
+
+        <div class="section-title">TCU Creators (Творцы Союза)</div>
+        <div class="data-row">
+            <a href="https://youtube.com/@linem-0889" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Linem [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge owner">Владелец</span>
+                <span class="status-badge artist">Художница</span>
+            </div>
+        </div>
+        <div class="data-row">
+            <a href="https://youtube.com/@animationfilmssfm" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Emptiness [TCU]</a>
+            <div class="badges-group">
+                <span class="status-badge moderator">Модератор</span>
+                <span class="status-badge artist">Дизайнер</span>
+                <span class="status-badge animator">Аниматор</span>
+            </div>
+        </div>
+
+        <div class="section-title">TCU Divisions (Союзные Формирования)</div>
+        <p class="section-desc">Дочерние фракции и подразделения, действующие под флагом ССТ.</p>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-flag" style="color:#dc2626;"></i> Pel [SG] [LCF] [TCU]</span>
+            <div class="badges-group">
+                <span class="status-badge leader">Лидер LCF</span>
+                <span class="status-badge">В разработке</span>
+            </div>
+        </div>
+        <div class="enemy-reason" style="border-left-color: rgba(220, 38, 38, 0.3);">Формирование: Свободный Крашерский Фонд [LCF] — в стадии создания.</div>
+
+        <div class="section-title">TCU Allies (Союзники ССТ)</div>
+        <p class="section-desc">Рядовые участники союза, поддерживающие ССТ.</p>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> dimon</span>
+            <span class="status-badge ally">Союзник</span>
+        </div>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Leoknoopers [TCU]</span>
+            <span class="status-badge ally">Союзник</span>
+        </div>
+        <div class="data-row">
+            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Мама Габена [TCU]</span>
+            <span class="status-badge ally">Союзник</span>
+        </div>
+
+        <div class="section-title">TCU Servers (Официальные Сервера)</div>
+        <div class="data-row">
+            <a href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> SaguloStopol [SG] [TCU]</a>
+            <span class="status-badge verified">Discord</span>
+        </div>
+        <div class="data-row">
+            <a href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Zhenrov Community: Official [TCU]</a>
+            <span class="status-badge verified">Discord</span>
+        </div>
+        <div class="data-row">
+            <a href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Terrov World [TCU]</a>
+            <span class="status-badge verified">Discord</span>
+        </div>
+        <div class="data-row">
+            <a href="https://t.me/linemburg" target="_blank" rel="noopener"><i class="fa-brands fa-telegram" style="color:#29b6f6;"></i> ЛайнемБург</a>
+            <span class="status-badge verified">Telegram</span>
+        </div>
+
+        <div class="section-title">Легенда Ролей</div>
+        <div class="legend-block">
+            <div class="legend-item"><span class="legend-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span> Основатель</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#dc2626;"></span> Лидер фракции</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f97316;"></span> Заместитель</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#8b5cf6;"></span> Администратор</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#eab308;"></span> Модератор</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#14b8a6;"></span> Владелец сервера</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ec4899;"></span> Художник / Дизайнер</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Аниматор</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#3b82f6;"></span> Ютубер</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span> Союзник</div>
+        </div>
+
+        <div class="section-title">Подать заявку на вступление</div>
+        <p style="font-size: 14px; margin-bottom: 15px;">Заявки принимаются через официальный сайт TCU: <a href="https://zhenyae.github.io/" style="color:#ef4444;">zhenyae.github.io</a></p>
+        <form id="tcu-form" action="https://formspree.io/f/mzepdrqo" method="POST">
+            <div class="input-group">
+                <input type="text" name="nickname" placeholder="Ваш ник (и тег, если есть)" required>
+            </div>
+            <div class="input-group">
+                <input type="text" name="role" placeholder="Кто вы? (Ютубер / Владелец сервера / Художник)" required>
+            </div>
+            <div class="input-group">
+                <input type="url" name="link" placeholder="Ссылка на ваш канал или сервер" required>
+            </div>
+            <div class="input-group">
+                <input type="text" name="contact" placeholder="Ваш Discord / Telegram для связи" required>
+            </div>
+            <button type="submit" class="terminal-btn">Отправить заявку</button>
+            <div id="form-msg" class="form-msg"></div>
+        </form>
     </div>
 
     <div id="chronicle-sec" class="section-block">
-        <div class="section-title" style="color:#22c55e; border-color:#22c55e;">Хроника ССТ</div><p class="section-desc">Официальный лог округа. Сверху - новейшие.</p>
+        <div class="section-title" style="color:#22c55e; border-color:#22c55e;">Хроника ССТ</div>
+        <p class="section-desc">Официальный лог округа. Сверху - новейшие.</p>
         <div class="chronicle-timeline">
-            <div class="chronicle-item milestone"><div class="chronicle-date">2026/07/25 <span class="chronicle-tag tag-mile">ЮБИЛЕЙ</span></div><div class="chronicle-title">ССТ набрал 20 участников</div><div class="chronicle-desc">Зафиксировано 20 активных участников. Запущен сайт TCU v2.3 с эффектами терминала.</div></div>
-            <div class="chronicle-item milestone"><div class="chronicle-date">2026/06/13 <span class="chronicle-tag tag-mile">МИР / ПОБЕДА СГ</span></div><div class="chronicle-title">Полное завершение конфликта СГ vs Анти-СГ</div><div class="chronicle-desc">Завершена война между SaguloStopol [SG] и силами Анти-СГ: CyanicTubbie [Циан], Чупапи, Скитлас, Блекхаб. Статус: МИР.</div></div>
-            <div class="chronicle-item betrayal"><div class="chronicle-date">2026/05/31 <span class="chronicle-tag tag-betrayal">ПРЕДАТЕЛЬСТВО</span></div><div class="chronicle-title">Сленди окончательно предает ССТ</div><div class="chronicle-desc">sl3ndy окончательно предал ССТ. Поддержка радикалов из ЧС ССТ, игнорирование законов.</div></div>
-            <div class="chronicle-item betrayal"><div class="chronicle-date">2026/05/10 <span class="chronicle-tag tag-betrayal">ОПЕРАЦИЯ ЧИСТАЯ ВОДА</span></div><div class="chronicle-title">Предательство Демиена</div><div class="chronicle-desc">Выявлен шпионаж DemienGG. Администратор Barricade228 [SG] вывел его на чистую воду.</div></div>
-            <div class="chronicle-item expansion"><div class="chronicle-date">2026/04/15 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div><div class="chronicle-title">Начало расширения ССТ</div><div class="chronicle-desc">Апрель 2026: массовый набор. Присоединились DezoTubby, Uraniks, ItsBOOM, Zidan, maionezz, Regiturf, Terrov и др.</div></div>
-            <div class="chronicle-item foundation"><div class="chronicle-date">2026/01/26 <span class="chronicle-tag tag-found">ОСНОВАНИЕ</span></div><div class="chronicle-title">Основание ССТ Сагуликом и Женровым</div><div class="chronicle-desc">Sagulik [SG] и Zhenrov основали Союз. Созданы сервера: SaguloStopol, Zhenrov Community, Terrov World, ЛайнемБург.</div></div>
+            <div class="chronicle-item milestone">
+                <div class="chronicle-date">2026/07/25 <span class="chronicle-tag tag-mile">ЮБИЛЕЙ</span></div>
+                <div class="chronicle-title">ССТ набрал 20 участников</div>
+                <div class="chronicle-desc">Зафиксировано 20 активных участников. Запущен сайт TCU v2.6 с полной базой данных и анти-тролльским щитом.</div>
+            </div>
+            <div class="chronicle-item expansion">
+                <div class="chronicle-date">2026/07/10 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div>
+                <div class="chronicle-title">Создание сервера Terrov World</div>
+                <div class="chronicle-desc">Terrov [TCU] создал официальный сервер Terrov World и присоединился к союзу.</div>
+            </div>
+            <div class="chronicle-item milestone">
+                <div class="chronicle-date">2026/06/13 <span class="chronicle-tag tag-mile">МИР / ПОБЕДА СГ</span></div>
+                <div class="chronicle-title">Полное завершение конфликта СГ vs Анти-СГ</div>
+                <div class="chronicle-desc">Завершена война между SaguloStopol [SG] и силами Анти-СГ: CyanicTubbie [Циан], Чупапи, Скитлас, Блекхаб. Статус: МИР.</div>
+            </div>
+            <div class="chronicle-item expansion">
+                <div class="chronicle-date">2026/05/15 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div>
+                <div class="chronicle-title">Создание Telegram-канала ЛайнемБург</div>
+                <div class="chronicle-desc">Linem [TCU] основала официальный Telegram-канал ЛайнемБург.</div>
+            </div>
+            <div class="chronicle-item betrayal">
+                <div class="chronicle-date">2026/05/10 <span class="chronicle-tag tag-betrayal">ОПЕРАЦИЯ "ЧИСТАЯ ВОДА"</span></div>
+                <div class="chronicle-title">Предательство Демиена</div>
+                <div class="chronicle-desc">Выявлен шпионаж DemienGG внутри ССТ. Администратор Barricade228 [SG] вывел его на чистую воду.</div>
+            </div>
+            <div class="chronicle-item expansion">
+                <div class="chronicle-date">2026/04/15 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div>
+                <div class="chronicle-title">Начало расширения ССТ</div>
+                <div class="chronicle-desc">Апрель 2026: массовый набор. Присоединились DezoTubby, Uraniks, ItsBOOM, Zidan, maionezz, Regiturf, Pe_The_Teletubby, J.C, Emptiness.</div>
+            </div>
+            <div class="chronicle-item foundation">
+                <div class="chronicle-date">2026/01/26 <span class="chronicle-tag tag-found">ОСНОВАНИЕ</span></div>
+                <div class="chronicle-title">Основание ССТ Сагуликом и Женровым</div>
+                <div class="chronicle-desc">Sagulik [SG] и Zhenrov основали Союз Сотрудничества Телепузиков. Созданы первые сервера: SaguloStopol [SG] и Zhenrov Community.</div>
+            </div>
         </div>
     </div>
 
     <div id="enemies-sec" class="section-block">
-        <div class="section-title" style="color: #ef4444;">Реестр Внешних Угроз</div><p>Данные лица или формирования совершали акты агрессии против округа TCU.</p>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users"></i> НТ сквад (NT Squad)</span><span class="status-badge" style="color:#f97316;border-color:rgba(249,115,22,0.4);background:rgba(249,115,22,0.05);">Частично в ЧС</span></div>
-        <div class="enemy-reason"><span style="color:#22c55e;">✓ НЕ в ЧС, состоят в НТ скваде:</span> CyanicTubbie [Циан], Gerit [TCU], maionezz [TCU], Крокодилл<br><span style="color:#eab308;">≠ Разошлись, в НТ скваде, НЕ в ЧС:</span> Горбузик<br><span style="color:#ef4444;">✗ В ЧС (враждебное крыло НТ):</span> Демиен / DemienGG, sl3ndy, LeoTheLeus, Runi</div>
-        <div class="data-row"><span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-user-slash"></i> Демиен / DemienGG</span><span class="status-badge">Предатель</span></div><div class="enemy-reason">Предательство изнутри. Разоблачён Barricade228 [SG].</div>
-        <div class="data-row"><span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-ban"></i> sl3ndy</span><span class="status-badge">Предатель</span></div><div class="enemy-reason">Предательство ССТ, поддержка радикалов из ЧС, игнор законов ССТ.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> LeoTheLeus</span><span class="status-badge">ЧС ССТ</span></div><div class="enemy-reason">Участник враждебного крыла НТ сквада.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> Runi / Рунии</span><span class="status-badge">ЧС ССТ</span></div><div class="enemy-reason">Участник враждебного крыла НТ сквада.</div>
-        <div class="data-row"><span class="data-label" style="color: #eab308;"><i class="fa-solid fa-circle-minus"></i> Горбузик</span><span class="status-badge" style="color:#eab308;border-color:rgba(234,179,8,0.4);background:rgba(234,179,8,0.05);">Разошлись</span></div><div class="enemy-reason" style="border-left-color: rgba(234,179,8,0.3);">Участник НТ сквада. Пути разошлись.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-skull"></i> MasterHell / Мастер</span><span class="status-badge">Агрессор</span></div><div class="enemy-reason">Агрессия к ССТ, желание распада ССТ, слив ЛД.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-biohazard"></i> КоловраТТ / KolovraTT</span><span class="status-badge">ЧС ССТ</span></div><div class="enemy-reason">Участие в АкваТим, слив данных Сагулика, национализм, оскорбление DezoTubby (2023).</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users-rectangle"></i> FPE: R</span><span class="status-badge">Вражеский клан</span></div><div class="enemy-reason">Война против SaguloStopol [SG]. Деанон Сагулика.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Кроко / Pacifist</span><span class="status-badge">ЧС ССТ</span></div><div class="enemy-reason">Деанон участников ССТ, идеология АкваТима.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Моралопс</span><span class="status-badge">ЧС ССТ</span></div><div class="enemy-reason">Деанон участников ССТ, идеология АкваТима.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-ghost"></i> AlivePo [OWL]</span><span class="status-badge">ЧС ССТ</span></div><div class="enemy-reason">Конфликт с SaguloStopol с 2024, поддержка FPE:R.</div>
-        <div class="data-row"><span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-server"></i> AnyaWorks</span><span class="status-badge">Вражеский сервер</span></div><div class="enemy-reason">Сервер AlivePo [OWL]. Конфликт с SaguloStopol с 2024.</div>
+        <div class="section-title" style="color: #ef4444;">Реестр Внешних Угроз</div>
+        <p>Данные лица или формирования совершали акты агрессии против округа TCU. Любые контакты участников Союза с ними заблокированы.</p>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users"></i> НТ сквад (NT Squad)</span>
+            <span class="status-badge" style="color:#f97316;border-color:rgba(249,115,22,0.4);background:rgba(249,115,22,0.05);">Частично в ЧС</span>
+        </div>
+        <div class="enemy-reason">
+            Формирование с частичным нахождением в ЧС ССТ.<br><br>
+            <span style="color:#22c55e;">✓ Нормальные отношения, НЕ в ЧС, состоят в НТ скваде:</span> CyanicTubbie, Gerit [TCU], maionezz [TCU]<br>
+            <span style="color:#eab308;">≠ Нейтралитет / Разошлись, состоит в НТ скваде, НЕ в ЧС:</span> Горбусик<br>
+            <span style="color:#ef4444;">✗ В ЧС ССТ (враждебное крыло НТ сквада):</span> Демиен / DemienGG, sl3ndy, LeoTheLeus, Runi
+        </div>
+
+        <div class="data-row">
+            <span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-user-slash"></i> Демиен / DemienGG</span>
+            <span class="status-badge">Предатель</span>
+        </div>
+        <div class="enemy-reason">Предательство изнутри союза, участник враждебного крыла НТ сквада. Разоблачён администратором Barricade228 [SG] [TCU].</div>
+
+        <div class="data-row">
+            <span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-ban"></i> sl3ndy</span>
+            <span class="status-badge">Предатель</span>
+        </div>
+        <div class="enemy-reason">Предательство ССТ, поддержка радикальных личностей из ЧС ССТ, пренебрежение законами ССТ. Участник НТ сквада.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> LeoTheLeus</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Участник враждебного крыла НТ сквада. Враждебные действия против округа TCU.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> Runi / Рунии</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Участник враждебного крыла НТ сквада. Враждебные действия против округа TCU.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #eab308;"><i class="fa-solid fa-circle-minus"></i> Горбусик</span>
+            <span class="status-badge" style="color:#eab308;border-color:rgba(234,179,8,0.4);background:rgba(234,179,8,0.05);">Разошлись</span>
+        </div>
+        <div class="enemy-reason" style="border-left-color: rgba(234,179,8,0.3);">Участник НТ сквада. Пути с ССТ разошлись. Нейтралитет, в ЧС не состоит.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-skull"></i> MasterHell / Мастер</span>
+            <span class="status-badge">Агрессор</span>
+        </div>
+        <div class="enemy-reason">Агрессия в сторону ССТ, на YouTube заявлял о желании распада ССТ, на Discord-сервере сливал личные данные участника ССТ. Поддерживает КоловраТТ / KolovraTT.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-biohazard"></i> КоловраТТ / KolovraTT</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Участие в радикальной группировке "АкваТим", которая еще до основания ССТ сливала данные Сагулика и его друзей. Слив личных данных в Telegram и Discord. Поддержка националистических взглядов, оскорбления на национальной почве в адрес DezoTubby [SG] [TCU] (2023). Связан с MasterHell.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users-rectangle"></i> FPE: R (многие участники)</span>
+            <span class="status-badge">Вражеский клан</span>
+        </div>
+        <div class="enemy-reason">Ведение войны против SaguloStopol [SG] [TCU]. Массовая деанонимизация (доксинг) Сагулика со стороны многих участников структуры.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Кроко / Pacifist</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Деанонимизация участников ССТ, следование взглядам павшей группировки "АкваТим". Не путать с Крокодилл — с ним нормальные отношения.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Моралопс</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Деанонимизация участников ССТ, следование взглядам павшей группировки "АкваТим".</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-ghost"></i> AlivePo [OWL]</span>
+            <span class="status-badge">ЧС ССТ</span>
+        </div>
+        <div class="enemy-reason">Конфликт с SaguloStopol [SG] [TCU] с 2024 года, поддержка радикальных личностей из враждебной структуры FPE: R. Владелец сервера AnyaWorks.</div>
+
+        <div class="data-row">
+            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-server"></i> AnyaWorks (сервер AlivePo)</span>
+            <span class="status-badge">Вражеский сервер</span>
+        </div>
+        <div class="enemy-reason">Сервер структуры AlivePo [OWL]. Конфликт с SaguloStopol [SG] [TCU] с 2024 г., укрывательство участников FPE: R.</div>
     </div>
 </div>
+
 <script>
-    function switchSection(evt, sectionId) { document.querySelectorAll('.section-block').forEach(sec => sec.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active')); document.getElementById(sectionId).classList.add('active'); evt.currentTarget.classList.add('active'); }
-    const form = document.getElementById('tcu-form'); const msg = document.getElementById('form-msg');
-    form.addEventListener('submit', async (e) => { e.preventDefault(); msg.className = 'form-msg'; msg.textContent = ''; const data = new FormData(form); try { const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } }); if (res.ok) { msg.className = 'form-msg success'; msg.textContent = '✓ Заявка отправлена.'; form.reset(); } else { msg.className = 'form-msg error'; msg.textContent = '✗ Ошибка.'; } } catch { msg.className = 'form-msg error'; msg.textContent = '✗ Нет соединения.'; } });
-    // TYPEWRITER EFFECT
-    document.addEventListener('DOMContentLoaded', ()=>{
+    // Проверка домена
+    if(window.location.hostname !== 'zhenyae.github.io') {
+        document.getElementById('domainWarning').style.display = 'block';
+    }
+
+    // Звуки для анти-тролльского щита
+    const sounds = {
+        alarm: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3'),
+        explosion: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-explosion-with-roar-1705.mp3'),
+        accessDenied: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3'),
+        keyboard: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-mechanical-keyboard-press-2488.mp3'),
+        systemBeep: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-951.mp3')
+    };
+
+    // Поддельные данные ФСБ
+    const fsbData = {
+        department: "Отдел К по борьбе с киберпреступностью",
+        agent: "Агент #TCU-" + Math.floor(1000 + Math.random() * 9000),
+        caseNumber: "TCU-" + Math.floor(100000 + Math.random() * 900000)
+    };
+
+    // Генерация поддельного IP
+    function generateFakeIP() {
+        return `192.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}`;
+    }
+
+    // Генерация поддельного лога
+    function generateFakeLog(nickname, ip) {
+        const violations = [
+            "Нарушение УК РФ ст. 272 (Неправомерный доступ к компьютерной информации)",
+            "Нарушение УК РФ ст. 273 (Создание вредоносных программ)",
+            "Нарушение УК РФ ст. 274 (Нарушение правил эксплуатации средств хранения информации)",
+            "Попытка DDoS-атаки на серверы ССТ",
+            "Использование VPN для обхода блокировок",
+            "Распространение запрещенного контента",
+            "Флуд и спам в заявках",
+            "Оскорбление участников ССТ"
+        ];
+
+        const now = new Date();
+        const timestamp = now.toLocaleString('ru-RU');
+
+        let log = `
+            <div>[${timestamp}] [SYSTEM] Запуск анти-тролльского протокола TCU v3.0...</div>
+            <div>[${timestamp}] [SECURITY] Обнаружен подозрительный запрос от IP: ${ip}</div>
+            <div>[${timestamp}] [ANALYSIS] Анализ заявки от никнейма: "${nickname}"...</div>
+            <div>[${timestamp}] [WARNING] Обнаружено нарушение: ${violations[Math.floor(Math.random() * violations.length)]}</div>
+            <div>[${timestamp}] [WARNING] Обнаружено нарушение: ${violations[Math.floor(Math.random() * violations.length)]}</div>
+            <div>[${timestamp}] [SECURITY] Проверка по базе данных ФСБ...</div>
+            <div>[${timestamp}] [FSB] Запрос в отдел "${fsbData.department}"...</div>
+            <div>[${timestamp}] [FSB] Агент ${fsbData.agent} назначен на дело №${fsbData.caseNumber}</div>
+            <div>[${timestamp}] [SECURITY] Активация защитного протокола "Красный Щит"</div>
+            <div>[${timestamp}] [SYSTEM] Запуск подпротокола "Анти-скибиди v2.1"</div>
+            <div>[${timestamp}] [SYSTEM] Блокировка IP: ${ip}</div>
+            <div>[${timestamp}] [SYSTEM] Добавление в ЧС ССТ...</div>
+            <div>[${timestamp}] [SYSTEM] Отправка данных в ФСБ...</div>
+            <div>[${timestamp}] [SUCCESS] Тролль "${nickname}" успешно нейтрализован!</div>
+            <div>[${timestamp}] [FSB] Дело №${fsbData.caseNumber} передано в суд</div>
+        `;
+
+        return log;
+    }
+
+    // Эффект "вирусной атаки"
+    function virusEffect() {
+        const virusDiv = document.createElement('div');
+        virusDiv.style.position = 'fixed';
+        virusDiv.style.inset = '0';
+        virusDiv.style.background = 'rgba(255,0,0,0.05)';
+        virusDiv.style.pointerEvents = 'none';
+        virusDiv.style.zIndex = '9999';
+        virusDiv.style.display = 'grid';
+        virusDiv.style.gridTemplateColumns = 'repeat(50, 1fr)';
+        virusDiv.style.gap = '2px';
+
+        for (let i = 0; i < 200; i++) {
+            const pixel = document.createElement('div');
+            pixel.style.background = `rgba(255,0,0,${Math.random() * 0.5 + 0.2})`;
+            pixel.style.borderRadius = '50%';
+            pixel.style.animation = `pixelFall ${Math.random() * 3 + 1}s linear infinite`;
+            pixel.style.animationDelay = `${Math.random() * 2}s`;
+            virusDiv.appendChild(pixel);
+        }
+
+        document.body.appendChild(virusDiv);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pixelFall {
+                0% { transform: translateY(-100px); opacity: 1; }
+                100% { transform: translateY(100vh); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        setTimeout(() => {
+            virusDiv.remove();
+            style.remove();
+        }, 5000);
+    }
+
+    // Эффект "системного сбоя"
+    function systemCrash() {
+        document.body.style.filter = 'invert(1) hue-rotate(90deg) contrast(150%)';
+        document.body.style.transition = 'filter 0.5s';
+
+        const crashDiv = document.createElement('div');
+        crashDiv.style.position = 'fixed';
+        crashDiv.style.inset = '0';
+        crashDiv.style.background = 'black';
+        crashDiv.style.zIndex = '9999';
+        crashDiv.style.display = 'flex';
+        crashDiv.style.flexDirection = 'column';
+        crashDiv.style.justifyContent = 'center';
+        crashDiv.style.alignItems = 'center';
+        crashDiv.style.color = '#00ff00';
+        crashDiv.style.fontFamily = 'JetBrains Mono, monospace';
+        crashDiv.style.fontSize = '14px';
+        crashDiv.style.textAlign = 'left';
+        crashDiv.style.padding = '20px';
+        crashDiv.style.boxSizing = 'border-box';
+
+        const crashText = `
+            <div>TCU_OS v3.0 - System Crash Report</div>
+            <div>===================================</div>
+            <div>Error Code: 0x${Math.floor(100000 + Math.random() * 900000)}</div>
+            <div>Description: Troll attack detected</div>
+            <div>Module: Anti-Troll Shield v3.0</div>
+            <div>Status: CRITICAL FAILURE</div>
+            <div>===================================</div>
+            <div>Initiating system reboot...</div>
+            <div>Countdown: <span id="crashCountdown">5</span></div>
+        `;
+
+        crashDiv.innerHTML = crashText;
+        document.body.appendChild(crashDiv);
+
+        let count = 5;
+        const countdown = setInterval(() => {
+            count--;
+            document.getElementById('crashCountdown').textContent = count;
+            sounds.systemBeep.currentTime = 0;
+            sounds.systemBeep.play();
+
+            if (count <= 0) {
+                clearInterval(countdown);
+                crashDiv.remove();
+                document.body.style.filter = 'none';
+                showFSBNotification();
+            }
+        }, 1000);
+    }
+
+    // Поддельное уведомление ФСБ
+    function showFSBNotification() {
+        const fsbDiv = document.createElement('div');
+        fsbDiv.style.position = 'fixed';
+        fsbDiv.style.bottom = '20px';
+        fsbDiv.style.right = '20px';
+        fsbDiv.style.background = 'white';
+        fsbDiv.style.border = '2px solid #ef4444';
+        fsbDiv.style.borderRadius = '8px';
+        fsbDiv.style.padding = '15px';
+        fsbDiv.style.zIndex = '9999';
+        fsbDiv.style.boxShadow = '0 0 20px rgba(239, 68, 68, 0.5)';
+        fsbDiv.style.maxWidth = '350px';
+        fsbDiv.style.fontFamily = 'Arial, sans-serif';
+        fsbDiv.style.color = '#333';
+
+        fsbDiv.innerHTML = `
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg/1200px-Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg.png" style="width: 40px; height: 40px; margin-right: 10px;">
+                <div>
+                    <div style="font-weight: bold; color: #ef4444;">ФЕДЕРАЛЬНАЯ СЛУЖБА БЕЗОПАСНОСТИ</div>
+                    <div style="font-size: 12px;">РОССИЙСКОЙ ФЕДЕРАЦИИ</div>
+                </div>
+            </div>
+            <div style="font-size: 14px; margin-bottom: 10px;">
+                Уведомление о блокировке доступа
+            </div>
+            <div style="font-size: 12px; margin-bottom: 10px;">
+                Ваш IP-адрес был заблокирован по запросу администрации
+                <strong>Teletubby Cooperation Union</strong> за нарушение
+                законодательства РФ в сфере информационной безопасности.
+            </div>
+            <div style="font-size: 12px; margin-bottom: 10px;">
+                Дело №${fsbData.caseNumber} передано в суд.
+                Ожидайте повестку.
+            </div>
+            <div style="font-size: 10px; color: #666; margin-top: 10px;">
+                Это автоматическое уведомление. Ответ на него не требуется.
+            </div>
+            <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 5px 10px; background: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                Закрыть
+            </button>
+        `;
+
+        document.body.appendChild(fsbDiv);
+
+        fsbDiv.style.transform = 'translateY(100px)';
+        fsbDiv.style.opacity = '0';
+        setTimeout(() => {
+            fsbDiv.style.transition = 'transform 0.5s, opacity 0.5s';
+            fsbDiv.style.transform = 'translateY(0)';
+            fsbDiv.style.opacity = '1';
+        }, 100);
+    }
+
+    // Основная функция показа атаки
+    function showAttackAlert(nickname, ip) {
+        Object.values(sounds).forEach(sound => {
+            sound.pause();
+            sound.currentTime = 0;
+        });
+
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'attack-alert';
+
+        const fakeLog = generateFakeLog(nickname, ip);
+
+        alertDiv.innerHTML = `
+            <div style="position: absolute; top: 20px; left: 20px; font-size: 12px; opacity: 0.7;">
+                TCU_OS v3.0 | Anti-Troll Shield Active
+            </div>
+            <div style="position: absolute; top: 20px; right: 20px; font-size: 12px; opacity: 0.7;">
+                ${fsbData.agent} | Дело №${fsbData.caseNumber}
+            </div>
+
+            <h1 style="font-size: 32px; margin-bottom: 10px; text-shadow: 0 0 10px #ff0000;">
+                <i class="fa-solid fa-triangle-exclamation"></i> КИБЕРАТАКА ОБНАРУЖЕНА <i class="fa-solid fa-triangle-exclamation"></i>
+            </h1>
+            <h2 style="font-size: 24px; margin-bottom: 5px;">ТРОЛЛЬ НЕЙТРАЛИЗОВАН</h2>
+            <p style="font-size: 18px; margin-bottom: 20px;">Ник: <strong>${nickname}</strong> | IP: <strong>${ip}</strong></p>
+
+            <div class="attack-log">
+                ${fakeLog}
+            </div>
+
+            <div style="margin-top: 20px; font-size: 14px;">
+                <i class="fa-solid fa-lock"></i> Доступ заблокирован. Данные переданы в ФСБ.
+            </div>
+
+            <button class="close-btn" id="closeAttackBtn">ПОДТВЕРДИТЬ БЛОКИРОВКУ</button>
+        `;
+
+        document.body.appendChild(alertDiv);
+
+        sounds.alarm.loop = true;
+        sounds.alarm.play();
+
+        setTimeout(() => {
+            sounds.explosion.play();
+            virusEffect();
+        }, 1500);
+
+        setTimeout(() => {
+            sounds.accessDenied.play();
+        }, 3000);
+
+        if (window.navigator.vibrate) {
+            window.navigator.vibrate([200, 100, 200, 100, 200]);
+        }
+
+        document.getElementById('closeAttackBtn').addEventListener('click', function() {
+            sounds.alarm.pause();
+            sounds.keyboard.play();
+            alertDiv.remove();
+            systemCrash();
+        });
+    }
+
+    // Переключение вкладок
+    function switchSection(evt, sectionId) {
+        document.querySelectorAll('.section-block').forEach(sec => sec.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    // Обработка формы
+    const form = document.getElementById('tcu-form');
+    const msg = document.getElementById('form-msg');
+    form.addEventListener('submit', function(e) {
+        const nickname = this.nickname.value;
+        const role = this.role.value.toLowerCase();
+        const link = this.link.value.toLowerCase();
+
+        const bannedWords = [
+            'скибиди', 'туалет', 'проно', 'атаковано', 'fsociety', 'espbypassed',
+            'хакер', 'взлом', 'ddos', 'sql', 'injection', 'vpn', 'proxy',
+            'хочу тебя', '123456', 'qwerty', 'password', 'admin', 'root'
+        ];
+
+        const isTroll = bannedWords.some(word =>
+            nickname.toLowerCase().includes(word) ||
+            role.includes(word) ||
+            link.includes(word)
+        );
+
+        if (isTroll) {
+            e.preventDefault();
+            const fakeIP = generateFakeIP();
+            showAttackAlert(nickname, fakeIP);
+            msg.className = 'form-msg error';
+            msg.textContent = '✗ Заявка отклонена: обнаружен троллинг. Данные переданы в ФСБ.';
+            return;
+        }
+
+        msg.className = 'form-msg';
+        msg.textContent = '';
+    });
+
+    // Typewriter effect
+    document.addEventListener('DOMContentLoaded', () => {
         const titleEl = document.getElementById('typing-title');
         const subEl = document.getElementById('typing-subtitle');
         const m1El = document.getElementById('manifest-p1');
         const m2El = document.getElementById('manifest-p2');
         const statusEl = document.querySelector('.system-status');
-        const tTitle = titleEl.dataset.full; const tSub = subEl.dataset.full; const tM1 = m1El.dataset.full; const tM2 = m2El.dataset.full;
-        titleEl.textContent=''; subEl.textContent=''; m1El.textContent=''; m2El.textContent='';
-        statusEl.style.opacity='0'; statusEl.style.transition='opacity 0.6s';
-        function typeWriter(el, text, speed, cb){
-            let i=0; el.classList.add('typing-cursor');
-            const interval = setInterval(()=>{
-                el.textContent += text.charAt(i); i++;
-                if(i>=text.length){ clearInterval(interval); el.classList.remove('typing-cursor'); if(cb) cb(); }
+
+        const tTitle = titleEl.dataset.full;
+        const tSub = subEl.dataset.full;
+        const tM1 = m1El.dataset.full;
+        const tM2 = m2El.dataset.full;
+
+        titleEl.textContent = '';
+        subEl.textContent = '';
+        m1El.textContent = '';
+        m2El.textContent = '';
+        statusEl.style.opacity = '0';
+        statusEl.style.transition = 'opacity 0.6s';
+
+        function typeWriter(el, text, speed, cb) {
+            let i = 0;
+            el.classList.add('typing-cursor');
+            const interval = setInterval(() => {
+                el.textContent += text.charAt(i);
+                i++;
+                if (i >= text.length) {
+                    clearInterval(interval);
+                    el.classList.remove('typing-cursor');
+                    if (cb) cb();
+                }
             }, speed);
         }
-        typeWriter(titleEl, tTitle, 45, ()=>{
-            typeWriter(subEl, tSub, 25, ()=>{
-                statusEl.style.opacity='1';
-                setTimeout(()=>{ typeWriter(m1El, tM1, 12, ()=>{ typeWriter(m2El, tM2, 10); }); }, 250);
+
+        typeWriter(titleEl, tTitle, 45, () => {
+            typeWriter(subEl, tSub, 25, () => {
+                statusEl.style.opacity = '1';
+                setTimeout(() => {
+                    typeWriter(m1El, tM1, 12, () => {
+                        typeWriter(m2El, tM2, 10);
+                    });
+                }, 250);
             });
         });
     });
 </script>
 </body>
-                                                                                                        </html>
+                </html>
