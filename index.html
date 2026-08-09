@@ -1,841 +1,820 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>TCU / ССТ — Teletubby Cooperation Union</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>TCU — Союз Сотрудничества Телепузиков</title>
+    <meta name="description" content="TCU (ССТ) — объединение независимых ютуберов по Slendytubbies и другим играм. Каналы участников, серверы сообщества, информация о союзе.">
+    <link rel="icon" href="photo_2026-01-24_21-23-46-2.jpg" type="image/jpeg">
+
+    <!-- Превью в Discord / Telegram -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TCU — Союз Сотрудничества Телепузиков">
+    <meta property="og:description" content="Объединение независимых ютуберов по Slendytubbies. Каналы участников, серверы сообщества.">
+    <meta property="og:url" content="https://zhenyae.github.io/">
+    <meta property="og:image" content="https://zhenyae.github.io/photo_2026-01-24_21-23-46-2.jpg">
+    <meta name="theme-color" content="#0e1017">
+
+    <!-- Тема применяется ДО отрисовки, чтобы не было вспышки -->
+    <script>
+        document.documentElement.dataset.theme = localStorage.getItem('tcu-theme') || 'dark';
+    </script>
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Manrope', sans-serif; }
+        :root {
+            --brand: #2f3fd6;
+            --custard: #e7548a;
+            --discord: #5865F2;
+            --youtube: #c4302b;
+            --radius: 12px;
+
+            /* Тёмная тема (по умолчанию) */
+            --bg: #0e1017;
+            --surface: #171a26;
+            --text: #e8eaed;
+            --muted: #9aa0b0;
+            --border: #2a2e42;
+            --shadow: rgba(0, 0, 0, 0.35);
+        }
+
+        [data-theme="light"] {
+            --bg: #f7f7f8;
+            --surface: #ffffff;
+            --text: #1c1e21;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         html { scroll-behavior: smooth; }
+
         body {
-            background: #0a0612;
-            color: #e2e0e8;
-            min-height: 100vh;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.2s, color 0.2s;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 0%, rgba(236, 72, 153, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 85% 15%, rgba(99, 102, 241, 0.1) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
-        }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
-        .wrapper {
-            max-width: 780px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
+        /* ===== Шапка ===== */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
-
-        /* Шапка */
-        .top-bar {
+        .header-inner {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 0 25px;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 20px;
+            max-width: 960px;
+            margin: 0 auto;
         }
-        .brand-tag {
-            font-size: 13px;
-            color: #6b6674;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
             font-weight: 700;
-            letter-spacing: 0.5px;
+            flex-shrink: 0;
         }
+        .logo-img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+        nav { display: flex; gap: 18px; flex-wrap: wrap; }
+        nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+        nav a:hover { color: var(--text); }
+
+        .header-controls { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+
+        .theme-toggle {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.15s;
+        }
+        .theme-toggle:hover { border-color: var(--custard); }
+
         .lang-switch {
             display: flex;
-            gap: 4px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 100px;
-            padding: 4px;
-        }
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: #8b8794;
-            padding: 7px 16px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            transition: 0.2s;
-        }
-        .lang-btn.active {
-            background: linear-gradient(135deg, #ec4899, #6366f1);
-            color: #fff;
-        }
-
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 20px 15px 40px;
-        }
-        .hero-logo {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 24px;
-            border-radius: 28px;
-            background: linear-gradient(135deg, #ec4899, #8b5cf6, #6366f1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 50px rgba(236, 72, 153, 0.3), 0 0 0 1px rgba(255,255,255,0.1) inset;
+            border: 1px solid var(--border);
+            border-radius: 20px;
             overflow: hidden;
         }
-        .hero-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-family: inherit;
         }
-        .hero-logo i {
-            font-size: 42px;
-            color: #fff;
-        }
-        .hero h1 {
-            font-size: 32px;
-            font-weight: 900;
-            line-height: 1.15;
-            background: linear-gradient(135deg, #fff 30%, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-        .hero .subtitle {
-            font-size: 15px;
-            color: #a8a3b0;
-            font-weight: 600;
-            margin-bottom: 26px;
-        }
+        .lang-switch button.active { background: var(--brand); color: #fff; }
 
-        /* CTA кнопки */
-        .cta-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 340px;
-            margin: 0 auto 28px;
+        /* ===== Герой ===== */
+        .hero { padding: 56px 0 40px; text-align: center; }
+        .hero-logo {
+            width: 120px; height: 120px;
+            border-radius: 24px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(47, 63, 214, 0.35);
         }
-        .cta-primary {
-            background: linear-gradient(135deg, #ec4899, #6366f1);
-            color: #fff;
-            text-decoration: none;
-            padding: 15px 20px;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 800;
-            display: flex;
+        .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+        .hero p { color: var(--muted); max-width: 520px; margin: 0 auto 28px; font-size: 16px; }
+        .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 8px 24px rgba(236, 72, 153, 0.25);
-            transition: 0.2s;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
             border: none;
             cursor: pointer;
             font-family: inherit;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .cta-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(236, 72, 153, 0.35); }
-        .cta-secondary {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #fff;
-            text-decoration: none;
-            padding: 14px 20px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.2s;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .cta-secondary:hover { background: rgba(255,255,255,0.08); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 14px var(--shadow); }
+        .btn-discord { background: var(--discord); color: #fff; }
+        .btn-outline { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+        .btn-yt { background: var(--youtube); color: #fff; padding: 8px 16px; font-size: 13px; }
 
-        /* Stats */
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 28px;
-            flex-wrap: wrap;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255,255,255,0.07);
-        }
-        .stat-block { text-align: center; }
-        .stat-num {
-            font-size: 24px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ec4899, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1.1;
-        }
-        .stat-label {
-            font-size: 11px;
-            color: #8b8794;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
+        /* ===== Статистика ===== */
+        .stats { display: flex; justify-content: center; gap: 40px; padding: 24px 0 8px; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-num { font-size: 26px; font-weight: 800; color: var(--custard); }
+        .stat-label { font-size: 13px; color: var(--muted); }
 
-        /* Секции */
-        .section { margin-bottom: 45px; }
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-        .section-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, rgba(236,72,153,0.18), rgba(99,102,241,0.18));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ec4899;
-            font-size: 15px;
-            flex-shrink: 0;
-        }
-        .section-title { font-size: 18px; font-weight: 800; color: #fff; }
-        .section-desc { font-size: 13px; color: #8b8794; margin-bottom: 18px; line-height: 1.6; }
-        p.body-text { font-size: 14px; color: #b5b0bd; line-height: 1.75; margin-bottom: 14px; }
+        /* ===== Секции ===== */
+        section { padding: 40px 0; scroll-margin-top: 70px; }
+        .section-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+        .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
 
-        /* Карточки каналов */
-        .channels-grid {
+        /* ===== Карточки участников ===== */
+        .members-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
         }
-        .channel-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 14px;
-            padding: 14px;
+        .member-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            transition: 0.2s;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .channel-card:hover {
-            border-color: rgba(236, 72, 153, 0.4);
-            background: rgba(236, 72, 153, 0.04);
-        }
-        .channel-top { display: flex; align-items: center; gap: 10px; }
-        .channel-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(255,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ff4444;
-            flex-shrink: 0;
-        }
-        .channel-name { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.3; }
-        .channel-badges { display: flex; gap: 4px; flex-wrap: wrap; }
-        .mini-badge {
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 2px 6px;
-            border-radius: 5px;
-            background: rgba(139, 92, 246, 0.15);
-            color: #a78bfa;
-        }
-        .channel-btn {
-            margin-top: auto;
-            text-align: center;
-            padding: 8px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-        .channel-btn:hover { background: linear-gradient(135deg, #ec4899, #6366f1); }
-        .hidden-channel { display: none; }
-
-        .show-more-btn {
-            display: block;
-            margin: 20px auto 0;
-            padding: 10px 24px;
-            background: transparent;
-            border: 1px solid rgba(236, 72, 153, 0.4);
-            color: #ec4899;
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            transition: 0.2s;
-        }
-        .show-more-btn:hover { background: rgba(236, 72, 153, 0.1); }
-
-        /* Discord сервера */
-        .server-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(88, 101, 242, 0.06);
-            border: 1px solid rgba(88, 101, 242, 0.2);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 10px;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .server-info { display: flex; align-items: center; gap: 12px; }
-        .server-info i { font-size: 24px; color: #5865F2; }
-        .server-icon-img {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        .server-name { font-size: 14px; font-weight: 700; color: #fff; }
-        .server-desc { font-size: 12px; color: #8b8794; }
-        .join-btn {
-            background: #5865F2;
-            color: #fff;
-            text-decoration: none;
-            padding: 9px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            white-space: nowrap;
-            transition: 0.2s;
-        }
-        .join-btn:hover { background: #4752c4; }
-
-        /* Как вступить */
-        .join-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 22px;
-        }
-        .join-note {
-            font-size: 13px;
-            color: #a8a3b0;
-            line-height: 1.7;
-            margin-bottom: 18px;
-            padding-bottom: 18px;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-        }
-        .founder-contact {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .founder-info { display: flex; align-items: center; gap: 10px; }
-        .founder-avatar {
-            width: 38px;
-            height: 38px;
+        .member-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px var(--shadow); }
+        .member-top { display: flex; align-items: center; gap: 12px; }
+        .member-avatar, .member-avatar-img {
+            width: 44px; height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ec4899, #6366f1);
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+        .member-avatar {
+            background: var(--brand);
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 14px;
-            color: #fff;
+            font-size: 18px;
         }
-        .founder-name { font-size: 14px; font-weight: 700; color: #fff; }
-        .founder-role { font-size: 11px; color: #ec4899; text-transform: uppercase; font-weight: 700; }
-        .discord-tag {
-            font-size: 12px;
-            color: #a8a3b0;
-            background: rgba(88,101,242,0.1);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: monospace;
-        }
-
-        /* Хроника */
-        .timeline {
-            position: relative;
-            margin-left: 8px;
-            border-left: 2px solid rgba(236, 72, 153, 0.15);
-            padding-left: 22px;
-        }
-        .timeline-item { position: relative; margin-bottom: 24px; }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -28px;
-            top: 4px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ec4899;
-            box-shadow: 0 0 8px rgba(236, 72, 153, 0.6);
-        }
-        .timeline-date { font-size: 11px; color: #8b8794; font-weight: 700; margin-bottom: 4px; }
-        .timeline-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-        .timeline-desc { font-size: 12px; color: #8b8794; line-height: 1.5; }
-
-        /* Быстрая навигация */
-        .quick-nav {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .quick-nav::-webkit-scrollbar { display: none; }
-        .quick-nav a {
-            flex-shrink: 0;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 100px;
-            color: #a8a3b0;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-        .quick-nav a:hover {
-            border-color: rgba(236, 72, 153, 0.4);
-            color: #fff;
-        }
-
-        /* Футер */
-        .footer {
-            text-align: center;
-            padding: 30px 0 10px;
+        .member-name { font-weight: 700; font-size: 15px; }
+        .member-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+        .tag {
             font-size: 11px;
-            color: #5c5866;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2px 10px;
+        }
+        .tag.key { color: var(--custard); border-color: var(--custard); }
+        .member-card .btn-yt { align-self: flex-start; }
+        .member-no-link { font-size: 13px; color: var(--muted); }
+        .member-card.collapsed { display: none; }
+
+        .group-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 28px 0 14px;
+        }
+        .group-title:first-of-type { margin-top: 0; }
+
+        .show-more-wrap { text-align: center; margin-top: 20px; }
+        .allies-list { color: var(--muted); font-size: 14px; }
+
+        /* ===== Серверы ===== */
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
+        }
+        .server-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .server-name { font-weight: 700; }
+        .server-type { font-size: 12px; color: var(--muted); }
+
+        /* ===== Шаги вступления ===== */
+        .steps { display: flex; flex-direction: column; gap: 14px; }
+        .step {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .step:hover { transform: translateY(-2px); box-shadow: 0 4px 14px var(--shadow); }
+        .step-num {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--brand);
+            color: #fff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .step:last-child .step-num { background: var(--custard); }
+        .step-title { font-weight: 700; margin-bottom: 4px; }
+        .step-text { font-size: 14px; color: var(--muted); }
+
+        /* ===== Почему нет формы ===== */
+        .why-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--custard);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin-bottom: 24px;
+        }
+        .why-title { font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+        .why-block p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+        .why-block p:last-child { margin-bottom: 0; }
+
+        /* ===== Контакты основателей ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .contact-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+        }
+        .contact-name { font-weight: 700; }
+        .contact-role { font-size: 12px; color: var(--custard); margin-bottom: 10px; }
+        .contact-nick-row { display: flex; gap: 8px; align-items: center; }
+        .contact-nick {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 13px;
+            color: var(--text);
+            flex: 1;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .copy-btn {
+            background: var(--brand);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            flex-shrink: 0;
+            transition: background 0.15s;
+        }
+        .copy-btn:hover { background: var(--custard); }
+
+        /* ===== Подсказка для заявки ===== */
+        .apply-hint {
+            margin-top: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+        }
+        .apply-hint ul {
+            padding-left: 20px;
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.8;
         }
 
-        [data-en] { display: none; }
-        html.lang-en [data-ru] { display: none; }
-        html.lang-en [data-en] { display: inline; }
-        html.lang-en [data-en].block-el { display: block; }
+        /* ===== О союзе / Хроника ===== */
+        .about-text p { margin-bottom: 14px; max-width: 680px; }
+        .history { border-left: 2px solid var(--border); padding-left: 20px; margin-top: 24px; }
+        .history-item { margin-bottom: 16px; }
+        .history-item:last-child { margin-bottom: 0; }
+        .history-date { font-size: 12px; color: var(--muted); }
+        .history-title { font-weight: 700; font-size: 14px; }
+
+        .join-note {
+            margin-top: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        /* ===== Подвал ===== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 24px; }
+            .header-inner { flex-wrap: wrap; }
+            nav { order: 3; width: 100%; justify-content: center; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+            html { scroll-behavior: auto; }
+        }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-
-    <div class="top-bar">
-        <div class="brand-tag">TCU / ССТ</div>
-        <div class="lang-switch">
-            <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</button>
-            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+<header>
+    <div class="header-inner">
+        <a class="logo" href="#">
+            <img class="logo-img" src="photo_2026-01-24_21-23-46-2.jpg" alt="TCU">
+            <span>ССТ</span>
+        </a>
+        <nav>
+            <a href="#about" data-i18n="nav-about">О союзе</a>
+            <a href="#members" data-i18n="nav-members">Участники</a>
+            <a href="#servers" data-i18n="nav-servers">Сервера</a>
+            <a href="#join" data-i18n="nav-join">Вступление</a>
+            <a href="#history" data-i18n="nav-history">Хроника</a>
+        </nav>
+        <div class="header-controls">
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Тема">☀️</button>
+            <div class="lang-switch">
+                <button id="lang-ru" onclick="setLang('ru')">RU</button>
+                <button id="lang-en" onclick="setLang('en')">EN</button>
+            </div>
         </div>
     </div>
+</header>
 
-    <!-- Быстрая навигация -->
-    <div class="quick-nav">
-        <a href="#about"><span data-ru>О союзе</span><span data-en>About</span></a>
-        <a href="#members"><span data-ru>Участники</span><span data-en>Members</span></a>
-        <a href="#servers"><span data-ru>Discord</span><span data-en>Discord</span></a>
-        <a href="#join"><span data-ru>Вступить</span><span data-en>Join</span></a>
-        <a href="#history"><span data-ru>Хроника</span><span data-en>History</span></a>
-    </div>
+<div class="container">
 
-    <!-- HERO -->
     <div class="hero">
-        <div class="hero-logo">
-            <img src="photo_2026-01-24_21-23-46-2.jpg" alt="ССТ" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fa-solid fa-shield-halved\'></i>'">
-        </div>
+        <img class="hero-logo" src="photo_2026-01-24_21-23-46-2.jpg" alt="Эмблема ССТ">
         <h1>Teletubby Cooperation Union</h1>
-        <div class="subtitle">
-            <span data-ru>Союз Сотрудничества Телепузиков</span>
-            <span data-en>An association of independent YouTubers</span>
+        <p data-i18n="hero-sub">Объединение независимых ютуберов по Slendytubbies и другим играм.</p>
+        <div class="cta-row">
+            <a class="btn btn-discord" href="#join" data-i18n="cta-join">Как вступить в ССТ</a>
+            <a class="btn btn-outline" href="#members" data-i18n="cta-members">Смотреть участников</a>
         </div>
-
-        <div class="cta-group">
-            <a href="#servers" class="cta-primary">
-                <i class="fa-brands fa-discord"></i>
-                <span data-ru>Выбрать Discord-сервер</span><span data-en>Choose a Discord server</span>
-            </a>
-            <a href="#members" class="cta-secondary">
-                <i class="fa-solid fa-users"></i>
-                <span data-ru>Смотреть участников</span><span data-en>Meet the members</span>
-            </a>
-        </div>
-
-        <div class="hero-stats">
-            <div class="stat-block">
-                <div class="stat-num">20</div>
-                <div class="stat-label"><span data-ru>участников</span><span data-en>members</span></div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-num">16</div>
-                <div class="stat-label"><span data-ru>каналов</span><span data-en>channels</span></div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-num">4</div>
-                <div class="stat-label"><span data-ru>сервера</span><span data-en>servers</span></div>
-            </div>
-            <div class="stat-block">
-                <div class="stat-num">2026</div>
-                <div class="stat-label"><span data-ru>основан</span><span data-en>founded</span></div>
-            </div>
+        <div class="stats">
+            <div class="stat"><div class="stat-num">20</div><div class="stat-label" data-i18n="stat-members">участников</div></div>
+            <div class="stat"><div class="stat-num">16</div><div class="stat-label" data-i18n="stat-channels">каналов</div></div>
+            <div class="stat"><div class="stat-num">4</div><div class="stat-label" data-i18n="stat-servers">сервера</div></div>
+            <div class="stat"><div class="stat-num">2026</div><div class="stat-label" data-i18n="stat-founded">год основания</div></div>
         </div>
     </div>
 
-    <!-- О СОЮЗЕ -->
-    <div class="section" id="about">
-        <div class="section-header">
-            <div class="section-icon"><i class="fa-solid fa-flag"></i></div>
-            <div class="section-title"><span data-ru>О союзе</span><span data-en>About the union</span></div>
+    <!-- 1. О СОЮЗЕ -->
+    <section id="about">
+        <div class="section-title" data-i18n="about-title">О союзе</div>
+        <div class="about-text">
+            <p data-i18n="about-p1">Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и другим играм, где каждый может обратиться за помощью, высказать мысли или найти друзей.</p>
+            <p data-i18n="about-p2">Наша цель — развитие сообщества и продвижение контента участников.</p>
         </div>
-        <p class="body-text">
-            <span data-ru>Союз Сотрудничества Телепузиков (ССТ) — объединение независимых ютуберов по тематике Slendytubbies и другим играм, где каждый может обратиться за помощью, высказать мысли или найти друзей.</span>
-            <span data-en>Teletubby Cooperation Union (TCU) is a community of independent YouTubers focused on Slendytubbies and related games, where anyone can ask for help, share ideas, or make friends.</span>
-        </p>
-        <p class="body-text">
-            <span data-ru>Наша цель — развитие сообщества, поддержка контента участников и совместный рост.</span>
-            <span data-en>Our goal is community growth, supporting our members' content, and growing together.</span>
-        </p>
-    </div>
+    </section>
 
-    <!-- КАНАЛЫ УЧАСТНИКОВ -->
-    <div class="section" id="members">
-        <div class="section-header">
-            <div class="section-icon"><i class="fa-brands fa-youtube"></i></div>
-            <div class="section-title"><span data-ru>Каналы участников</span><span data-en>Member channels</span></div>
-        </div>
-        <p class="section-desc">
-            <span data-ru>Подпишись на участников союза — так ты поддержишь комьюнити.</span>
-            <span data-en>Subscribe to union members — support the community.</span>
-        </p>
+    <!-- 2. УЧАСТНИКИ -->
+    <section id="members">
+        <div class="section-title" data-i18n="members-title">Участники союза</div>
+        <div class="section-desc" data-i18n="members-desc">Подпишись — так ты поддержишь каждого из нас.</div>
 
-        <div class="channels-grid" id="channelsGrid">
-            <div class="channel-card">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Zhenrov</div>
-                </div>
-                <div class="channel-badges">
-                    <span class="mini-badge" data-ru>Основатель</span><span class="mini-badge" data-en>Founder</span>
-                </div>
-                <a href="https://youtube.com/@zhenrov_teletubby" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Sagulik [SG]</div>
-                </div>
-                <div class="channel-badges">
-                    <span class="mini-badge" data-ru>Основатель</span><span class="mini-badge" data-en>Founder</span>
-                </div>
-                <a href="https://youtube.com/@sagulik" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Gerit [TCU]</div>
-                </div>
-                <div class="channel-badges">
-                    <span class="mini-badge" data-ru>Заместитель</span><span class="mini-badge" data-en>Deputy</span>
-                </div>
-                <a href="https://youtube.com/@gerit742" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Soldier Anims [SL]</div>
-                </div>
-                <div class="channel-badges">
-                    <span class="mini-badge" data-ru>Модератор</span><span class="mini-badge" data-en>Moderator</span>
-                </div>
-                <a href="https://youtube.com/@soldieranims" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">DezoTubby [SG]</div>
-                </div>
-                <div class="channel-badges">
-                    <span class="mini-badge" data-ru>Художник</span><span class="mini-badge" data-en>Artist</span>
-                </div>
-                <a href="https://youtube.com/@dezoniyofficial" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Terrov [TCU]</div>
-                </div>
-                <div class="channel-badges">
-                    <span class="mini-badge" data-ru>Владелец</span><span class="mini-badge" data-en>Owner</span>
-                </div>
-                <a href="https://youtube.com/@tvik_tubbie" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
+        <div class="group-title" data-i18n="group-founders">Основатели</div>
+        <div class="members-grid" id="grid-founders"></div>
 
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Ураникс</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Ютубер</span><span class="mini-badge" data-en>YouTuber</span></div>
-                <a href="https://youtube.com/@uraniks_roblox" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">ItsBOOM</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Ютубер</span><span class="mini-badge" data-en>YouTuber</span></div>
-                <a href="https://youtube.com/@itsboom223" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Zidan.official</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Ютубер</span><span class="mini-badge" data-en>YouTuber</span></div>
-                <a href="https://youtube.com/@zidan_official-stelit" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">maionezz</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Дизайнер</span><span class="mini-badge" data-en>Designer</span></div>
-                <a href="https://youtube.com/@maioonezz-f7w" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Regiturf</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Художник</span><span class="mini-badge" data-en>Artist</span></div>
-                <a href="https://youtube.com/@regiturfst" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Pe_The_Teletubby</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Ютубер</span><span class="mini-badge" data-en>YouTuber</span></div>
-                <a href="https://youtube.com/@chezabretto" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">J.C</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Ютубер</span><span class="mini-badge" data-en>YouTuber</span></div>
-                <a href="https://youtube.com/@JawCr7sher" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Linem [TCU]</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Владелец</span><span class="mini-badge" data-en>Owner</span></div>
-                <a href="https://youtube.com/@linem-0889" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
-            <div class="channel-card hidden-channel">
-                <div class="channel-top">
-                    <div class="channel-avatar"><i class="fa-brands fa-youtube"></i></div>
-                    <div class="channel-name">Emptiness [TCU]</div>
-                </div>
-                <div class="channel-badges"><span class="mini-badge" data-ru>Аниматор</span><span class="mini-badge" data-en>Animator</span></div>
-                <a href="https://youtube.com/@animationfilmssfm" target="_blank" rel="noopener" class="channel-btn"><span data-ru>Подписаться</span><span data-en>Subscribe</span></a>
-            </div>
+        <div class="group-title" data-i18n="group-team">Команда</div>
+        <div class="members-grid" id="grid-team"></div>
+
+        <div class="group-title" data-i18n="group-youtubers">Ютуберы</div>
+        <div class="members-grid" id="grid-youtubers"></div>
+
+        <div class="show-more-wrap">
+            <button class="btn btn-outline" id="showMoreBtn" onclick="toggleMembers()"></button>
         </div>
 
-        <button class="show-more-btn" id="showMoreBtn" onclick="toggleChannels()">
-            <span data-ru>Показать ещё</span><span data-en>Show more</span>
-        </button>
-    </div>
+        <div class="group-title" data-i18n="group-allies">Союзники</div>
+        <p class="allies-list">dimon · Leoknoopers · Мама Габена</p>
+    </section>
 
-    <!-- DISCORD СЕРВЕРА -->
-    <div class="section" id="servers">
-        <div class="section-header">
-            <div class="section-icon"><i class="fa-brands fa-discord"></i></div>
-            <div class="section-title"><span data-ru>Discord-сервера союза</span><span data-en>Union Discord servers</span></div>
+    <!-- 3. СЕРВЕРА -->
+    <section id="servers">
+        <div class="section-title" data-i18n="servers-title">Сервера сообщества</div>
+        <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты.</div>
+        <div class="servers-grid">
+            <div class="server-card">
+                <div class="server-name">SaguloStopol [SG]</div>
+                <div class="server-type" data-i18n="server-main">Discord · основной</div>
+                <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+            </div>
+            <div class="server-card">
+                <div class="server-name">Zhenrov Community</div>
+                <div class="server-type">Discord</div>
+                <a class="btn btn-discord" href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+            </div>
+            <div class="server-card">
+                <div class="server-name">Terrov World</div>
+                <div class="server-type">Discord</div>
+                <a class="btn btn-discord" href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+            </div>
+            <div class="server-card">
+                <div class="server-name">ЛайнемБург</div>
+                <div class="server-type">Telegram</div>
+                <a class="btn btn-outline" href="https://t.me/linemburg" target="_blank" rel="noopener" data-i18n="server-open">Открыть</a>
+            </div>
         </div>
-        <p class="section-desc">
-            <span data-ru>Официальные публичные сервера участников ССТ.</span>
-            <span data-en>Official public servers run by TCU members.</span>
-        </p>
+    </section>
 
-        <div class="server-card">
-            <div class="server-info">
-                <img src="flagnew-1.jpg" alt="SG" class="server-icon-img" onerror="this.outerHTML='<i class=\'fa-brands fa-discord\'></i>'">
+    <!-- 4. КАК ВСТУПИТЬ -->
+    <section id="join">
+        <div class="section-title" data-i18n="join-sec-title">Как вступить в ССТ</div>
+        <div class="section-desc" data-i18n="join-sec-desc">Заявки принимают лично основатели союза. Никаких форм и анкет.</div>
+
+        <div class="why-block">
+            <div class="why-title" data-i18n="why-title">Почему нет формы?</div>
+            <p data-i18n="why-p1">Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.</p>
+            <p data-i18n="why-p2">Поэтому заявка в ССТ — это не анкета, а диалог с основателем.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
                 <div>
-                    <div class="server-name">SaguloStopol [SG]</div>
-                    <div class="server-desc" data-ru>Сервер Sagulik</div>
-                    <div class="server-desc" data-en>Sagulik's server</div>
+                    <div class="step-title" data-i18n="step1-title">Познакомься с союзом</div>
+                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.</div>
                 </div>
             </div>
-            <a href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" class="join-btn"><span data-ru>Вступить</span><span data-en>Join</span></a>
-        </div>
-
-        <div class="server-card">
-            <div class="server-info">
-                <i class="fa-brands fa-discord"></i>
+            <div class="step">
+                <div class="step-num">2</div>
                 <div>
-                    <div class="server-name">Zhenrov Community</div>
-                    <div class="server-desc" data-ru>Сервер Zhenrov</div>
-                    <div class="server-desc" data-en>Zhenrov's server</div>
+                    <div class="step-title" data-i18n="step2-title">Напиши заявку основателю</div>
+                    <div class="step-text" data-i18n="step2-text">В личные сообщения Discord или прямо на серверах сообщества. Контакты — ниже.</div>
                 </div>
             </div>
-            <a href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener" class="join-btn"><span data-ru>Вступить</span><span data-en>Join</span></a>
-        </div>
-
-        <div class="server-card">
-            <div class="server-info">
-                <i class="fa-brands fa-discord"></i>
+            <div class="step">
+                <div class="step-num">3</div>
                 <div>
-                    <div class="server-name">Terrov World</div>
-                    <div class="server-desc" data-ru>Сервер Terrov</div>
-                    <div class="server-desc" data-en>Terrov's server</div>
-                </div>
-            </div>
-            <a href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" class="join-btn"><span data-ru>Вступить</span><span data-en>Join</span></a>
-        </div>
-    </div>
-
-    <!-- КАК ВСТУПИТЬ -->
-    <div class="section" id="join">
-        <div class="section-header">
-            <div class="section-icon"><i class="fa-solid fa-door-open"></i></div>
-            <div class="section-title"><span data-ru>Как вступить в ССТ</span><span data-en>How to join TCU</span></div>
-        </div>
-
-        <div class="join-box">
-            <div class="join-note">
-                <span data-ru>Приём заявок ведут лично основатели союза — так мы можем познакомиться с каждым кандидатом напрямую. Напишите в личные сообщения одному из них в Discord либо на одном из официальных серверов союза выше.</span>
-                <span data-en>Applications are handled personally by the union's founders — this way we can get to know every candidate directly. Message one of them on Discord, or reach out on one of the official servers listed above.</span>
-            </div>
-
-            <div class="founder-contact">
-                <div class="founder-info">
-                    <div class="founder-avatar">S</div>
-                    <div>
-                        <div class="founder-name">Sagulik [SG]</div>
-                        <div class="founder-role"><span data-ru>Основатель</span><span data-en>Founder</span></div>
-                    </div>
-                </div>
-                <div class="discord-tag">@sagulik.</div>
-            </div>
-
-            <div class="founder-contact">
-                <div class="founder-info">
-                    <div class="founder-avatar">Z</div>
-                    <div>
-                        <div class="founder-name">Zhenrov</div>
-                        <div class="founder-role"><span data-ru>Основатель</span><span data-en>Founder</span></div>
-                    </div>
-                </div>
-                <div class="discord-tag">@zhenrov_teletubby28</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ХРОНИКА -->
-    <div class="section" id="history">
-        <div class="section-header">
-            <div class="section-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-            <div class="section-title"><span data-ru>Хроника</span><span data-en>Timeline</span></div>
-        </div>
-
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-date">2026/07/25</div>
-                <div class="timeline-title"><span data-ru>20 участников</span><span data-en>20 members</span></div>
-                <div class="timeline-desc">
-                    <span data-ru>ССТ достиг отметки в 20 активных участников.</span>
-                    <span data-en>TCU reached 20 active members.</span>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">2026/07/10</div>
-                <div class="timeline-title"><span data-ru>Сервер Terrov World</span><span data-en>Terrov World server</span></div>
-                <div class="timeline-desc">
-                    <span data-ru>Terrov [TCU] создал официальный сервер и присоединился к союзу.</span>
-                    <span data-en>Terrov [TCU] created an official server and joined the union.</span>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">2026/06/13</div>
-                <div class="timeline-title"><span data-ru>Завершение конфликта</span><span data-en>Conflict resolved</span></div>
-                <div class="timeline-desc">
-                    <span data-ru>Завершён долгий конфликт между SaguloStopol и оппозиционными силами.</span>
-                    <span data-en>A long-standing conflict between SaguloStopol and opposing forces was resolved.</span>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">2026/04/15</div>
-                <div class="timeline-title"><span data-ru>Расширение союза</span><span data-en>Union expansion</span></div>
-                <div class="timeline-desc">
-                    <span data-ru>Массовый набор новых участников в апреле 2026.</span>
-                    <span data-en>A wave of new members joined in April 2026.</span>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-date">2026/01/26</div>
-                <div class="timeline-title"><span data-ru>Основание ССТ</span><span data-en>TCU founded</span></div>
-                <div class="timeline-desc">
-                    <span data-ru>Sagulik [SG] и Zhenrov основали Союз Сотрудничества Телепузиков.</span>
-                    <span data-en>Sagulik [SG] and Zhenrov founded the Teletubby Cooperation Union.</span>
+                    <div class="step-title" data-i18n="step3-title">Дождись решения</div>
+                    <div class="step-text" data-i18n="step3-text">Основатели рассматривают каждую заявку лично и отвечают сами.</div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="footer">TCU / ССТ © 2026</div>
+        <div class="group-title" data-i18n="contact-title">Контакты основателей</div>
+        <div class="section-desc" data-i18n="contact-desc">Discord · нажми «Копировать» и вставь ник в поиске пользователей</div>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-name">Sagulik [SG]</div>
+                <div class="contact-role" data-i18n="contact-founder">Основатель TCU</div>
+                <div class="contact-nick-row">
+                    <code class="contact-nick">sagulik.</code>
+                    <button class="copy-btn" onclick="copyNick(this, 'sagulik.')" data-i18n="copy">Копировать</button>
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-name">Zhenrov</div>
+                <div class="contact-role" data-i18n="contact-founder">Основатель TCU</div>
+                <div class="contact-nick-row">
+                    <code class="contact-nick">zhenrov_teletubby28</code>
+                    <button class="copy-btn" onclick="copyNick(this, 'zhenrov_teletubby28')" data-i18n="copy">Копировать</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="apply-hint">
+            <div class="why-title" data-i18n="hint-title">Что указать в сообщении:</div>
+            <ul>
+                <li data-i18n="hint-1">Твой ник и ссылка на канал, если он есть</li>
+                <li data-i18n="hint-2">Чем занимаешься: видео, арт, анимация, модели…</li>
+                <li data-i18n="hint-3">Почему хочешь вступить в союз</li>
+            </ul>
+        </div>
+
+        <div class="join-note">
+            <span data-i18n="join-warning">Заявки принимают только основатели. Сообщения другим участникам заявками не считаются.</span>
+        </div>
+    </section>
+
+    <!-- 5. ХРОНИКА -->
+    <section id="history">
+        <div class="section-title" data-i18n="history-title">Хроника</div>
+        <div class="history">
+            <div class="history-item">
+                <div class="history-date" data-i18n="h1-date">Январь 2026</div>
+                <div class="history-title" data-i18n="h1-title">Основание ССТ — Sagulik и Zhenrov</div>
+            </div>
+            <div class="history-item">
+                <div class="history-date" data-i18n="h2-date">Апрель 2026</div>
+                <div class="history-title" data-i18n="h2-title">Массовое расширение — присоединились 9 участников</div>
+            </div>
+            <div class="history-item">
+                <div class="history-date" data-i18n="h3-date">Июнь 2026</div>
+                <div class="history-title" data-i18n="h3-title">Завершение конфликта СГ vs Анти-СГ — мир</div>
+            </div>
+            <div class="history-item">
+                <div class="history-date" data-i18n="h4-date">Июль 2026</div>
+                <div class="history-title" data-i18n="h4-title">20 участников, 4 сервера, запуск нового сайта</div>
+            </div>
+        </div>
+    </section>
 
 </div>
 
+<footer>
+    <div class="container">
+        TCU / ССТ · zhenyae.github.io · <span data-i18n="footer-note">Официальный сайт союза</span>
+    </div>
+</footer>
+
 <script>
-    function toggleChannels() {
-        const hidden = document.querySelectorAll('.hidden-channel');
-        const btn = document.getElementById('showMoreBtn');
-        const isHidden = getComputedStyle(hidden[0]).display === 'none';
+    // ===== ДАННЫЕ УЧАСТНИКОВ =====
+    // Добавить человека = добавить строку. img — необязательно.
+    const MEMBERS = {
+        founders: [
+            { name: 'Sagulik [SG]', tags: ['founder', 'youtuber'], link: 'https://youtube.com/@sagulik', img: 'flagnew-1.jpg' },
+            // ВНИМАНИЕ: для Женрова файл называется logo-zk.png — назови его файл так же или поправь здесь:
+            { name: 'Zhenrov',      tags: ['founder', 'youtuber'], link: 'https://youtube.com/@zhenrov_teletubby', img: 'logo-zk.png' },
+        ],
+        team: [
+            { name: 'Gerit',              tags: ['deputy', 'artist'],      link: 'https://youtube.com/@gerit742' },
+            { name: 'Barricade228 [SG]',  tags: ['admin'],                 link: null },
+            { name: 'Soldier Anims [SL]', tags: ['moderator', 'youtuber'], link: 'https://youtube.com/@soldieranims' },
+            { name: 'Emptiness',          tags: ['moderator', 'animator'], link: 'https://youtube.com/@animationfilmssfm' },
+        ],
+        youtubers: [
+            { name: 'DezoTubby [SG]',      tags: ['artist'],   link: 'https://youtube.com/@dezoniyofficial' },
+            { name: 'Terrov',              tags: ['owner', 'designer'], link: 'https://youtube.com/@tvik_tubbie' },
+            { name: 'Linem',               tags: ['owner', 'artist'],   link: 'https://youtube.com/@linem-0889' },
+            { name: 'maionezz',            tags: ['designer'], link: 'https://youtube.com/@maioonezz-f7w' },
+            { name: 'Regiturf',            tags: ['artist'],   link: 'https://youtube.com/@regiturfst' },
+            { name: 'Ураникс / UraniksRB', tags: ['youtuber'], link: 'https://youtube.com/@uraniks_roblox' },
+            { name: 'ItsBOOM',             tags: ['youtuber'], link: 'https://youtube.com/@itsboom223' },
+            { name: 'Zidan.official',      tags: ['youtuber'], link: 'https://youtube.com/@zidan_official-stelit' },
+            { name: 'Pe_The_Teletubby',    tags: ['youtuber'], link: 'https://youtube.com/@chezabretto' },
+            { name: 'J.C',                 tags: ['youtuber'], link: 'https://youtube.com/@JawCr7sher' },
+        ],
+    };
 
-        hidden.forEach(el => { el.style.display = isHidden ? 'flex' : 'none'; });
+    const VISIBLE_YOUTUBERS = 4;
+    let membersExpanded = false;
+    let currentLang = 'ru';
 
-        const isEn = document.documentElement.classList.contains('lang-en');
-        if (isHidden) {
-            btn.innerHTML = isEn ? '<span data-en>Show less</span>' : '<span data-ru>Скрыть</span>';
+    // ===== ПЕРЕВОДЫ =====
+    const I18N = {
+        ru: {
+            'nav-about': 'О союзе', 'nav-members': 'Участники', 'nav-servers': 'Сервера', 'nav-join': 'Вступление', 'nav-history': 'Хроника',
+            'hero-sub': 'Объединение независимых ютуберов по Slendytubbies и другим играм.',
+            'cta-join': 'Как вступить в ССТ', 'cta-members': 'Смотреть участников',
+            'stat-members': 'участников', 'stat-channels': 'каналов', 'stat-servers': 'сервера', 'stat-founded': 'год основания',
+            'about-title': 'О союзе',
+            'about-p1': 'Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и другим играм, где каждый может обратиться за помощью, высказать мысли или найти друзей.',
+            'about-p2': 'Наша цель — развитие сообщества и продвижение контента участников.',
+            'members-title': 'Участники союза', 'members-desc': 'Подпишись — так ты поддержишь каждого из нас.',
+            'group-founders': 'Основатели', 'group-team': 'Команда', 'group-youtubers': 'Ютуберы', 'group-allies': 'Союзники',
+            'subscribe': 'Подписаться', 'no-channel': 'Без канала',
+            'show-more': 'Показать ещё', 'show-less': 'Свернуть',
+            'servers-title': 'Сервера сообщества', 'servers-desc': 'Здесь живёт союз: общение, новости, совместные проекты.',
+            'server-main': 'Discord · основной', 'server-join': 'Войти', 'server-open': 'Открыть',
+            'join-sec-title': 'Как вступить в ССТ',
+            'join-sec-desc': 'Заявки принимают лично основатели союза. Никаких форм и анкет.',
+            'why-title': 'Почему нет формы?',
+            'why-p1': 'Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.',
+            'why-p2': 'Поэтому заявка в ССТ — это не анкета, а диалог с основателем.',
+            'step1-title': 'Познакомься с союзом',
+            'step1-text': 'Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.',
+            'step2-title': 'Напиши заявку основателю',
+            'step2-text': 'В личные сообщения Discord или прямо на серверах сообщества. Контакты — ниже.',
+            'step3-title': 'Дождись решения',
+            'step3-text': 'Основатели рассматривают каждую заявку лично и отвечают сами.',
+            'contact-title': 'Контакты основателей',
+            'contact-desc': 'Discord · нажми «Копировать» и вставь ник в поиске пользователей',
+            'contact-founder': 'Основатель TCU',
+            'copy': 'Копировать', 'copied': 'Скопировано!',
+            'hint-title': 'Что указать в сообщении:',
+            'hint-1': 'Твой ник и ссылка на канал, если он есть',
+            'hint-2': 'Чем занимаешься: видео, арт, анимация, модели…',
+            'hint-3': 'Почему хочешь вступить в союз',
+            'join-warning': 'Заявки принимают только основатели. Сообщения другим участникам заявками не считаются.',
+            'history-title': 'Хроника',
+            'h1-date': 'Январь 2026', 'h1-title': 'Основание ССТ — Sagulik и Zhenrov',
+            'h2-date': 'Апрель 2026', 'h2-title': 'Массовое расширение — присоединились 9 участников',
+            'h3-date': 'Июнь 2026', 'h3-title': 'Завершение конфликта СГ vs Анти-СГ — мир',
+            'h4-date': 'Июль 2026', 'h4-title': '20 участников, 4 сервера, запуск нового сайта',
+            'footer-note': 'Официальный сайт союза',
+        },
+        en: {
+            'nav-about': 'About', 'nav-members': 'Members', 'nav-servers': 'Servers', 'nav-join': 'Join', 'nav-history': 'History',
+            'hero-sub': 'An association of independent YouTubers creating Slendytubbies and other game content.',
+            'cta-join': 'How to join TCU', 'cta-members': 'Meet the members',
+            'stat-members': 'members', 'stat-channels': 'channels', 'stat-servers': 'servers', 'stat-founded': 'founded',
+            'about-title': 'About the Union',
+            'about-p1': 'The Teletubby Cooperation Union (TCU) is an association of independent YouTubers focused on Slendytubbies and other games, where everyone can ask for help, share ideas, or find friends.',
+            'about-p2': 'Our goal is to grow the community and promote our members\' content.',
+            'members-title': 'Union Members', 'members-desc': 'Subscribe — that\'s how you support each of us.',
+            'group-founders': 'Founders', 'group-team': 'Team', 'group-youtubers': 'YouTubers', 'group-allies': 'Allies',
+            'subscribe': 'Subscribe', 'no-channel': 'No channel',
+            'show-more': 'Show more', 'show-less': 'Show less',
+            'servers-title': 'Community Servers', 'servers-desc': 'Where the union lives: chat, news, joint projects.',
+            'server-main': 'Discord · main', 'server-join': 'Join', 'server-open': 'Open',
+            'join-sec-title': 'How to Join TCU',
+            'join-sec-desc': 'Applications are reviewed personally by the founders. No forms, no questionnaires.',
+            'why-title': 'Why no form?',
+            'why-p1': 'A form goes into the void and only tells us what a person wants us to see. A direct message is an instant conversation: we see how you communicate and can ask questions.',
+            'why-p2': 'That\'s why a TCU application is not a questionnaire — it\'s a dialogue with a founder.',
+            'step1-title': 'Get to know the union',
+            'step1-text': 'Check out the members\' channels and stop by the community servers — see if this place is right for you.',
+            'step2-title': 'Send your application to a founder',
+            'step2-text': 'Via Discord DMs or right on the community servers. Contacts are below.',
+            'step3-title': 'Wait for the decision',
+            'step3-text': 'The founders review every application personally and reply themselves.',
+            'contact-title': 'Founder contacts',
+            'contact-desc': 'Discord · hit "Copy" and paste the username into the user search',
+            'contact-founder': 'TCU Founder',
+            'copy': 'Copy', 'copied': 'Copied!',
+            'hint-title': 'What to include in your message:',
+            'hint-1': 'Your nickname and a link to your channel, if you have one',
+            'hint-2': 'What you do: videos, art, animation, models…',
+            'hint-3': 'Why you want to join the union',
+            'join-warning': 'Only the founders accept applications. Messages to other members do not count as applications.',
+            'history-title': 'History',
+            'h1-date': 'January 2026', 'h1-title': 'TCU founded by Sagulik and Zhenrov',
+            'h2-date': 'April 2026', 'h2-title': 'Major expansion — 9 new members joined',
+            'h3-date': 'June 2026', 'h3-title': 'SG vs Anti-SG conflict ends — peace',
+            'h4-date': 'July 2026', 'h4-title': '20 members, 4 servers, new website launched',
+            'footer-note': 'Official union website',
+        },
+    };
+
+    const TAGS = {
+        ru: { founder: 'Основатель', youtuber: 'Ютубер', deputy: 'Заместитель', admin: 'Администратор', moderator: 'Модератор', artist: 'Художник', designer: 'Дизайнер', animator: 'Аниматор', owner: 'Владелец сервера' },
+        en: { founder: 'Founder', youtuber: 'YouTuber', deputy: 'Deputy', admin: 'Administrator', moderator: 'Moderator', artist: 'Artist', designer: 'Designer', animator: 'Animator', owner: 'Server owner' },
+    };
+    const KEY_TAGS = ['founder'];
+
+    // ===== ТЕМА =====
+    function applyTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        localStorage.setItem('tcu-theme', theme);
+        document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.content = theme === 'dark' ? '#0e1017' : '#f7f7f8';
+    }
+
+    function toggleTheme() {
+        const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+        applyTheme(current === 'dark' ? 'light' : 'dark');
+    }
+
+    // ===== РЕНДЕР УЧАСТНИКОВ =====
+    function memberCard(m, hidden) {
+        const avatar = m.img
+            ? `<img class="member-avatar-img" src="${m.img}" alt="" loading="lazy">`
+            : `<div class="member-avatar">${m.name.charAt(0)}</div>`;
+        const tags = m.tags.map(t =>
+            `<span class="tag${KEY_TAGS.includes(t) ? ' key' : ''}">${TAGS[currentLang][t] || t}</span>`
+        ).join('');
+        const action = m.link
+            ? `<a class="btn btn-yt" href="${m.link}?sub_confirmation=1" target="_blank" rel="noopener">${I18N[currentLang]['subscribe']}</a>`
+            : `<span class="member-no-link">${I18N[currentLang]['no-channel']}</span>`;
+        return `
+            <div class="member-card${hidden ? ' collapsed' : ''}">
+                <div class="member-top">
+                    ${avatar}
+                    <div>
+                        <div class="member-name">${m.name}</div>
+                        <div class="member-tags">${tags}</div>
+                    </div>
+                </div>
+                ${action}
+            </div>`;
+    }
+
+    function renderMembers() {
+        document.getElementById('grid-founders').innerHTML =
+            MEMBERS.founders.map(m => memberCard(m, false)).join('');
+        document.getElementById('grid-team').innerHTML =
+            MEMBERS.team.map(m => memberCard(m, false)).join('');
+        document.getElementById('grid-youtubers').innerHTML =
+            MEMBERS.youtubers.map((m, i) => memberCard(m, i >= VISIBLE_YOUTUBERS && !membersExpanded)).join('');
+        document.getElementById('showMoreBtn').textContent =
+            membersExpanded ? I18N[currentLang]['show-less'] : I18N[currentLang]['show-more'];
+    }
+
+    function toggleMembers() {
+        membersExpanded = !membersExpanded;
+        renderMembers();
+    }
+
+    // ===== ЯЗЫК =====
+    function setLang(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        localStorage.setItem('tcu-lang', lang);
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const text = I18N[lang][el.dataset.i18n];
+            if (text) el.textContent = text;
+        });
+        document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        renderMembers();
+    }
+
+    // ===== КОПИРОВАНИЕ НИКА =====
+    function copyNick(btn, nick) {
+        const done = () => {
+            const orig = btn.textContent;
+            btn.textContent = I18N[currentLang]['copied'];
+            setTimeout(() => { btn.textContent = orig; }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(nick).then(done).catch(() => fallbackCopy(nick, done));
         } else {
-            btn.innerHTML = isEn ? '<span data-en>Show more</span>' : '<span data-ru>Показать ещё</span>';
+            fallbackCopy(nick, done);
         }
     }
 
-    function setLang(lang) {
-        document.documentElement.classList.toggle('lang-en', lang === 'en');
-        document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        localStorage.setItem('tcu_lang', lang);
+    function fallbackCopy(text, done) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        ta.remove();
     }
 
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', () => {
-        const savedLang = localStorage.getItem('tcu_lang') || 'ru';
-        setLang(savedLang);
+        const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+        document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+
+        const saved = localStorage.getItem('tcu-lang');
+        const browserLang = navigator.language && navigator.language.startsWith('ru') ? 'ru' : 'en';
+        setLang(saved || browserLang || 'ru');
     });
 </script>
 </body>
-    </html>
+</html>
