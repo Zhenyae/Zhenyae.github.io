@@ -3,1463 +3,773 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TCU / ССТ — Teletubby Cooperation Union</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>TCU — Союз Сотрудничества Телепузиков</title>
+    <meta name="description" content="TCU (ССТ) — объединение независимых ютуберов по Slendytubbies и другим играм. Каналы участников, серверы сообщества, информация о союзе.">
+    <link rel="icon" href="favicon.png" type="image/png">
 
-    <!-- Патриотические звуки -->
-    <audio id="anthemSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
-    <audio id="alarmSound" src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-tone-996.mp3" preload="auto"></audio>
+    <!-- Превью в Discord / Telegram -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TCU — Союз Сотрудничества Телепузиков">
+    <meta property="og:description" content="Объединение независимых ютуберов по Slendytubbies. Каналы участников, серверы сообщества.">
+    <meta property="og:url" content="https://zhenyae.github.io/">
+    <meta property="og:image" content="https://zhenyae.github.io/preview.png">
+    <meta name="theme-color" content="#2f3fd6">
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'JetBrains Mono', monospace; }
-        body { background-color: #05070a; background-image: linear-gradient(rgba(18,24,38,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(18,24,38,0.4) 1px, transparent 1px); background-size: 20px 20px; color: #d1d5db; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        :root {
+            --brand: #2f3fd6;
+            --custard: #e7548a;
+            --discord: #5865F2;
+            --youtube: #c4302b;
 
-        body.crt::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 4px);
-            pointer-events: none;
-            z-index: 9998;
-        }
-        body.crt::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%);
-            pointer-events: none;
-            z-index: 9998;
-        }
-        .crt-flicker {
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.02);
-            pointer-events: none;
-            z-index: 9997;
-            animation: screenFlicker 0.18s infinite;
-        }
-        @keyframes screenFlicker {
-            0% { opacity: 0.02; }
-            50% { opacity: 0; }
-            100% { opacity: 0.04; }
+            --bg: #f7f7f8;
+            --surface: #ffffff;
+            --text: #1c1e21;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --radius: 12px;
         }
 
-        .terminal-panel {
-            max-width: 700px;
-            width: 100%;
-            background: #0a0e14;
-            border: 2px solid #ef4444;
-            box-shadow: 0 0 25px rgba(239, 68, 68, 0.15);
-            padding: 25px;
-            position: relative;
-            z-index: 2;
-        }
-        .terminal-panel::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            width: 20px;
-            height: 20px;
-            border-top: 4px solid #ef4444;
-            border-left: 4px solid #ef4444;
-        }
-        .terminal-panel::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            right: -2px;
-            width: 20px;
-            height: 20px;
-            border-bottom: 4px solid #ef4444;
-            border-right: 4px solid #ef4444;
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #141518;
+                --surface: #1e2025;
+                --text: #e8eaed;
+                --muted: #9aa0a6;
+                --border: #2e3138;
+            }
         }
 
-        .brand-header {
-            text-align: left;
-            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .logo-frame {
-            width: 85px;
-            height: 85px;
-            min-width: 85px;
-            border: 2px solid #ef4444;
-            padding: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #05070a;
-        }
-        .logo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        h1 {
-            font-size: 22px;
-            font-weight: 800;
-            color: #fff;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-            min-height: 24px;
-        }
-        .subtitle {
-            font-size: 13px;
-            color: #ef4444;
-            margin-top: 3px;
-            font-weight: 700;
-            min-height: 16px;
-        }
-        .system-status {
-            font-size: 11px;
-            color: #64748b;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .system-status .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .nav-system {
-            display: flex;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            margin-bottom: 20px;
-            background: #05070a;
-        }
-        .nav-btn {
-            flex: 1;
-            padding: 12px 8px;
-            background: transparent;
-            border: none;
-            color: #64748b;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            text-align: center;
-            font-family: inherit;
-            transition: 0.2s;
-        }
-        .nav-btn:hover {
-            color: #fff;
-            background: rgba(239, 68, 68, 0.05);
-        }
-        .nav-btn.active {
-            background: #ef4444;
-            color: #05070a;
-        }
+        html { scroll-behavior: smooth; }
 
-        .section-block {
-            display: none;
-        }
-        .section-block.active {
-            display: block;
-        }
-        .section-title {
-            font-size: 15px;
-            font-weight: 800;
-            color: #ef4444;
-            text-transform: uppercase;
-            border-left: 3px solid #ef4444;
-            padding-left: 10px;
-            margin: 25px 0 15px;
-        }
-        .section-desc {
-            font-size: 13px;
-            color: #64748b;
-            margin-bottom: 15px;
-        }
-        p {
-            color: #9ca3af;
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: justify;
-            min-height: 1em;
         }
 
-        .founders-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .commander-card {
-            flex: 1;
-            min-width: 150px;
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px;
-            text-align: center;
-        }
-        .commander-name {
-            font-weight: 700;
-            color: #fff;
-            font-size: 14px;
-        }
-        .commander-rank {
-            font-size: 11px;
-            color: #ef4444;
-            margin-top: 2px;
-            text-transform: uppercase;
-        }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
-        .data-row {
+        /* ===== Шапка ===== */
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .header-inner {
             display: flex;
+            align-items: center;
             justify-content: space-between;
+            gap: 16px;
+            padding: 14px 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
-            font-size: 14px;
             gap: 10px;
-            flex-wrap: wrap;
-        }
-        .data-row a {
-            color: #fff;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .data-row a:hover {
-            color: #ef4444;
-            text-decoration: underline;
-        }
-        .data-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #fff;
-        }
-        .badges-group {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-        .status-badge {
-            font-size: 11px;
+            color: var(--text);
             font-weight: 700;
-            text-transform: uppercase;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            padding: 2px 8px;
-            background: rgba(239, 68, 68, 0.05);
-            white-space: nowrap;
-            color: #ef4444;
-        }
-        .status-badge.verified {
-            color: #3b82f6;
-            border-color: rgba(59, 130, 246, 0.4);
-            background: rgba(59, 130, 246, 0.05);
-        }
-        .status-badge.founder {
-            color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.6);
-            background: rgba(239, 68, 68, 0.1);
-            box-shadow: 0 0 8px rgba(239, 68, 68, 0.2);
-        }
-        .status-badge.leader {
-            color: #dc2626;
-            border-color: rgba(220, 38, 38, 0.5);
-            background: rgba(220, 38, 38, 0.08);
-            box-shadow: 0 0 6px rgba(220, 38, 38, 0.2);
-        }
-        .status-badge.deputy {
-            color: #f97316;
-            border-color: rgba(249, 115, 22, 0.5);
-            background: rgba(249, 115, 22, 0.08);
-            box-shadow: 0 0 6px rgba(249, 115, 22, 0.15);
-        }
-        .status-badge.admin {
-            color: #8b5cf6;
-            border-color: rgba(139, 92, 246, 0.5);
-            background: rgba(139, 92, 246, 0.08);
-            box-shadow: 0 0 6px rgba(139, 92, 246, 0.2);
-        }
-        .status-badge.moderator {
-            color: #eab308;
-            border-color: rgba(234, 179, 8, 0.4);
-            background: rgba(234, 179, 8, 0.05);
-        }
-        .status-badge.owner {
-            color: #14b8a6;
-            border-color: rgba(20, 184, 166, 0.4);
-            background: rgba(20, 184, 166, 0.05);
-        }
-        .status-badge.artist {
-            color: #ec4899;
-            border-color: rgba(236, 72, 153, 0.4);
-            background: rgba(236, 72, 153, 0.05);
-        }
-        .status-badge.animator {
-            color: #a855f7;
-            border-color: rgba(168, 85, 247, 0.4);
-            background: rgba(168, 85, 247, 0.05);
-        }
-        .status-badge.ally {
-            color: #94a3b8;
-            border-color: rgba(148, 163, 184, 0.4);
-            background: rgba(148, 163, 184, 0.05);
-        }
-
-        .enemy-reason {
-            font-size: 12px;
-            color: #64748b;
-            margin: 0 0 15px 0;
-            padding: 5px 0 5px 10px;
-            border-left: 2px solid rgba(239, 68, 68, 0.2);
-        }
-        .merit-note {
-            font-size: 12px;
-            color: #22c55e;
-            margin: 0 0 15px 0;
-            padding: 5px 0 5px 10px;
-            border-left: 2px solid rgba(34, 197, 94, 0.4);
-            font-style: italic;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group label {
-            display: block;
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            background: #05070a;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            font-family: inherit;
-        }
-        input:focus, textarea:focus {
-            border-color: #ef4444;
-        }
-        .char-counter {
-            font-size: 11px;
-            color: #64748b;
-            text-align: right;
-            margin-top: 3px;
-        }
-        .terminal-btn {
-            width: 100%;
-            padding: 14px;
-            background: transparent;
-            border: 2px solid #ef4444;
-            color: #ef4444;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: inherit;
-        }
-        .terminal-btn:hover:not(.disabled) {
-            background: #ef4444;
-            color: #05070a;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-        }
-        .terminal-btn.disabled {
-            background: rgba(100, 116, 139, 0.2) !important;
-            color: #9ca3af !important;
-            cursor: not-allowed;
-            border-color: #64748b;
-        }
-        .form-msg {
-            margin-top: 15px;
-            padding: 12px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            display: none;
-        }
-        .form-msg.success {
-            display: block;
-            color: #22c55e;
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            background: rgba(34, 197, 94, 0.05);
-        }
-        .form-msg.error {
-            display: block;
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            background: rgba(239, 68, 68, 0.05);
-        }
-        .form-msg.info {
-            display: block;
-            color: #eab308;
-            border: 1px solid rgba(234, 179, 8, 0.4);
-            background: rgba(234, 179, 8, 0.05);
-        }
-        .cooldown-timer {
-            text-align: center;
-            padding: 15px;
-            background: rgba(234, 179, 8, 0.05);
-            border: 1px solid rgba(234, 179, 8, 0.3);
-            margin-bottom: 15px;
-            font-size: 13px;
-            color: #eab308;
-        }
-        .cooldown-timer strong {
-            display: block;
-            font-size: 20px;
-            margin-top: 5px;
-            color: #fff;
-        }
-
-        .legend-block {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 8px;
-            margin-top: 15px;
-        }
-        .legend-item {
-            font-size: 11px;
-            padding: 4px 8px;
-            border: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
             flex-shrink: 0;
         }
+        .logo-img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+        nav { display: flex; gap: 18px; flex-wrap: wrap; }
+        nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+        nav a:hover { color: var(--text); }
 
-        .chronicle-timeline {
-            position: relative;
-            margin-left: 10px;
-            border-left: 1px solid rgba(239,68,68,0.15);
-            padding-left: 22px;
-        }
-        .chronicle-item {
-            position: relative;
-            margin-bottom: 28px;
-        }
-        .chronicle-item::before {
-            content: '';
-            position: absolute;
-            left: -28px;
-            top: 3px;
-            width: 11px;
-            height: 11px;
-            background: #0a0e14;
-            border: 2px solid #ef4444;
-            border-radius: 50%;
-        }
-        .chronicle-item.foundation::before {
-            background: #ef4444;
-            box-shadow: 0 0 8px #ef4444;
-        }
-        .chronicle-item.war::before {
-            border-color: #f97316;
-            box-shadow: 0 0 6px rgba(249,115,22,0.4);
-        }
-        .chronicle-item.betrayal::before {
-            border-color: #dc2626;
-            background: #dc2626;
-        }
-        .chronicle-item.milestone::before {
-            background: #22c55e;
-            border-color: #22c55e;
-            box-shadow: 0 0 8px #22c55e;
-        }
-        .chronicle-item.expansion::before {
-            border-color: #3b82f6;
-        }
-        .chronicle-date {
-            font-size: 11px;
-            color: #94a3b8;
+        .lang-switch {
             display: flex;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 4px;
-            flex-wrap: wrap;
-        }
-        .chronicle-tag {
-            font-size: 10px;
-            padding: 2px 6px;
-            border: 1px solid;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-        .tag-found {
-            color: #ef4444;
-            border-color: rgba(239,68,68,0.4);
-            background: rgba(239,68,68,0.08);
-        }
-        .tag-war {
-            color: #f97316;
-            border-color: rgba(249,115,22,0.4);
-            background: rgba(249,115,22,0.08);
-        }
-        .tag-betrayal {
-            color: #dc2626;
-            border-color: rgba(220,38,38,0.4);
-            background: rgba(220,38,38,0.08);
-        }
-        .tag-mile {
-            color: #22c55e;
-            border-color: rgba(34,197,94,0.4);
-            background: rgba(34,197,94,0.08);
-        }
-        .tag-exp {
-            color: #3b82f6;
-            border-color: rgba(59,130,246,0.4);
-            background: rgba(59,130,246,0.08);
-        }
-        .chronicle-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-        .chronicle-desc {
-            font-size: 12px;
-            color: #9ca3af;
-            line-height: 1.5;
-        }
-
-        .shame-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .shame-meme {
-            background: rgba(220, 38, 38, 0.1);
-            border: 2px solid rgba(220, 38, 38, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-        }
-        .shame-meme:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
-        }
-        .shame-meme img {
-            width: 100%;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-        .shame-meme .meme-nick {
-            font-weight: bold;
-            color: #ef4444;
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        .shame-meme .meme-text {
-            font-size: 14px;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-        .shame-meme .meme-date {
-            font-size: 11px;
-            color: #64748b;
-        }
-        .shame-meme .meme-likes {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.7);
-            padding: 5px 10px;
+            border: 1px solid var(--border);
             border-radius: 20px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .lang-switch button {
+            border: none;
+            background: transparent;
+            color: var(--muted);
             font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
             cursor: pointer;
+            font-family: inherit;
         }
-        .shame-meme.patriotic {
-            background: linear-gradient(135deg, rgba(239,68,68,0.2) 0%, rgba(0,57,166,0.2) 100%);
-        }
-        .shame-meme.patriotic::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50px;
-            height: 30px;
-            background: linear-gradient(to bottom, #ef4444 33%, #ffffff 33%, #ffffff 66%, #0039a6 66%);
-            opacity: 0.7;
-        }
+        .lang-switch button.active { background: var(--brand); color: #fff; }
 
-        .flag-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10000;
-            pointer-events: none;
-            display: none;
-            background: rgba(0,0,0,0.3);
+        /* ===== Герой ===== */
+        .hero { padding: 56px 0 40px; text-align: center; }
+        .hero-logo {
+            width: 120px; height: 120px;
+            border-radius: 24px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(47, 63, 214, 0.3);
         }
-        .flag {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            width: 250px;
-            height: 150px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
-            animation: flagRise 3s forwards;
-            border-radius: 4px;
-        }
-        .flag.v1 { background-image: url('flagnew-1.jpg'); }
-        .flag.v2 { background-image: url('flag_sg2.png'); }
-        .flag.v3 { background-image: url('flag_sg3.png'); }
-        @keyframes flagRise {
-            0% { transform: translateY(100vh) rotate(-10deg); opacity: 0; }
-            50% { transform: translateY(50vh) rotate(5deg); opacity: 0.7; }
-            100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-        }
-        .coat-of-arms {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 120px;
-            height: 120px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg/1200px-Emblem_of_the_Federal_Security_Service_of_the_Russian_Federation.svg.png') no-repeat center;
-            background-size: contain;
-            z-index: 10001;
-            display: none;
-            animation: fadeIn 1s forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .military-alarm {
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 0, 0, 0.2);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
+        .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+        .hero p { color: var(--muted); max-width: 520px; margin: 0 auto 28px; font-size: 16px; }
+        .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
             align-items: center;
-            font-size: 48px;
-            color: #ef4444;
-            font-weight: bold;
-            animation: alarmFlash 1s infinite alternate;
-            pointer-events: none;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-        @keyframes alarmFlash {
-            0% { opacity: 0.3; }
-            100% { opacity: 1; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+        .btn-discord { background: var(--discord); color: #fff; }
+        .btn-outline { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+        .btn-yt { background: var(--youtube); color: #fff; padding: 8px 16px; font-size: 13px; }
+
+        /* ===== Статистика ===== */
+        .stats { display: flex; justify-content: center; gap: 40px; padding: 24px 0 8px; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-num { font-size: 26px; font-weight: 800; color: var(--custard); }
+        .stat-label { font-size: 13px; color: var(--muted); }
+
+        /* ===== Секции ===== */
+        section { padding: 40px 0; scroll-margin-top: 70px; }
+        .section-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+        .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+
+        /* ===== Карточки участников ===== */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
         }
-        .domain-warning {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef4444;
+        .member-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .member-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+        .member-top { display: flex; align-items: center; gap: 12px; }
+        .member-avatar, .member-avatar-img {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+        .member-avatar {
+            background: var(--brand);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+        }
+        .member-name { font-weight: 700; font-size: 15px; }
+        .member-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+        .tag {
+            font-size: 11px;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2px 10px;
+        }
+        .tag.key { color: var(--custard); border-color: var(--custard); }
+        .member-card .btn-yt { align-self: flex-start; }
+        .member-no-link { font-size: 13px; color: var(--muted); }
+        .member-card.collapsed { display: none; }
+
+        .group-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 28px 0 14px;
+        }
+        .group-title:first-of-type { margin-top: 0; }
+
+        .show-more-wrap { text-align: center; margin-top: 20px; }
+        .allies-list { color: var(--muted); font-size: 14px; }
+
+        /* ===== Серверы ===== */
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
+        }
+        .server-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .server-name { font-weight: 700; }
+        .server-type { font-size: 12px; color: var(--muted); }
+
+        /* ===== Шаги вступления ===== */
+        .steps { display: flex; flex-direction: column; gap: 14px; }
+        .step {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .step:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+        .step-num {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--brand);
+            color: #fff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .step:last-child .step-num { background: var(--custard); }
+        .step-title { font-weight: 700; margin-bottom: 4px; }
+        .step-text { font-size: 14px; color: var(--muted); }
+
+        /* ===== Почему нет формы ===== */
+        .why-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--custard);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin-bottom: 24px;
+        }
+        .why-title { font-weight: 800; font-size: 15px; margin-bottom: 8px; }
+        .why-block p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+        .why-block p:last-child { margin-bottom: 0; }
+
+        /* ===== Контакты основателей ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .contact-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+        }
+        .contact-name { font-weight: 700; }
+        .contact-role { font-size: 12px; color: var(--custard); margin-bottom: 10px; }
+        .contact-nick-row { display: flex; gap: 8px; align-items: center; }
+        .contact-nick {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 13px;
+            flex: 1;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .copy-btn {
+            background: var(--brand);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
             padding: 8px 12px;
             font-size: 12px;
-            color: #ef4444;
-            z-index: 9999;
-            border-radius: 4px;
-            display: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            flex-shrink: 0;
+            transition: background 0.15s;
+        }
+        .copy-btn:hover { background: var(--custard); }
+
+        /* ===== Подсказка для заявки ===== */
+        .apply-hint {
+            margin-top: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+        }
+        .apply-hint ul {
+            padding-left: 20px;
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.8;
         }
 
-        .typing-cursor::after {
-            content: '█';
-            color: #ef4444;
-            animation: blink 0.8s infinite;
-            margin-left: 3px;
+        /* ===== О союзе / Хроника ===== */
+        .about-text p { margin-bottom: 14px; max-width: 680px; }
+        .history { border-left: 2px solid var(--border); padding-left: 20px; margin-top: 24px; }
+        .history-item { margin-bottom: 16px; }
+        .history-item:last-child { margin-bottom: 0; }
+        .history-date { font-size: 12px; color: var(--muted); }
+        .history-title { font-weight: 700; font-size: 14px; }
+
+        .join-note {
+            margin-top: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            font-size: 14px;
+            color: var(--muted);
         }
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+        .join-note strong { color: var(--text); }
+
+        /* ===== Подвал ===== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 24px; }
+            .header-inner { flex-wrap: wrap; }
+            nav { order: 3; width: 100%; justify-content: center; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+            html { scroll-behavior: auto; }
         }
     </style>
 </head>
-<body class="crt">
-<div class="crt-flicker"></div>
-<div class="domain-warning" id="domainWarning">
-    <i class="fa-solid fa-triangle-exclamation"></i> Официальный сайт: <strong>zhenyae.github.io</strong>
+<body>
+
+<header>
+    <div class="header-inner">
+        <a class="logo" href="#">
+            <img class="logo-img" src="logo-tcu.png" alt="TCU">
+            <span>ССТ</span>
+        </a>
+        <nav>
+            <a href="#about" data-i18n="nav-about">О союзе</a>
+            <a href="#members" data-i18n="nav-members">Участники</a>
+            <a href="#servers" data-i18n="nav-servers">Сервера</a>
+            <a href="#join" data-i18n="nav-join">Вступление</a>
+            <a href="#history" data-i18n="nav-history">Хроника</a>
+        </nav>
+        <div class="lang-switch">
+            <button id="lang-ru" onclick="setLang('ru')">RU</button>
+            <button id="lang-en" onclick="setLang('en')">EN</button>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="hero">
+        <img class="hero-logo" src="logo-tcu.png" alt="Эмблема ССТ">
+        <h1>Teletubby Cooperation Union</h1>
+        <p data-i18n="hero-sub">Объединение независимых ютуберов по Slendytubbies и другим играм.</p>
+        <div class="cta-row">
+            <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="cta-discord">Зайти на Discord-сервер</a>
+            <a class="btn btn-outline" href="#members" data-i18n="cta-members">Смотреть участников</a>
+        </div>
+        <div class="stats">
+            <div class="stat"><div class="stat-num">20</div><div class="stat-label" data-i18n="stat-members">участников</div></div>
+            <div class="stat"><div class="stat-num">16</div><div class="stat-label" data-i18n="stat-channels">каналов</div></div>
+            <div class="stat"><div class="stat-num">4</div><div class="stat-label" data-i18n="stat-servers">сервера</div></div>
+            <div class="stat"><div class="stat-num">2026</div><div class="stat-label" data-i18n="stat-founded">год основания</div></div>
+        </div>
+    </div>
+
+    <!-- 1. О СОЮЗЕ -->
+    <section id="about">
+        <div class="section-title" data-i18n="about-title">О союзе</div>
+        <div class="about-text">
+            <p data-i18n="about-p1">Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и другим играм, где каждый может обратиться за помощью, высказать мысли или найти друзей.</p>
+            <p data-i18n="about-p2">Наша цель — развитие сообщества и продвижение контента участников.</p>
+        </div>
+    </section>
+
+    <!-- 2. УЧАСТНИКИ -->
+    <section id="members">
+        <div class="section-title" data-i18n="members-title">Участники союза</div>
+        <div class="section-desc" data-i18n="members-desc">Подпишись — так ты поддержишь каждого из нас.</div>
+
+        <div class="group-title" data-i18n="group-founders">Основатели</div>
+        <div class="members-grid" id="grid-founders"></div>
+
+        <div class="group-title" data-i18n="group-team">Команда</div>
+        <div class="members-grid" id="grid-team"></div>
+
+        <div class="group-title" data-i18n="group-youtubers">Ютуберы</div>
+        <div class="members-grid" id="grid-youtubers"></div>
+
+        <div class="show-more-wrap">
+            <button class="btn btn-outline" id="showMoreBtn" onclick="toggleMembers()"></button>
+        </div>
+
+        <div class="group-title" data-i18n="group-allies">Союзники</div>
+        <p class="allies-list">dimon · Leoknoopers · Мама Габена</p>
+    </section>
+
+    <!-- 3. СЕРВЕРА -->
+    <section id="servers">
+        <div class="section-title" data-i18n="servers-title">Сервера сообщества</div>
+        <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты.</div>
+        <div class="servers-grid">
+            <div class="server-card">
+                <div class="server-name">SaguloStopol [SG]</div>
+                <div class="server-type" data-i18n="server-main">Discord · основной</div>
+                <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+            </div>
+            <div class="server-card">
+                <div class="server-name">Zhenrov Community</div>
+                <div class="server-type">Discord</div>
+                <a class="btn btn-discord" href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+            </div>
+            <div class="server-card">
+                <div class="server-name">Terrov World</div>
+                <div class="server-type">Discord</div>
+                <a class="btn btn-discord" href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+            </div>
+            <div class="server-card">
+                <div class="server-name">ЛайнемБург</div>
+                <div class="server-type">Telegram</div>
+                <a class="btn btn-outline" href="https://t.me/linemburg" target="_blank" rel="noopener" data-i18n="server-open">Открыть</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. КАК ВСТУПИТЬ -->
+    <section id="join">
+        <div class="section-title" data-i18n="join-sec-title">Как вступить в ССТ</div>
+        <div class="section-desc" data-i18n="join-sec-desc">Заявки принимают лично основатели союза. Никаких форм и анкет.</div>
+
+        <div class="why-block">
+            <div class="why-title" data-i18n="why-title">Почему нет формы?</div>
+            <p data-i18n="why-p1">Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.</p>
+            <p data-i18n="why-p2">Поэтому заявка в ССТ — это не анкета, а диалог с основателем.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div>
+                    <div class="step-title" data-i18n="step1-title">Познакомься с союзом</div>
+                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div>
+                    <div class="step-title" data-i18n="step2-title">Напиши заявку основателю</div>
+                    <div class="step-text" data-i18n="step2-text">В личные сообщения Discord или прямо на серверах сообщества. Контакты — ниже.</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div>
+                    <div class="step-title" data-i18n="step3-title">Дождись решения</div>
+                    <div class="step-text" data-i18n="step3-text">Основатели рассматривают каждую заявку лично и отвечают сами.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="group-title" data-i18n="contact-title">Контакты основателей</div>
+        <div class="section-desc" data-i18n="contact-desc">Discord · нажми «Копировать» и вставь ник в поиске пользователей</div>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-name">Sagulik [SG]</div>
+                <div class="contact-role" data-i18n="contact-founder">Основатель TCU</div>
+                <div class="contact-nick-row">
+                    <code class="contact-nick">sagulik.</code>
+                    <button class="copy-btn" onclick="copyNick(this, 'sagulik.')" data-i18n="copy">Копировать</button>
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-name">Zhenrov</div>
+                <div class="contact-role" data-i18n="contact-founder">Основатель TCU</div>
+                <div class="contact-nick-row">
+                    <code class="contact-nick">zhenrov_teletubby28</code>
+                    <button class="copy-btn" onclick="copyNick(this, 'zhenrov_teletubby28')" data-i18n="copy">Копировать</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="apply-hint">
+            <div class="why-title" data-i18n="hint-title">Что указать в сообщении:</div>
+            <ul>
+                <li data-i18n="hint-1">Твой ник и ссылка на канал, если он есть</li>
+                <li data-i18n="hint-2">Чем занимаешься: видео, арт, анимация, модели…</li>
+                <li data-i18n="hint-3">Почему хочешь вступить в союз</li>
+            </ul>
+        </div>
+
+        <div class="join-note">
+            <span data-i18n="join-warning">Заявки принимают только основатели. Сообщения другим участникам заявками не считаются.</span>
+        </div>
+    </section>
+
+    <!-- 5. ХРОНИКА -->
+    <section id="history">
+        <div class="section-title" data-i18n="history-title">Хроника</div>
+        <div class="history">
+            <div class="history-item">
+                <div class="history-date" data-i18n="h1-date">Январь 2026</div>
+                <div class="history-title" data-i18n="h1-title">Основание ССТ — Sagulik и Zhenrov</div>
+            </div>
+            <div class="history-item">
+                <div class="history-date" data-i18n="h2-date">Апрель 2026</div>
+                <div class="history-title" data-i18n="h2-title">Массовое расширение — присоединились 9 участников</div>
+            </div>
+            <div class="history-item">
+                <div class="history-date" data-i18n="h3-date">Июнь 2026</div>
+                <div class="history-title" data-i18n="h3-title">Завершение конфликта СГ vs Анти-СГ — мир</div>
+            </div>
+            <div class="history-item">
+                <div class="history-date" data-i18n="h4-date">Июль 2026</div>
+                <div class="history-title" data-i18n="h4-title">20 участников, 4 сервера, запуск нового сайта</div>
+            </div>
+        </div>
+    </section>
+
 </div>
 
-<div class="flag-container" id="flagContainer">
-    <div class="flag v1" id="flagSG"></div>
-</div>
-<div class="coat-of-arms" id="coatOfArms"></div>
-
-<div class="terminal-panel">
-    <div class="brand-header">
-        <div class="logo-frame">
-            <img src="photo_2026-01-24_21-23-46-2.jpg" alt="Логотип ССТ" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fa-solid fa-shield-halved\' style=\'color:#ef4444;font-size:40px;\'></i>';">
-        </div>
-        <div>
-            <h1 id="typing-title" data-full="TELETUBBY COOPERATION UNION"></h1>
-            <div class="subtitle" id="typing-subtitle" data-full="СОЮЗ СОТРУДНИЧЕСТВА ТЕЛЕПУЗИКОВ [TCU / ССТ]"></div>
-            <div class="system-status">
-                <span class="stat-item"><i class="fa-solid fa-circle" style="color: #22c55e; font-size: 9px;"></i> АКТИВЕН</span>
-                <span class="stat-item"><i class="fa-solid fa-users" style="color: #3b82f6; font-size: 10px;"></i> 20 УЧАСТНИКОВ</span>
-                <span class="stat-item"><i class="fa-solid fa-server" style="color: #14b8a6; font-size: 10px;"></i> 4 СЕРВЕРА</span>
-                <span class="stat-item"><i class="fa-solid fa-globe" style="color: #8b5cf6; font-size: 10px;"></i> zhenyae.github.io</span>
-            </div>
-        </div>
+<footer>
+    <div class="container">
+        TCU / ССТ · zhenyae.github.io · <span data-i18n="footer-note">Официальный сайт союза</span>
     </div>
-
-    <div class="nav-system">
-        <button class="nav-btn active" onclick="switchSection(event, 'main-sec')">База Данных</button>
-        <button class="nav-btn" onclick="switchSection(event, 'chronicle-sec')">Хроника</button>
-        <button class="nav-btn" onclick="switchSection(event, 'hall-of-shame-sec')">Зал Позора</button>
-        <button class="nav-btn" onclick="switchSection(event, 'enemies-sec')">Угрозы TCU</button>
-    </div>
-
-    <div id="main-sec" class="section-block active">
-        <div class="section-title">Главные Основатели</div>
-        <div class="founders-row">
-            <div class="commander-card">
-                <div class="commander-name">Sagulik [SG]</div>
-                <div class="commander-rank">Основатель TCU</div>
-            </div>
-            <div class="commander-card">
-                <div class="commander-name">Zhenrov</div>
-                <div class="commander-rank">Основатель TCU</div>
-            </div>
-        </div>
-
-        <div class="section-title">Официальный Манифест</div>
-        <p id="manifest-p1" data-full="Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и другим играм, где каждый может обратиться за помощью, высказать мысли или найти друзей."></p>
-        <p id="manifest-p2" data-full="Наша цель: развитие округа, продвижение контента и защита от внешней агрессии. Официальный сайт: zhenyae.github.io"></p>
-
-        <div class="section-title">TCU Media (Ютуберы Союза)</div>
-        <div class="data-row">
-            <a href="https://youtube.com/@zhenrov_teletubby" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zhenrov [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge founder">Основатель</span>
-                <span class="status-badge owner">Владелец</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@sagulik" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Sagulik [SG] [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge founder">Основатель</span>
-                <span class="status-badge owner">Владелец</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@gerit742" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Gerit [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge deputy">Заместитель</span>
-                <span class="status-badge artist">Художник</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <span class="data-label"><i class="fa-solid fa-user-shield" style="color:#8b5cf6;"></i> Barricade228 [SG] [TCU]</span>
-            <div class="badges-group">
-                <span class="status-badge admin">Администратор</span>
-            </div>
-        </div>
-        <div class="merit-note">🏅 Заслуга: разоблачение предателя Демиена, защита округа TCU.</div>
-        <div class="data-row">
-            <a href="https://youtube.com/@soldieranims" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Soldier Anims [SL] [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge moderator">Модератор</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@dezoniyofficial" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> DezoTubby [SG] [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge artist">Художник</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@uraniks_roblox" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Ураникс / UraniksRB [TCU]</a>
-            <span class="status-badge verified">Ютубер</span>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@itsboom223" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> ItsBOOM [TCU]</a>
-            <span class="status-badge verified">Ютубер</span>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@zidan_official-stelit" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Zidan.official [TCU]</a>
-            <span class="status-badge verified">Ютубер</span>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@maioonezz-f7w" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> maionezz [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge artist">Дизайнер</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@regiturfst" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Regiturf [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge artist">Художник</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@tvik_tubbie" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Terrov [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge owner">Владелец</span>
-                <span class="status-badge artist">Дизайнер</span>
-                <span class="status-badge verified">Ютубер</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@chezabretto" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Pe_The_Teletubby [TCU]</a>
-            <span class="status-badge verified">Ютубер</span>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@JawCr7sher" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> J.C [TCU]</a>
-            <span class="status-badge verified">Ютубер</span>
-        </div>
-
-        <div class="section-title">TCU Creators (Творцы Союза)</div>
-        <div class="data-row">
-            <a href="https://youtube.com/@linem-0889" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Linem [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge owner">Владелец</span>
-                <span class="status-badge artist">Художница</span>
-            </div>
-        </div>
-        <div class="data-row">
-            <a href="https://youtube.com/@animationfilmssfm" target="_blank" rel="noopener"><i class="fab fa-youtube" style="color:#ff0000;"></i> Emptiness [TCU]</a>
-            <div class="badges-group">
-                <span class="status-badge moderator">Модератор</span>
-                <span class="status-badge artist">Дизайнер</span>
-                <span class="status-badge animator">Аниматор</span>
-            </div>
-        </div>
-
-        <div class="section-title">TCU Divisions (Союзные Формирования)</div>
-        <p class="section-desc">Дочерние фракции и подразделения, действующие под флагом ССТ.</p>
-        <div class="data-row">
-            <span class="data-label"><i class="fa-solid fa-flag" style="color:#dc2626;"></i> Pel [SG] [LCF] [TCU]</span>
-            <div class="badges-group">
-                <span class="status-badge leader">Лидер LCF</span>
-                <span class="status-badge">В разработке</span>
-            </div>
-        </div>
-        <div class="enemy-reason" style="border-left-color: rgba(220, 38, 38, 0.3);">Формирование: Свободный Крашерский Фонд [LCF] — в стадии создания.</div>
-
-        <div class="section-title">TCU Allies (Союзники ССТ)</div>
-        <p class="section-desc">Рядовые участники союза, поддерживающие ССТ.</p>
-        <div class="data-row">
-            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> dimon</span>
-            <span class="status-badge ally">Союзник</span>
-        </div>
-        <div class="data-row">
-            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Leoknoopers [TCU]</span>
-            <span class="status-badge ally">Союзник</span>
-        </div>
-        <div class="data-row">
-            <span class="data-label"><i class="fa-solid fa-user" style="color:#94a3b8;"></i> Мама Габена [TCU]</span>
-            <span class="status-badge ally">Союзник</span>
-        </div>
-
-        <div class="section-title">TCU Servers (Официальные Сервера)</div>
-        <div class="data-row">
-            <a href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> SaguloStopol [SG] [TCU]</a>
-            <span class="status-badge verified">Discord</span>
-        </div>
-        <div class="data-row">
-            <a href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Zhenrov Community: Official [TCU]</a>
-            <span class="status-badge verified">Discord</span>
-        </div>
-        <div class="data-row">
-            <a href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener"><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Terrov World [TCU]</a>
-            <span class="status-badge verified">Discord</span>
-        </div>
-        <div class="data-row">
-            <a href="https://t.me/linemburg" target="_blank" rel="noopener"><i class="fa-brands fa-telegram" style="color:#29b6f6;"></i> ЛайнемБург</a>
-            <span class="status-badge verified">Telegram</span>
-        </div>
-
-        <div class="section-title">Легенда Ролей</div>
-        <div class="legend-block">
-            <div class="legend-item"><span class="legend-dot" style="background:#ef4444;box-shadow:0 0 6px #ef4444;"></span> Основатель</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#dc2626;"></span> Лидер фракции</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#f97316;"></span> Заместитель</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#8b5cf6;"></span> Администратор</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#eab308;"></span> Модератор</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#14b8a6;"></span> Владелец сервера</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#ec4899;"></span> Художник / Дизайнер</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Аниматор</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#3b82f6;"></span> Ютубер</div>
-            <div class="legend-item"><span class="legend-dot" style="background:#94a3b8;"></span> Союзник</div>
-        </div>
-
-        <!-- ========== ФОРМА ЗАЯВОК С ЗАЩИТОЙ ========== -->
-        <div class="section-title">Подать Заявку в ССТ</div>
-        <p class="section-desc">Заполните форму ниже. Заявка проходит модерацию перед рассмотрением.</p>
-
-        <div id="cooldownBlock" class="cooldown-timer" style="display:none;">
-            ⏳ Вы уже отправляли заявку недавно
-            <strong id="cooldownTimeLeft">--:--:--</strong>
-        </div>
-
-        <form id="applicationForm" action="https://formspree.io/f/xqpzeokn" method="POST">
-            
-            <!-- HONEYPOT: невидимое поле-ловушка для ботов -->
-            <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
-
-            <div class="input-group">
-                <label for="nickname">Никнейм</label>
-                <input type="text" id="nickname" name="nickname" maxlength="30" required>
-                <div class="char-counter"><span id="nicknameCount">0</span>/30</div>
-            </div>
-
-            <div class="input-group">
-                <label for="role">Кем хотите быть (роль/направление)</label>
-                <input type="text" id="role" name="role" maxlength="50" required>
-                <div class="char-counter"><span id="roleCount">0</span>/50</div>
-            </div>
-
-            <div class="input-group">
-                <label for="link">Ссылка на канал/профиль</label>
-                <input type="text" id="link" name="link" maxlength="150" required>
-                <div class="char-counter"><span id="linkCount">0</span>/150</div>
-            </div>
-
-            <div class="input-group">
-                <label for="contact">Контакт для связи (Discord/Telegram)</label>
-                <input type="text" id="contact" name="contact" maxlength="100" required>
-                <div class="char-counter"><span id="contactCount">0</span>/100</div>
-            </div>
-
-            <div class="input-group" style="display:flex; align-items:center; gap:8px;">
-                <input type="checkbox" id="agreement" required style="width:auto;">
-                <label for="agreement" style="margin:0; text-transform:none; font-size:12px;">
-                    Я подтверждаю, что заявка не содержит оскорблений и провокаций
-                </label>
-            </div>
-
-            <button type="submit" class="terminal-btn" id="submitBtn">Отправить заявку</button>
-            <div class="form-msg" id="formMsg"></div>
-        </form>
-    </div>
-
-    <div id="chronicle-sec" class="section-block">
-        <div class="section-title" style="color:#22c55e; border-color:#22c55e;">Хроника ССТ</div>
-        <p class="section-desc">Официальный лог округа. Сверху - новейшие.</p>
-        <div class="chronicle-timeline">
-            <div class="chronicle-item milestone">
-                <div class="chronicle-date">2026/07/25 <span class="chronicle-tag tag-mile">ЮБИЛЕЙ</span></div>
-                <div class="chronicle-title">ССТ набрал 20 участников</div>
-                <div class="chronicle-desc">Зафиксировано 20 активных участников. Запущен сайт TCU v2.6 с защитой от дегенератов.</div>
-            </div>
-            <div class="chronicle-item expansion">
-                <div class="chronicle-date">2026/07/10 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div>
-                <div class="chronicle-title">Создание сервера Terrov World</div>
-                <div class="chronicle-desc">Terrov [TCU] создал официальный сервер Terrov World и присоединился к союзу.</div>
-            </div>
-            <div class="chronicle-item milestone">
-                <div class="chronicle-date">2026/06/13 <span class="chronicle-tag tag-mile">МИР / ПОБЕДА СГ</span></div>
-                <div class="chronicle-title">Полное завершение конфликта СГ vs Анти-СГ</div>
-                <div class="chronicle-desc">Завершена война между SaguloStopol [SG] и силами Анти-СГ: CyanicTubbie [Циан], Чупапи, Скитлас, Блекхаб. Статус: МИР.</div>
-            </div>
-            <div class="chronicle-item expansion">
-                <div class="chronicle-date">2026/05/15 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div>
-                <div class="chronicle-title">Создание Telegram-канала ЛайнемБург</div>
-                <div class="chronicle-desc">Linem [TCU] основала официальный Telegram-канал ЛайнемБург.</div>
-            </div>
-            <div class="chronicle-item betrayal">
-                <div class="chronicle-date">2026/05/10 <span class="chronicle-tag tag-betrayal">ОПЕРАЦИЯ "ЧИСТАЯ ВОДА"</span></div>
-                <div class="chronicle-title">Предательство Демиена</div>
-                <div class="chronicle-desc">Выявлен шпионаж DemienGG внутри ССТ. Администратор Barricade228 [SG] вывел его на чистую воду.</div>
-            </div>
-            <div class="chronicle-item expansion">
-                <div class="chronicle-date">2026/04/15 <span class="chronicle-tag tag-exp">РАСШИРЕНИЕ</span></div>
-                <div class="chronicle-title">Начало расширения ССТ</div>
-                <div class="chronicle-desc">Апрель 2026: массовый набор. Присоединились DezoTubby, Uraniks, ItsBOOM, Zidan, maionezz, Regiturf, Pe_The_Teletubby, J.C, Emptiness.</div>
-            </div>
-            <div class="chronicle-item foundation">
-                <div class="chronicle-date">2026/01/26 <span class="chronicle-tag tag-found">ОСНОВАНИЕ</span></div>
-                <div class="chronicle-title">Основание ССТ Сагуликом и Женровым</div>
-                <div class="chronicle-desc">Sagulik [SG] и Zhenrov основали Союз Сотрудничества Телепузиков. Созданы первые сервера: SaguloStopol [SG] и Zhenrov Community.</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="hall-of-shame-sec" class="section-block">
-        <div class="section-title" style="color:#dc2626; border-color:#dc2626;">Зал Позора ССТ</div>
-        <p class="section-desc">Здесь увековечены самые яркие попытки троллинга. Слава героям!</p>
-
-        <div class="shame-gallery" id="shameGallery">
-            <!-- Мемы будут добавляться динамически -->
-        </div>
-
-        <div class="shame-stats">
-            <div class="stat-item"><i class="fa-solid fa-skull" style="color:#dc2626;"></i> Всего троллей: <span id="shameCounter">0</span></div>
-            <div class="stat-item"><i class="fa-solid fa-fire" style="color:#f97316;"></i> Самый популярный мем: <span id="topMeme">Нет данных</span></div>
-            <div class="stat-item"><i class="fa-solid fa-flag" style="color:#ef4444;"></i> Патриотических мемов: <span id="patrioticCounter">0</span></div>
-        </div>
-    </div>
-
-    <div id="enemies-sec" class="section-block">
-        <div class="section-title" style="color: #ef4444;">Реестр Внешних Угроз</div>
-        <p>Данные лица или формирования совершали акты агрессии против округа TCU.</p>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users"></i> НТ сквад (NT Squad)</span>
-            <span class="status-badge" style="color:#f97316;border-color:rgba(249,115,22,0.4);background:rgba(249,115,22,0.05);">Частично в ЧС</span>
-        </div>
-        <div class="enemy-reason">
-            Формирование с частичным нахождением в ЧС ССТ.<br><br>
-            <span style="color:#22c55e;">✓ НЕ в ЧС, состоят в НТ скваде:</span> CyanicTubbie, Gerit [TCU], maionezz [TCU]<br>
-            <span style="color:#eab308;">≠ Разошлись, в НТ скваде, НЕ в ЧС:</span> Горбусик<br>
-            <span style="color:#ef4444;">✗ В ЧС ССТ (враждебное крыло НТ):</span> Демиен / DemienGG, sl3ndy, LeoTheLeus, Runi
-        </div>
-
-        <div class="data-row">
-            <span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-user-slash"></i> Демиен / DemienGG</span>
-            <span class="status-badge">Предатель</span>
-        </div>
-        <div class="enemy-reason">Предательство изнутри союза, участник враждебного крыла НТ сквада. Разоблачён Barricade228 [SG] [TCU].</div>
-
-        <div class="data-row">
-            <span class="data-label glitch-traitor" style="color: #ff6b6b;"><i class="fa-solid fa-ban"></i> sl3ndy</span>
-            <span class="status-badge">Предатель</span>
-        </div>
-        <div class="enemy-reason">Предательство ССТ, поддержка радикалов из ЧС ССТ, игнор законов ССТ. Участник НТ сквада.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> LeoTheLeus</span>
-            <span class="status-badge">ЧС ССТ</span>
-        </div>
-        <div class="enemy-reason">Участник враждебного крыла НТ сквада. Враждебные действия против округа TCU.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-xmark"></i> Runi / Рунии</span>
-            <span class="status-badge">ЧС ССТ</span>
-        </div>
-        <div class="enemy-reason">Участник враждебного крыла НТ сквада. Враждебные действия против округа TCU.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #eab308;"><i class="fa-solid fa-circle-minus"></i> Горбусик</span>
-            <span class="status-badge" style="color:#eab308;border-color:rgba(234,179,8,0.4);background:rgba(234,179,8,0.05);">Разошлись</span>
-        </div>
-        <div class="enemy-reason" style="border-left-color: rgba(234,179,8,0.3);">Участник НТ сквада. Пути с ССТ разошлись. Нейтралитет, в ЧС не состоит.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-skull"></i> MasterHell / Мастер</span>
-            <span class="status-badge">Агрессор</span>
-        </div>
-        <div class="enemy-reason">Агрессия в сторону ССТ, желание распада ССТ на YouTube, слив ЛД участника ССТ. Поддерживает КоловраТТ / KolovraTT.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-biohazard"></i> КоловраТТ / KolovraTT</span>
-            <span class="status-badge">ЧС ССТ</span>
-        </div>
-        <div class="enemy-reason">Участие в радикальной группировке "АкваТим", которая еще до основания ССТ сливала данные Сагулика и его друзей. Слив личных данных в Telegram и Discord. Поддержка националистических взглядов, оскорбления на национальной почве в адрес DezoTubby [SG] [TCU] (2023). Связан с MasterHell.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-users-rectangle"></i> FPE: R (многие участники)</span>
-            <span class="status-badge">Вражеский клан</span>
-        </div>
-        <div class="enemy-reason">Ведение войны против SaguloStopol [SG] [TCU]. Массовая деанонимизация (доксинг) Сагулика со стороны многих участников структуры.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Кроко / Pacifist</span>
-            <span class="status-badge">ЧС ССТ</span>
-        </div>
-        <div class="enemy-reason">Деанонимизация участников ССТ, следование взглядам павшей группировки "АкваТим". Не путать с Крокодилл — с ним нормальные отношения.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-user-secret"></i> Моралопс</span>
-            <span class="status-badge">ЧС ССТ</span>
-        </div>
-        <div class="enemy-reason">Деанонимизация участников ССТ, следование взглядам павшей группировки "АкваТим".</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-ghost"></i> AlivePo [OWL]</span>
-            <span class="status-badge">ЧС ССТ</span>
-        </div>
-        <div class="enemy-reason">Конфликт с SaguloStopol [SG] [TCU] с 2024 года, поддержка радикальных личностей из враждебной структуры FPE: R. Владелец сервера AnyaWorks.</div>
-
-        <div class="data-row">
-            <span class="data-label" style="color: #ff6b6b;"><i class="fa-solid fa-server"></i> AnyaWorks (сервер AlivePo)</span>
-            <span class="status-badge">Вражеский сервер</span>
-        </div>
-        <div class="enemy-reason">Сервер структуры AlivePo [OWL]. Конфликт с SaguloStopol [SG] [TCU] с 2024 г., укрывательство участников FPE: R.</div>
-    </div>
-</div>
+</footer>
 
 <script>
-    // ==================== ПРОВЕРКА ДОМЕНА ====================
-    if(window.location.hostname !== 'zhenyae.github.io') {
-        document.getElementById('domainWarning').style.display = 'block';
-    }
+    // ===== ДАННЫЕ УЧАСТНИКОВ =====
+    const MEMBERS = {
+        founders: [
+            { name: 'Sagulik [SG]', tags: ['founder', 'youtuber'], link: 'https://youtube.com/@sagulik', img: 'logo-sg.png' },
+            { name: 'Zhenrov',      tags: ['founder', 'youtuber'], link: 'https://youtube.com/@zhenrov_teletubby', img: 'logo-zk.png' },
+        ],
+        team: [
+            { name: 'Gerit',              tags: ['deputy', 'artist'],    link: 'https://youtube.com/@gerit742' },
+            { name: 'Barricade228 [SG]',  tags: ['admin'],               link: null },
+            { name: 'Soldier Anims [SL]', tags: ['moderator', 'youtuber'], link: 'https://youtube.com/@soldieranims' },
+            { name: 'Emptiness',          tags: ['moderator', 'animator'], link: 'https://youtube.com/@animationfilmssfm' },
+        ],
+        youtubers: [
+            { name: 'DezoTubby [SG]',    tags: ['artist'],   link: 'https://youtube.com/@dezoniyofficial' },
+            { name: 'Terrov',            tags: ['owner', 'designer'], link: 'https://youtube.com/@tvik_tubbie' },
+            { name: 'Linem',             tags: ['owner', 'artist'],   link: 'https://youtube.com/@linem-0889' },
+            { name: 'maionezz',          tags: ['designer'], link: 'https://youtube.com/@maioonezz-f7w' },
+            { name: 'Regiturf',          tags: ['artist'],   link: 'https://youtube.com/@regiturfst' },
+            { name: 'Ураникс / UraniksRB', tags: ['youtuber'], link: 'https://youtube.com/@uraniks_roblox' },
+            { name: 'ItsBOOM',           tags: ['youtuber'], link: 'https://youtube.com/@itsboom223' },
+            { name: 'Zidan.official',    tags: ['youtuber'], link: 'https://youtube.com/@zidan_official-stelit' },
+            { name: 'Pe_The_Teletubby',  tags: ['youtuber'], link: 'https://youtube.com/@chezabretto' },
+            { name: 'J.C',               tags: ['youtuber'], link: 'https://youtube.com/@JawCr7sher' },
+        ],
+    };
 
-    // ==================== ГЕНЕРАЦИЯ ФЕЙКОВОГО IP ====================
-    function generateFakeIP() {
-        return `192.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}.${Math.floor(100 + Math.random() * 99)}`;
-    }
+    const VISIBLE_YOUTUBERS = 4;
+    let membersExpanded = false;
+    let currentLang = 'ru';
 
-    // ==================== ЗАЩИТА ФОРМЫ ЗАЯВОК ====================
-    (function() {
-        const FORM_STORAGE_KEY = 'tcu_lastFormSubmit';
-        const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 часа
-        const MIN_TIME_BEFORE_SUBMIT = 4000; // 4 секунды - минимальное время на странице перед сабмитом
-        const pageLoadTime = Date.now();
+    // ===== ПЕРЕВОДЫ =====
+    const I18N = {
+        ru: {
+            'nav-about': 'О союзе', 'nav-members': 'Участники', 'nav-servers': 'Сервера', 'nav-join': 'Вступление', 'nav-history': 'Хроника',
+            'hero-sub': 'Объединение независимых ютуберов по Slendytubbies и другим играм.',
+            'cta-discord': 'Зайти на Discord-сервер', 'cta-members': 'Смотреть участников',
+            'stat-members': 'участников', 'stat-channels': 'каналов', 'stat-servers': 'сервера', 'stat-founded': 'год основания',
+            'about-title': 'О союзе',
+            'about-p1': 'Союз Сотрудничества Телепузиков (ССТ) — это объединение независимых ютуберов по тематике Slendytubbies и другим играм, где каждый может обратиться за помощью, высказать мысли или найти друзей.',
+            'about-p2': 'Наша цель — развитие сообщества и продвижение контента участников.',
+            'members-title': 'Участники союза', 'members-desc': 'Подпишись — так ты поддержишь каждого из нас.',
+            'group-founders': 'Основатели', 'group-team': 'Команда', 'group-youtubers': 'Ютуберы', 'group-allies': 'Союзники',
+            'subscribe': 'Подписаться', 'no-channel': 'Без канала',
+            'show-more': 'Показать ещё', 'show-less': 'Свернуть',
+            'servers-title': 'Сервера сообщества', 'servers-desc': 'Здесь живёт союз: общение, новости, совместные проекты.',
+            'server-main': 'Discord · основной', 'server-join': 'Войти', 'server-open': 'Открыть',
+            'join-sec-title': 'Как вступить в ССТ',
+            'join-sec-desc': 'Заявки принимают лично основатели союза. Никаких форм и анкет.',
+            'why-title': 'Почему нет формы?',
+            'why-p1': 'Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.',
+            'why-p2': 'Поэтому заявка в ССТ — это не анкета, а диалог с основателем.',
+            'step1-title': 'Познакомься с союзом',
+            'step1-text': 'Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.',
+            'step2-title': 'Напиши заявку основателю',
+            'step2-text': 'В личные сообщения Discord или прямо на серверах сообщества. Контакты — ниже.',
+            'step3-title': 'Дождись решения',
+            'step3-text': 'Основатели рассматривают каждую заявку лично и отвечают сами.',
+            'contact-title': 'Контакты основателей',
+            'contact-desc': 'Discord · нажми «Копировать» и вставь ник в поиске пользователей',
+            'contact-founder': 'Основатель TCU',
+            'copy': 'Копировать', 'copied': 'Скопировано!',
+            'hint-title': 'Что указать в сообщении:',
+            'hint-1': 'Твой ник и ссылка на канал, если он есть',
+            'hint-2': 'Чем занимаешься: видео, арт, анимация, модели…',
+            'hint-3': 'Почему хочешь вступить в союз',
+            'join-warning': 'Заявки принимают только основатели. Сообщения другим участникам заявками не считаются.',
+            'history-title': 'Хроника',
+            'h1-date': 'Январь 2026', 'h1-title': 'Основание ССТ — Sagulik и Zhenrov',
+            'h2-date': 'Апрель 2026', 'h2-title': 'Массовое расширение — присоединились 9 участников',
+            'h3-date': 'Июнь 2026', 'h3-title': 'Завершение конфликта СГ vs Анти-СГ — мир',
+            'h4-date': 'Июль 2026', 'h4-title': '20 участников, 4 сервера, запуск нового сайта',
+            'footer-note': 'Официальный сайт союза',
+        },
+        en: {
+            'nav-about': 'About', 'nav-members': 'Members', 'nav-servers': 'Servers', 'nav-join': 'Join', 'nav-history': 'History',
+            'hero-sub': 'An association of independent YouTubers creating Slendytubbies and other game content.',
+            'cta-discord': 'Join the Discord server', 'cta-members': 'Meet the members',
+            'stat-members': 'members', 'stat-channels': 'channels', 'stat-servers': 'servers', 'stat-founded': 'founded',
+            'about-title': 'About the Union',
+            'about-p1': 'The Teletubby Cooperation Union (TCU) is an association of independent YouTubers focused on Slendytubbies and other games, where everyone can ask for help, share ideas, or find friends.',
+            'about-p2': 'Our goal is to grow the community and promote our members\' content.',
+            'members-title': 'Union Members', 'members-desc': 'Subscribe — that\'s how you support each of us.',
+            'group-founders': 'Founders', 'group-team': 'Team', 'group-youtubers': 'YouTubers', 'group-allies': 'Allies',
+            'subscribe': 'Subscribe', 'no-channel': 'No channel',
+            'show-more': 'Show more', 'show-less': 'Show less',
+            'servers-title': 'Community Servers', 'servers-desc': 'Where the union lives: chat, news, joint projects.',
+            'server-main': 'Discord · main', 'server-join': 'Join', 'server-open': 'Open',
+            'join-sec-title': 'How to Join TCU',
+            'join-sec-desc': 'Applications are reviewed personally by the founders. No forms, no questionnaires.',
+            'why-title': 'Why no form?',
+            'why-p1': 'A form goes into the void and only tells us what a person wants us to see. A direct message is an instant conversation: we see how you communicate and can ask questions.',
+            'why-p2': 'That\'s why a TCU application is not a questionnaire — it\'s a dialogue with a founder.',
+            'step1-title': 'Get to know the union',
+            'step1-text': 'Check out the members\' channels and stop by the community servers — see if this place is right for you.',
+            'step2-title': 'Send your application to a founder',
+            'step2-text': 'Via Discord DMs or right on the community servers. Contacts are below.',
+            'step3-title': 'Wait for the decision',
+            'step3-text': 'The founders review every application personally and reply themselves.',
+            'contact-title': 'Founder contacts',
+            'contact-desc': 'Discord · hit "Copy" and paste the username into the user search',
+            'contact-founder': 'TCU Founder',
+            'copy': 'Copy', 'copied': 'Copied!',
+            'hint-title': 'What to include in your message:',
+            'hint-1': 'Your nickname and a link to your channel, if you have one',
+            'hint-2': 'What you do: videos, art, animation, models…',
+            'hint-3': 'Why you want to join the union',
+            'join-warning': 'Only the founders accept applications. Messages to other members do not count as applications.',
+            'history-title': 'History',
+            'h1-date': 'January 2026', 'h1-title': 'TCU founded by Sagulik and Zhenrov',
+            'h2-date': 'April 2026', 'h2-title': 'Major expansion — 9 new members joined',
+            'h3-date': 'June 2026', 'h3-title': 'SG vs Anti-SG conflict ends — peace',
+            'h4-date': 'July 2026', 'h4-title': '20 members, 4 servers, new website launched',
+            'footer-note': 'Official union website',
+        },
+    };
 
-        const bannedWords = [
-            'фсб', 'взлом', 'дегенерат', 'ддос', 'ddos', 'пидор', 'хуй', 'хуе',
-            'сука', 'бля', 'ебат', 'мразь', 'уебок', 'долбоеб', 'пизд', 'гандон',
-            'сволочь', 'мудак', 'дебил', 'идиот', 'сосиска', 'жоп'
-        ];
+    const TAGS = {
+        ru: { founder: 'Основатель', youtuber: 'Ютубер', deputy: 'Заместитель', admin: 'Администратор', moderator: 'Модератор', artist: 'Художник', designer: 'Дизайнер', animator: 'Аниматор', owner: 'Владелец сервера' },
+        en: { founder: 'Founder', youtuber: 'YouTuber', deputy: 'Deputy', admin: 'Administrator', moderator: 'Moderator', artist: 'Artist', designer: 'Designer', animator: 'Animator', owner: 'Server owner' },
+    };
+    const KEY_TAGS = ['founder'];
 
-        const form = document.getElementById('applicationForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const formMsg = document.getElementById('formMsg');
-        const cooldownBlock = document.getElementById('cooldownBlock');
-        const cooldownTimeLeft = document.getElementById('cooldownTimeLeft');
-
-        // ---------- Счётчики символов ----------
-        function bindCounter(inputId, counterId) {
-            const input = document.getElementById(inputId);
-            const counter = document.getElementById(counterId);
-            if (input && counter) {
-                input.addEventListener('input', () => {
-                    counter.textContent = input.value.length;
-                });
-            }
-        }
-        bindCounter('nickname', 'nicknameCount');
-        bindCounter('role', 'roleCount');
-        bindCounter('link', 'linkCount');
-        bindCounter('contact', 'contactCount');
-
-        // ---------- Проверка кулдауна и обновление UI ----------
-        function checkCooldown() {
-            const lastSubmit = localStorage.getItem(FORM_STORAGE_KEY);
-            if (!lastSubmit) return { blocked: false };
-
-            const timePassed = Date.now() - parseInt(lastSubmit);
-            if (timePassed >= COOLDOWN_MS) return { blocked: false };
-
-            return { blocked: true, remaining: COOLDOWN_MS - timePassed };
-        }
-
-        function formatTime(ms) {
-            const h = Math.floor(ms / 3600000);
-            const m = Math.floor((ms % 3600000) / 60000);
-            const s = Math.floor((ms % 60000) / 1000);
-            return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-        }
-
-        let cooldownInterval = null;
-
-        function updateFormState() {
-            const status = checkCooldown();
-
-            if (status.blocked) {
-                submitBtn.disabled = true;
-                submitBtn.classList.add('disabled');
-                submitBtn.textContent = 'Заявка уже отправлена';
-                cooldownBlock.style.display = 'block';
-
-                if (cooldownInterval) clearInterval(cooldownInterval);
-                let remaining = status.remaining;
-                cooldownTimeLeft.textContent = formatTime(remaining);
-
-                cooldownInterval = setInterval(() => {
-                    remaining -= 1000;
-                    if (remaining <= 0) {
-                        clearInterval(cooldownInterval);
-                        updateFormState();
-                        return;
-                    }
-                    cooldownTimeLeft.textContent = formatTime(remaining);
-                }, 1000);
-            } else {
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('disabled');
-                submitBtn.textContent = 'Отправить заявку';
-                cooldownBlock.style.display = 'none';
-                if (cooldownInterval) clearInterval(cooldownInterval);
-            }
-        }
-
-        updateFormState();
-
-        // ---------- Обработка отправки формы ----------
-        form.addEventListener('submit', function(e) {
-            formMsg.className = 'form-msg';
-            formMsg.textContent = '';
-
-            // 1. Проверка кулдауна (24 часа)
-            const cooldownStatus = checkCooldown();
-            if (cooldownStatus.blocked) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = `Заявка уже была отправлена. Повтор через ${formatTime(cooldownStatus.remaining)}`;
-                return false;
-            }
-
-            // 2. Проверка honeypot (если заполнено - это бот)
-            const honeypot = form.querySelector('[name="_gotcha"]');
-            if (honeypot && honeypot.value !== '') {
-                e.preventDefault();
-                // Тихо блокируем, не показываем ботам что их спалили
-                console.log('Bot detected via honeypot');
-                return false;
-            }
-
-            // 3. Проверка минимального времени на странице (анти-бот)
-            const timeOnPage = Date.now() - pageLoadTime;
-            if (timeOnPage < MIN_TIME_BEFORE_SUBMIT) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = 'Слишком быстрая отправка. Пожалуйста, заполните форму внимательнее.';
-                return false;
-            }
-
-            // 4. Проверка на стоп-слова во всех полях
-            const formData = new FormData(form);
-            const allText = Array.from(formData.values()).join(' ').toLowerCase();
-
-            const foundBadWord = bannedWords.find(word => allText.includes(word));
-            if (foundBadWord) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = 'Заявка содержит недопустимый контент и не может быть отправлена.';
-
-                // Записываем попытку троллинга
-                let trollAttempts = parseInt(localStorage.getItem('tcuTrollAttempts') || '0');
-                trollAttempts++;
-                localStorage.setItem('tcuTrollAttempts', trollAttempts);
-
-                if (trollAttempts >= 3) {
-                    showEternalBan(formData.get('nickname') || 'Неизвестный');
-                } else {
-                    showPatrioticAttack(formData.get('nickname') || 'Неизвестный');
-                }
-                return false;
-            }
-
-            // 5. Проверка на избыточный капслок
-            const nickname = formData.get('nickname') || '';
-            const role = formData.get('role') || '';
-            const capsCheck = (text) => {
-                const letters = text.replace(/[^a-zA-Zа-яА-Я]/g, '');
-                if (letters.length < 5) return false;
-                const capsCount = (letters.match(/[A-ZА-Я]/g) || []).length;
-                return (capsCount / letters.length) > 0.8;
-            };
-            if (capsCheck(nickname) || capsCheck(role)) {
-                e.preventDefault();
-                formMsg.className = 'form-msg error';
-                formMsg.textContent = 'Пожалуйста, не используйте только заглавные буквы.';
-                return false;
-            }
-
-            // ---------- Всё ок - разрешаем отправку ----------
-            localStorage.setItem(FORM_STORAGE_KEY, Date.now().toString());
-            formMsg.className = 'form-msg success';
-            formMsg.textContent = 'Заявка отправляется...';
-
-            // Formspree сам обработает редирект/AJAX согласно своим настройкам
-            // Обновляем состояние кнопки сразу
-            setTimeout(updateFormState, 100);
-        });
-    })();
-
-    // ==================== ПАТРИОТИЧЕСКАЯ АТАКА ====================
-    function showPatrioticAttack(nickname) {
-        const flagContainer = document.getElementById('flagContainer');
-        const flagSG = document.getElementById('flagSG');
-
-        const flagVariants = ['v1', 'v2', 'v3'];
-        flagSG.className = `flag ${flagVariants[Math.floor(Math.random() * flagVariants.length)]}`;
-
-        flagContainer.style.display = 'block';
-
-        const coatOfArms = document.getElementById('coatOfArms');
-        coatOfArms.style.display = 'block';
-        coatOfArms.innerHTML = `
-            <div style="position: absolute; bottom: -20px; right: -20px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 4px; font-size: 10px; color: white;">
-                Дело №TCU-${Math.floor(100000 + Math.random() * 900000)}
-            </div>
-        `;
-
-        const anthemSound = document.getElementById('anthemSound');
-        anthemSound.currentTime = 0;
-        anthemSound.volume = 0.4;
-        anthemSound.play().catch(()=>{});
-
-        const alarmDiv = document.createElement('div');
-        alarmDiv.className = 'military-alarm';
-        alarmDiv.textContent = 'ТРЕВОГА! АТАКА НА САГУЛЯСТОПОЛЬ!';
-        document.body.appendChild(alarmDiv);
-
-        const alarmSound = document.getElementById('alarmSound');
-        alarmSound.loop = true;
-        alarmSound.volume = 0.6;
-        alarmSound.play().catch(()=>{});
-
-        setTimeout(() => {
-            flagContainer.style.display = 'none';
-            coatOfArms.style.display = 'none';
-            alarmDiv.remove();
-            anthemSound.pause();
-            alarmSound.pause();
-        }, 7000);
-    }
-
-    // ==================== ВЕЧНЫЙ БАН ====================
-    function showEternalBan(nickname) {
-        const banDiv = document.createElement('div');
-        banDiv.style.position = 'fixed';
-        banDiv.style.inset = '0';
-        banDiv.style.background = 'rgba(0,0,0,0.95)';
-        banDiv.style.zIndex = '10000';
-        banDiv.style.display = 'flex';
-        banDiv.style.flexDirection = 'column';
-        banDiv.style.justifyContent = 'center';
-        banDiv.style.alignItems = 'center';
-        banDiv.style.color = '#ef4444';
-        banDiv.style.fontFamily = 'JetBrains Mono, monospace';
-        banDiv.style.textAlign = 'center';
-        banDiv.style.animation = 'eternalBan 2s infinite alternate';
-
-        banDiv.innerHTML = `
-            <h1 style="font-size: 48px; margin-bottom: 20px; text-shadow: 0 0 10px #ef4444;">ВЕЧНЫЙ БАНН</h1>
-            <div style="font-size: 24px; margin-bottom: 20px;">${nickname}</div>
-            <div style="font-size: 18px; margin-bottom: 30px;">Вы навсегда забанены в ССТ</div>
-            <div style="font-size: 16px; margin-bottom: 10px;">Причина: Оскорбление основателей</div>
-            <div style="font-size: 14px; margin-bottom: 20px;">Номер дела: TCU-${Math.floor(100000 + Math.random() * 900000)}</div>
-            <div style="font-size: 12px; color: #64748b;">Ожидайте повестку в военкомат</div>
-        `;
-
-        document.body.appendChild(banDiv);
-
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes eternalBan {
-                0% { opacity: 0.8; transform: scale(1); }
-                100% { opacity: 1; transform: scale(1.05); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        setTimeout(() => {
-            banDiv.remove();
-            style.remove();
-        }, 5000);
-    }
-
-    // ==================== ПРОВЕРКА ТРОЛЛИНГА В URL ====================
-    document.addEventListener('DOMContentLoaded', () => {
-        const offensiveWords = ['пидор', 'хуесос', 'говно', 'сука', 'бля', 'ебать', 'не продумаль', 'хуету', 'sagulik_pidor', 'ne produmal'];
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('q') || '';
-
-        if (offensiveWords.some(word => searchQuery.toLowerCase().includes(word))) {
-            window.location.href = 'https://fsb.ru';
-        }
-
-        const trollAttempts = localStorage.getItem('tcuTrollAttempts') || 0;
-        if (trollAttempts > 2) {
-            document.body.innerHTML = `
-                <div style="position: fixed; inset: 0; background: #0a0e14; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #ef4444; font-family: 'JetBrains Mono', monospace;">
-                    <h1 style="font-size: 32px; margin-bottom: 20px;">ДОСТУП ЗАБЛОКИРОВАН</h1>
-                    <p style="margin-bottom: 10px;">Ваш IP: ${generateFakeIP()}</p>
-                    <p style="margin-bottom: 10px;">Причина: Многократные попытки троллинга</p>
-                    <p style="margin-bottom: 20px;">Дело №TCU-${Math.floor(100000 + Math.random() * 900000)}</p>
-                    <p style="font-size: 14px; color: #64748b;">Перенаправление на сайт ФСБ через <span id="countdown">5</span> секунд...</p>
+    // ===== РЕНДЕР УЧАСТНИКОВ =====
+    function memberCard(m, hidden) {
+        const avatar = m.img
+            ? `<img class="member-avatar-img" src="${m.img}" alt="" loading="lazy">`
+            : `<div class="member-avatar">${m.name.charAt(0)}</div>`;
+        const tags = m.tags.map(t =>
+            `<span class="tag${KEY_TAGS.includes(t) ? ' key' : ''}">${TAGS[currentLang][t] || t}</span>`
+        ).join('');
+        const action = m.link
+            ? `<a class="btn btn-yt" href="${m.link}?sub_confirmation=1" target="_blank" rel="noopener">${I18N[currentLang]['subscribe']}</a>`
+            : `<span class="member-no-link">${I18N[currentLang]['no-channel']}</span>`;
+        return `
+            <div class="member-card${hidden ? ' collapsed' : ''}">
+                <div class="member-top">
+                    ${avatar}
+                    <div>
+                        <div class="member-name">${m.name}</div>
+                        <div class="member-tags">${tags}</div>
+                    </div>
                 </div>
-            `;
-
-            let count = 5;
-            const countdown = setInterval(() => {
-                count--;
-                document.getElementById('countdown').textContent = count;
-                if (count <= 0) {
-                    clearInterval(countdown);
-                    window.location.href = 'https://fsb.ru';
-                }
-            }, 1000);
-        }
-    });
-
-    // ==================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ====================
-    function switchSection(evt, sectionId) {
-        document.querySelectorAll('.section-block').forEach(sec => sec.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
-        evt.currentTarget.classList.add('active');
+                ${action}
+            </div>`;
     }
 
-    // ==================== TYPEWRITER ЭФФЕКТ ====================
-    document.addEventListener('DOMContentLoaded', () => {
-        const titleEl = document.getElementById('typing-title');
-        const subEl = document.getElementById('typing-subtitle');
-        const m1El = document.getElementById('manifest-p1');
-        const m2El = document.getElementById('manifest-p2');
-        const statusEl = document.querySelector('.system-status');
+    function renderMembers() {
+        document.getElementById('grid-founders').innerHTML =
+            MEMBERS.founders.map(m => memberCard(m, false)).join('');
+        document.getElementById('grid-team').innerHTML =
+            MEMBERS.team.map(m => memberCard(m, false)).join('');
+        document.getElementById('grid-youtubers').innerHTML =
+            MEMBERS.youtubers.map((m, i) => memberCard(m, i >= VISIBLE_YOUTUBERS && !membersExpanded)).join('');
+        document.getElementById('showMoreBtn').textContent =
+            membersExpanded ? I18N[currentLang]['show-less'] : I18N[currentLang]['show-more'];
+    }
 
-        const tTitle = titleEl.dataset.full;
-        const tSub = subEl.dataset.full;
-        const tM1 = m1El.dataset.full;
-        const tM2 = m2El.dataset.full;
+    function toggleMembers() {
+        membersExpanded = !membersExpanded;
+        renderMembers();
+    }
 
-        titleEl.textContent = '';
-        subEl.textContent = '';
-        m1El.textContent = '';
-        m2El.textContent = '';
-        statusEl.style.opacity = '0';
-        statusEl.style.transition = 'opacity 0.6s';
-
-        function typeWriter(el, text, speed, cb) {
-            let i = 0;
-            el.classList.add('typing-cursor');
-            const interval = setInterval(() => {
-                el.textContent += text.charAt(i);
-                i++;
-                if (i >= text.length) {
-                    clearInterval(interval);
-                    el.classList.remove('typing-cursor');
-                    if (cb) cb();
-                }
-            }, speed);
-        }
-
-        typeWriter(titleEl, tTitle, 45, () => {
-            typeWriter(subEl, tSub, 25, () => {
-                statusEl.style.opacity = '1';
-                setTimeout(() => {
-                    typeWriter(m1El, tM1, 12, () => {
-                        typeWriter(m2El, tM2, 10);
-                    });
-                }, 250);
-            });
+    // ===== ЯЗЫК =====
+    function setLang(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        localStorage.setItem('tcu-lang', lang);
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const text = I18N[lang][el.dataset.i18n];
+            if (text) el.textContent = text;
         });
+        document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        renderMembers();
+    }
+
+    // ===== КОПИРОВАНИЕ НИКА =====
+    function copyNick(btn, nick) {
+        const done = () => {
+            const orig = btn.textContent;
+            btn.textContent = I18N[currentLang]['copied'];
+            setTimeout(() => { btn.textContent = orig; }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(nick).then(done).catch(() => fallbackCopy(nick, done));
+        } else {
+            fallbackCopy(nick, done);
+        }
+    }
+
+    function fallbackCopy(text, done) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        ta.remove();
+    }
+
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    document.addEventListener('DOMContentLoaded', () => {
+        const saved = localStorage.getItem('tcu-lang');
+        const browserLang = navigator.language && navigator.language.startsWith('ru') ? 'ru' : 'en';
+        setLang(saved || browserLang || 'ru');
     });
 </script>
 </body>
-                                                                              </html>
+                </html>
