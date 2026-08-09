@@ -220,20 +220,6 @@
         .show-more-wrap { text-align: center; margin-top: 20px; }
         .allies-list { color: var(--muted); font-size: 14px; }
 
-        /* Блок объяснения скрытого канала */
-        .hidden-note {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--custard);
-            border-radius: var(--radius);
-            padding: 16px 18px;
-            margin: 14px 0 8px;
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--muted);
-        }
-        .hidden-note strong { color: var(--text); font-weight: 700; }
-
         .servers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -452,11 +438,6 @@
         <div class="group-title" data-i18n="group-team">Команда</div>
         <div class="members-grid" id="grid-team"></div>
 
-        <!-- Объяснение скрытого канала -->
-        <div class="hidden-note" data-i18n="hidden-note">
-            <strong>Примечание:</strong> Канал Emptiness скрыт из списка участников по личной просьбе создателя — он просил не показывать его на публику в списке союза.
-        </div>
-
         <div class="group-title" data-i18n="group-youtubers">Ютуберы</div>
         <div class="members-grid" id="grid-youtubers"></div>
 
@@ -608,7 +589,7 @@
             { name: 'Gerit',              tags: ['deputy', 'artist'],      link: 'https://youtube.com/@gerit742' },
             { name: 'Barricade228 [SG]',  tags: ['admin'],                 link: null },
             { name: 'Soldier Anims [SL]', tags: ['moderator', 'youtuber'], link: 'https://youtube.com/@soldieranims' },
-            // Emptiness удалён из этого списка по просьбе создателя канала
+            { name: 'Emptiness',          tags: ['moderator', 'animator'], link: null }, // Ссылка убрана (как у Баррикады)
         ],
         youtubers: [
             { name: 'DezoTubby [SG]',      tags: ['artist'],   link: 'https://youtube.com/@dezoniyofficial' },
@@ -641,7 +622,6 @@
             'group-founders': 'Основатели', 'group-team': 'Команда', 'group-youtubers': 'Ютуберы', 'group-allies': 'Союзники',
             'subscribe': 'Подписаться', 'no-channel': 'Без канала',
             'show-more': 'Показать ещё', 'show-less': 'Свернуть',
-            'hidden-note': '<strong>Примечание:</strong> Канал Emptiness скрыт из списка участников по личной просьбе создателя — он просил не показывать его на публику в списке союза.',
             'servers-title': 'Сервера сообщества', 'servers-desc': 'Здесь живёт союз: общение, новости, совместные проекты.',
             'server-main': 'Discord · основной', 'server-join': 'Войти', 'server-open': 'Открыть',
             'join-sec-title': 'Как вступить в ССТ',
@@ -683,7 +663,6 @@
             'group-founders': 'Founders', 'group-team': 'Team', 'group-youtubers': 'YouTubers', 'group-allies': 'Allies',
             'subscribe': 'Subscribe', 'no-channel': 'No channel',
             'show-more': 'Show more', 'show-less': 'Show less',
-            'hidden-note': '<strong>Note:</strong> Emptiness\'s channel is hidden from the list at the creator\'s personal request — he asked not to display it publicly within the union.',
             'servers-title': 'Community Servers', 'servers-desc': 'Where the union lives: chat, news, joint projects.',
             'server-main': 'Discord · main', 'server-join': 'Join', 'server-open': 'Open',
             'join-sec-title': 'How to Join TCU',
@@ -779,7 +758,7 @@
         localStorage.setItem('tcu-lang', lang);
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const text = I18N[lang][el.dataset.i18n];
-            if (text) el.innerHTML = text;
+            if (text) el.textContent = text;
         });
         document.getElementById('lang-ru').classList.toggle('active', lang === 'ru');
         document.getElementById('lang-en').classList.toggle('active', lang === 'en');
