@@ -7,7 +7,6 @@
     <meta name="description" content="TCU (ССТ) — объединение независимых ютуберов по Slendytubbies и другим играм. Каналы участников, серверы сообщества, информация о союзе.">
     <link rel="icon" href="photo_2026-01-24_21-23-46-2.jpg" type="image/jpeg">
 
-    <!-- Превью в Discord / Telegram -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="TCU — Союз Сотрудничества Телепузиков">
     <meta property="og:description" content="Объединение независимых ютуберов по Slendytubbies. Каналы участников, серверы сообщества.">
@@ -15,7 +14,6 @@
     <meta property="og:image" content="https://zhenyae.github.io/photo_2026-01-24_21-23-46-2.jpg">
     <meta name="theme-color" content="#0e1017">
 
-    <!-- Тема применяется ДО отрисовки, чтобы не было вспышки -->
     <script>
         document.documentElement.dataset.theme = localStorage.getItem('tcu-theme') || 'dark';
     </script>
@@ -27,8 +25,6 @@
             --discord: #5865F2;
             --youtube: #c4302b;
             --radius: 12px;
-
-            /* Тёмная тема (по умолчанию) */
             --bg: #0e1017;
             --surface: #171a26;
             --text: #e8eaed;
@@ -60,7 +56,6 @@
 
         .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
-        /* ===== Шапка ===== */
         header {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
@@ -156,20 +151,20 @@
         .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 14px var(--shadow); }
         .btn-discord { background: var(--discord); color: #fff; }
         .btn-outline { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
-        .btn-yt { background: var(--youtube); color: #fff; padding: 8px 16px; font-size: 13px; }
+        .btn-yt { background: var(--youtube); color: #fff); padding: 8px 16px; font-size: 13px; }
 
-        /* ===== Статистика ===== */
+        
         .stats { display: flex; justify-content: center; gap: 40px; padding: 24px 0 8px; flex-wrap: wrap; }
         .stat { text-align: center; }
         .stat-num { font-size: 26px; font-weight: 800; color: var(--custard); }
         .stat-label { font-size: 13px; color: var(--muted); }
 
-        /* ===== Секции ===== */
+        
         section { padding: 40px 0; scroll-margin-top: 70px; }
         .section-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
         .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
 
-        /* ===== Карточки участников ===== */
+        
         .members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -229,7 +224,7 @@
         .show-more-wrap { text-align: center; margin-top: 20px; }
         .allies-list { color: var(--muted); font-size: 14px; }
 
-        /* ===== Серверы ===== */
+    
         .servers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -246,10 +241,17 @@
             gap: 12px;
             align-items: center;
         }
+        .server-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
         .server-name { font-weight: 700; }
         .server-type { font-size: 12px; color: var(--muted); }
 
-        /* ===== Шаги вступления ===== */
+        
         .steps { display: flex; flex-direction: column; gap: 14px; }
         .step {
             background: var(--surface);
@@ -277,7 +279,6 @@
         .step-title { font-weight: 700; margin-bottom: 4px; }
         .step-text { font-size: 14px; color: var(--muted); }
 
-        /* ===== Почему нет формы ===== */
         .why-block {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -290,7 +291,6 @@
         .why-block p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
         .why-block p:last-child { margin-bottom: 0; }
 
-        /* ===== Контакты основателей ===== */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -331,7 +331,6 @@
         }
         .copy-btn:hover { background: var(--custard); }
 
-        /* ===== Подсказка для заявки ===== */
         .apply-hint {
             margin-top: 24px;
             background: var(--surface);
@@ -346,8 +345,8 @@
             line-height: 1.8;
         }
 
-        /* ===== О союзе / Хроника ===== */
         .about-text p { margin-bottom: 14px; max-width: 680px; }
+
         .history { border-left: 2px solid var(--border); padding-left: 20px; margin-top: 24px; }
         .history-item { margin-bottom: 16px; }
         .history-item:last-child { margin-bottom: 0; }
@@ -364,7 +363,6 @@
             color: var(--muted);
         }
 
-        /* ===== Подвал ===== */
         footer {
             border-top: 1px solid var(--border);
             padding: 24px 0;
@@ -428,7 +426,7 @@
         </div>
     </div>
 
-    <!-- 1. О СОЮЗЕ -->
+    
     <section id="about">
         <div class="section-title" data-i18n="about-title">О союзе</div>
         <div class="about-text">
@@ -437,7 +435,7 @@
         </div>
     </section>
 
-    <!-- 2. УЧАСТНИКИ -->
+    
     <section id="members">
         <div class="section-title" data-i18n="members-title">Участники союза</div>
         <div class="section-desc" data-i18n="members-desc">Подпишись — так ты поддержишь каждого из нас.</div>
@@ -459,27 +457,31 @@
         <p class="allies-list">dimon · Leoknoopers · Мама Габена</p>
     </section>
 
-    <!-- 3. СЕРВЕРА -->
+    
     <section id="servers">
         <div class="section-title" data-i18n="servers-title">Сервера сообщества</div>
         <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты.</div>
         <div class="servers-grid">
             <div class="server-card">
+                <img class="server-icon" src="sg-server.png" alt="SaguloStopol" loading="lazy">
                 <div class="server-name">SaguloStopol [SG]</div>
                 <div class="server-type" data-i18n="server-main">Discord · основной</div>
                 <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
+                <img class="server-icon" src="zhenrov-server.png" alt="Zhenrov Community" loading="lazy">
                 <div class="server-name">Zhenrov Community</div>
                 <div class="server-type">Discord</div>
                 <a class="btn btn-discord" href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
+                <img class="server-icon" src="terrov-server.png" alt="Terrov World" loading="lazy">
                 <div class="server-name">Terrov World</div>
                 <div class="server-type">Discord</div>
                 <a class="btn btn-discord" href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
+                <img class="server-icon" src="lineburg-icon.png" alt="ЛайнемБург" loading="lazy">
                 <div class="server-name">ЛайнемБург</div>
                 <div class="server-type">Telegram</div>
                 <a class="btn btn-outline" href="https://t.me/linemburg" target="_blank" rel="noopener" data-i18n="server-open">Открыть</a>
@@ -487,7 +489,7 @@
         </div>
     </section>
 
-    <!-- 4. КАК ВСТУПИТЬ -->
+    
     <section id="join">
         <div class="section-title" data-i18n="join-sec-title">Как вступить в ССТ</div>
         <div class="section-desc" data-i18n="join-sec-desc">Заявки принимают лично основатели союза. Никаких форм и анкет.</div>
@@ -503,7 +505,7 @@
                 <div class="step-num">1</div>
                 <div>
                     <div class="step-title" data-i18n="step1-title">Познакомься с союзом</div>
-                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.</div>
+                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на сервера сообщества — так ты поймёшь, своё ли это место для тебя.</div>
                 </div>
             </div>
             <div class="step">
@@ -589,16 +591,12 @@
 </footer>
 
 <script>
-    // ===== ДАННЫЕ УЧАСТНИКОВ =====
-    // Добавить человека = добавить строку. img — необязательно.
+    
     const MEMBERS = {
-        
         founders: [
             { name: 'Sagulik [SG]', tags: ['founder', 'youtuber'], link: 'https://youtube.com/@sagulik' },
             { name: 'Zhenrov',      tags: ['founder', 'youtuber'], link: 'https://youtube.com/@zhenrov_teletubby' },
         ],
-    
-
         team: [
             { name: 'Gerit',              tags: ['deputy', 'artist'],      link: 'https://youtube.com/@gerit742' },
             { name: 'Barricade228 [SG]',  tags: ['admin'],                 link: null },
@@ -623,7 +621,6 @@
     let membersExpanded = false;
     let currentLang = 'ru';
 
-    // ===== ПЕРЕВОДЫ =====
     const I18N = {
         ru: {
             'nav-about': 'О союзе', 'nav-members': 'Участники', 'nav-servers': 'Сервера', 'nav-join': 'Вступление', 'nav-history': 'Хроника',
@@ -645,7 +642,7 @@
             'why-p1': 'Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.',
             'why-p2': 'Поэтому заявка в ССТ — это не анкета, а диалог с основателем.',
             'step1-title': 'Познакомься с союзом',
-            'step1-text': 'Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.',
+            'step1-text': 'Посмотри каналы участников и загляни на сервера сообщества — так ты поймёшь, своё ли это место для тебя.',
             'step2-title': 'Напиши заявку основателю',
             'step2-text': 'В личные сообщения Discord или прямо на серверах сообщества. Контакты — ниже.',
             'step3-title': 'Дождись решения',
@@ -715,7 +712,6 @@
     };
     const KEY_TAGS = ['founder'];
 
-    // ===== ТЕМА =====
     function applyTheme(theme) {
         document.documentElement.dataset.theme = theme;
         localStorage.setItem('tcu-theme', theme);
@@ -729,7 +725,6 @@
         applyTheme(current === 'dark' ? 'light' : 'dark');
     }
 
-    // ===== РЕНДЕР УЧАСТНИКОВ =====
     function memberCard(m, hidden) {
         const avatar = m.img
             ? `<img class="member-avatar-img" src="${m.img}" alt="" loading="lazy">`
@@ -769,7 +764,6 @@
         renderMembers();
     }
 
-    // ===== ЯЗЫК =====
     function setLang(lang) {
         currentLang = lang;
         document.documentElement.lang = lang;
@@ -783,7 +777,6 @@
         renderMembers();
     }
 
-    // ===== КОПИРОВАНИЕ НИКА =====
     function copyNick(btn, nick) {
         const done = () => {
             const orig = btn.textContent;
@@ -808,7 +801,6 @@
         ta.remove();
     }
 
-    // ===== ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', () => {
         const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
         document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
