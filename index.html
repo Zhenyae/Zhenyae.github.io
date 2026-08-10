@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCU — Союз Сотрудничества Телепузиков</title>
-    <meta name="description" content="TCU (ССТ) — объединение независимых ютуберов по Slendytubbies и другим играм. Каналы участников, серверы сообщества, информация о союзе.">
+    <meta name="description" content="TCU (ССТ) — объединение независимых ютуберов по Slendytubbies и другим играм. Каналы участников, официальные серверы, информация о союзе.">
     <link rel="icon" href="photo_2026-01-24_21-23-46-2.jpg" type="image/jpeg">
     <meta property="og:type" content="website">
     <meta property="og:title" content="TCU — Союз Сотрудничества Телепузиков">
-    <meta property="og:description" content="Объединение независимых ютуберов по Slendytubbies. Каналы участников, серверы сообщества.">
+    <meta property="og:description" content="Объединение независимых ютуберов по Slendytubbies. Каналы участников, официальные серверы.">
     <meta property="og:url" content="https://zhenyae.github.io/">
     <meta property="og:image" content="https://zhenyae.github.io/photo_2026-01-24_21-23-46-2.jpg">
     <meta name="theme-color" content="#0e1017">
@@ -200,6 +200,27 @@
         .group-title:first-of-type { margin-top: 0; }
         .show-more-wrap { text-align: center; margin-top: 20px; }
         .allies-list { color: var(--muted); font-size: 14px; }
+        .division-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .division-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px var(--shadow); }
+        .division-flag {
+            width: 56px; height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .division-info { flex: 1; min-width: 180px; }
+        .division-name { font-weight: 700; }
+        .division-leader { font-size: 13px; color: var(--muted); margin-top: 2px; }
         .servers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -409,31 +430,46 @@
         <div class="show-more-wrap">
             <button class="btn btn-outline" id="showMoreBtn" onclick="toggleMembers()"></button>
         </div>
+        <div class="group-title" data-i18n="group-divisions">Дивизионы</div>
+        <div class="section-desc" data-i18n="divisions-desc">Союзные формирования под флагом ССТ.</div>
+        <div class="division-card">
+            <img class="division-flag" src="skf-flag.jpg" alt="Флаг СКФ">
+            <div class="division-info">
+                <div class="division-name" data-i18n="division-name">СКФ — Свободный Крашерский Фонд</div>
+                <div class="division-leader" data-i18n="division-leader">Лидер: Pel [SG]</div>
+            </div>
+            <span class="tag" data-i18n="indev">В разработке</span>
+        </div>
         <div class="group-title" data-i18n="group-allies">Союзники</div>
         <p class="allies-list">dimon · Leoknoopers · Мама Габена</p>
     </section>
 
     <section id="servers">
-        <div class="section-title" data-i18n="servers-title">Сервера сообщества</div>
-        <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты.</div>
+        <div class="section-title" data-i18n="servers-title">Официальные сервера ССТ</div>
+        <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты. Других серверов у ССТ нет — все остальные не имеют к нам отношения.</div>
         <div class="servers-grid">
             <div class="server-card">
-                <img class="server-icon" src="flagnew-1.jpg" alt="SaguloStopol">
+                <img class="server-icon" src="sg-server.png" alt="SaguloStopol">
                 <div class="server-name">SaguloStopol [SG]</div>
-                <div class="server-type" data-i18n="server-main">Discord · основной</div>
+                <div class="server-type">Discord</div>
+                <span class="tag key" data-i18n="server-main">Основной</span>
                 <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
+                <img class="server-icon" src="zhenrov-server.png" alt="Zhenrov Community">
                 <div class="server-name">Zhenrov Community</div>
                 <div class="server-type">Discord</div>
+                <span class="tag key" data-i18n="server-main">Основной</span>
                 <a class="btn btn-discord" href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
+                <img class="server-icon" src="terrov-server.png" alt="Terrov World">
                 <div class="server-name">Terrov World</div>
                 <div class="server-type">Discord</div>
                 <a class="btn btn-discord" href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
+                <img class="server-icon" src="lineburg-icon.png" alt="ЛайнемБург">
                 <div class="server-name">ЛайнемБург</div>
                 <div class="server-type">Telegram</div>
                 <a class="btn btn-outline" href="https://t.me/linemburg" target="_blank" rel="noopener" data-i18n="server-open">Открыть</a>
@@ -454,14 +490,14 @@
                 <div class="step-num">1</div>
                 <div>
                     <div class="step-title" data-i18n="step1-title">Познакомься с союзом</div>
-                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.</div>
+                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на официальные серверы — так ты поймёшь, своё ли это место для тебя.</div>
                 </div>
             </div>
             <div class="step">
                 <div class="step-num">2</div>
                 <div>
                     <div class="step-title" data-i18n="step2-title">Напиши заявку основателю</div>
-                    <div class="step-text" data-i18n="step2-text">В личные сообщения Discord или прямо на серверы сообщества. Контакты — ниже.</div>
+                    <div class="step-text" data-i18n="step2-text">В личные сообщения Discord или прямо на официальных серверах. Контакты — ниже.</div>
                 </div>
             </div>
             <div class="step">
@@ -578,19 +614,25 @@
             'about-p2': 'Наша цель — развитие сообщества и продвижение контента участников.',
             'members-title': 'Участники союза', 'members-desc': 'Подпишись — так ты поддержишь каждого из нас.',
             'group-founders': 'Основатели', 'group-team': 'Команда', 'group-youtubers': 'Ютуберы', 'group-allies': 'Союзники',
+            'group-divisions': 'Дивизионы',
+            'divisions-desc': 'Союзные формирования под флагом ССТ.',
+            'division-name': 'СКФ — Свободный Крашерский Фонд',
+            'division-leader': 'Лидер: Pel [SG]',
+            'indev': 'В разработке',
             'subscribe': 'Подписаться', 'no-channel': 'Без канала',
             'show-more': 'Показать ещё', 'show-less': 'Свернуть',
-            'servers-title': 'Сервера сообщества', 'servers-desc': 'Здесь живёт союз: общение, новости, совместные проекты.',
-            'server-main': 'Discord · основной', 'server-join': 'Войти', 'server-open': 'Открыть',
+            'servers-title': 'Официальные сервера ССТ',
+            'servers-desc': 'Здесь живёт союз: общение, новости, совместные проекты. Других серверов у ССТ нет — все остальные не имеют к нам отношения.',
+            'server-main': 'Основной', 'server-join': 'Войти', 'server-open': 'Открыть',
             'join-sec-title': 'Как вступить в ССТ',
             'join-sec-desc': 'Заявки принимают лично основатели союза. Никаких форм и анкет.',
             'why-title': 'Почему нет формы?',
             'why-p1': 'Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.',
             'why-p2': 'Поэтому заявка в ССТ — это не анкета, а диалог с основателем.',
             'step1-title': 'Познакомься с союзом',
-            'step1-text': 'Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.',
+            'step1-text': 'Посмотри каналы участников и загляни на официальные серверы — так ты поймёшь, своё ли это место для тебя.',
             'step2-title': 'Напиши заявку основателю',
-            'step2-text': 'В личные сообщения Discord или прямо на серверы сообщества. Контакты — ниже.',
+            'step2-text': 'В личные сообщения Discord или прямо на официальных серверах. Контакты — ниже.',
             'step3-title': 'Дождись решения',
             'step3-text': 'Основатели рассматривают каждую заявку лично и отвечают сами.',
             'contact-title': 'Контакты основателей',
@@ -621,19 +663,25 @@
             'about-p2': 'Our goal is to grow the community and promote our members\' content.',
             'members-title': 'Union Members', 'members-desc': 'Subscribe — that\'s how you support each of us.',
             'group-founders': 'Founders', 'group-team': 'Team', 'group-youtubers': 'YouTubers', 'group-allies': 'Allies',
+            'group-divisions': 'Divisions',
+            'divisions-desc': 'Allied formations under the TCU flag.',
+            'division-name': 'SKF — Free Crushers Fund',
+            'division-leader': 'Leader: Pel [SG]',
+            'indev': 'In development',
             'subscribe': 'Subscribe', 'no-channel': 'No channel',
             'show-more': 'Show more', 'show-less': 'Show less',
-            'servers-title': 'Community Servers', 'servers-desc': 'Where the union lives: chat, news, joint projects.',
-            'server-main': 'Discord · main', 'server-join': 'Join', 'server-open': 'Open',
+            'servers-title': 'Official TCU Servers',
+            'servers-desc': 'Where the union lives: chat, news, joint projects. TCU has no other servers — anything else is not affiliated with us.',
+            'server-main': 'Main', 'server-join': 'Join', 'server-open': 'Open',
             'join-sec-title': 'How to Join TCU',
             'join-sec-desc': 'Applications are reviewed personally by the founders. No forms, no questionnaires.',
             'why-title': 'Why no form?',
             'why-p1': 'A form goes into the void and only tells us what a person wants us to see. A direct message is an instant conversation: we see how you communicate and can ask questions.',
             'why-p2': 'That\'s why a TCU application is not a questionnaire — it\'s a dialogue with a founder.',
             'step1-title': 'Get to know the union',
-            'step1-text': 'Check out the members\' channels and stop by the community servers — see if this place is right for you.',
+            'step1-text': 'Check out the members\' channels and stop by the official servers — see if this place is right for you.',
             'step2-title': 'Send your application to a founder',
-            'step2-text': 'Via Discord DMs or right on the community servers. Contacts are below.',
+            'step2-text': 'Via Discord DMs or right on the official servers. Contacts are below.',
             'step3-title': 'Wait for the decision',
             'step3-text': 'The founders review every application personally and reply themselves.',
             'contact-title': 'Founder contacts',
@@ -760,4 +808,4 @@
     });
 </script>
 </body>
-                                                                                                </html>
+</html>
