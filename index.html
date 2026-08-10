@@ -6,18 +6,15 @@
     <title>TCU — Союз Сотрудничества Телепузиков</title>
     <meta name="description" content="TCU (ССТ) — объединение независимых ютуберов по Slendytubbies и другим играм. Каналы участников, серверы сообщества, информация о союзе.">
     <link rel="icon" href="photo_2026-01-24_21-23-46-2.jpg" type="image/jpeg">
-
     <meta property="og:type" content="website">
     <meta property="og:title" content="TCU — Союз Сотрудничества Телепузиков">
     <meta property="og:description" content="Объединение независимых ютуберов по Slendytubbies. Каналы участников, серверы сообщества.">
     <meta property="og:url" content="https://zhenyae.github.io/">
     <meta property="og:image" content="https://zhenyae.github.io/photo_2026-01-24_21-23-46-2.jpg">
     <meta name="theme-color" content="#0e1017">
-
     <script>
         document.documentElement.dataset.theme = localStorage.getItem('tcu-theme') || 'dark';
     </script>
-
     <style>
         :root {
             --brand: #2f3fd6;
@@ -32,7 +29,6 @@
             --border: #2a2e42;
             --shadow: rgba(0, 0, 0, 0.35);
         }
-
         [data-theme="light"] {
             --bg: #f7f7f8;
             --surface: #ffffff;
@@ -41,11 +37,8 @@
             --border: #e5e7eb;
             --shadow: rgba(0, 0, 0, 0.1);
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         html { scroll-behavior: smooth; }
-
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
@@ -53,9 +46,7 @@
             line-height: 1.6;
             transition: background 0.2s, color 0.2s;
         }
-
         .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-
         header {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
@@ -85,9 +76,7 @@
         nav { display: flex; gap: 18px; flex-wrap: wrap; }
         nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
         nav a:hover { color: var(--text); }
-
         .header-controls { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
-
         .theme-toggle {
             width: 34px; height: 34px;
             border-radius: 50%;
@@ -102,7 +91,6 @@
             transition: border-color 0.15s;
         }
         .theme-toggle:hover { border-color: var(--custard); }
-
         .lang-switch {
             display: flex;
             border: 1px solid var(--border);
@@ -120,7 +108,6 @@
             font-family: inherit;
         }
         .lang-switch button.active { background: var(--brand); color: #fff; }
-
         .hero { padding: 56px 0 40px; text-align: center; }
         .hero-logo {
             width: 120px; height: 120px;
@@ -132,7 +119,6 @@
         .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 12px; }
         .hero p { color: var(--muted); max-width: 520px; margin: 0 auto 28px; font-size: 16px; }
         .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-
         .btn {
             display: inline-flex;
             align-items: center;
@@ -151,16 +137,13 @@
         .btn-discord { background: var(--discord); color: #fff; }
         .btn-outline { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
         .btn-yt { background: var(--youtube); color: #fff; padding: 8px 16px; font-size: 13px; }
-
         .stats { display: flex; justify-content: center; gap: 40px; padding: 24px 0 8px; flex-wrap: wrap; }
         .stat { text-align: center; }
         .stat-num { font-size: 26px; font-weight: 800; color: var(--custard); }
         .stat-label { font-size: 13px; color: var(--muted); }
-
         section { padding: 40px 0; scroll-margin-top: 70px; }
         .section-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
         .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
-
         .members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -206,7 +189,6 @@
         .member-card .btn-yt { align-self: flex-start; }
         .member-no-link { font-size: 13px; color: var(--muted); }
         .member-card.collapsed { display: none; }
-
         .group-title {
             font-size: 15px;
             font-weight: 700;
@@ -216,10 +198,8 @@
             margin: 28px 0 14px;
         }
         .group-title:first-of-type { margin-top: 0; }
-
         .show-more-wrap { text-align: center; margin-top: 20px; }
         .allies-list { color: var(--muted); font-size: 14px; }
-
         .servers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -237,15 +217,12 @@
             align-items: center;
         }
         .server-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+            width: 56px; height: 56px;
+            border-radius: 14px;
             object-fit: cover;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
         .server-name { font-weight: 700; }
         .server-type { font-size: 12px; color: var(--muted); }
-
         .steps { display: flex; flex-direction: column; gap: 14px; }
         .step {
             background: var(--surface);
@@ -272,7 +249,6 @@
         .step:last-child .step-num { background: var(--custard); }
         .step-title { font-weight: 700; margin-bottom: 4px; }
         .step-text { font-size: 14px; color: var(--muted); }
-
         .why-block {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -284,7 +260,6 @@
         .why-title { font-weight: 800; font-size: 15px; margin-bottom: 8px; }
         .why-block p { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
         .why-block p:last-child { margin-bottom: 0; }
-
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -324,7 +299,6 @@
             transition: background 0.15s;
         }
         .copy-btn:hover { background: var(--custard); }
-
         .apply-hint {
             margin-top: 24px;
             background: var(--surface);
@@ -338,15 +312,12 @@
             color: var(--muted);
             line-height: 1.8;
         }
-
         .about-text p { margin-bottom: 14px; max-width: 680px; }
-
         .history { border-left: 2px solid var(--border); padding-left: 20px; margin-top: 24px; }
         .history-item { margin-bottom: 16px; }
         .history-item:last-child { margin-bottom: 0; }
         .history-date { font-size: 12px; color: var(--muted); }
         .history-title { font-weight: 700; font-size: 14px; }
-
         .join-note {
             margin-top: 24px;
             background: var(--surface);
@@ -356,7 +327,6 @@
             font-size: 14px;
             color: var(--muted);
         }
-
         footer {
             border-top: 1px solid var(--border);
             padding: 24px 0;
@@ -364,13 +334,12 @@
             color: var(--muted);
             font-size: 13px;
         }
-
         @media (max-width: 600px) {
             .hero h1 { font-size: 24px; }
             .header-inner { flex-wrap: wrap; }
             nav { order: 3; width: 100%; justify-content: center; }
+            .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         }
-
         @media (prefers-reduced-motion: reduce) {
             * { animation: none !important; transition: none !important; }
             html { scroll-behavior: auto; }
@@ -431,20 +400,15 @@
     <section id="members">
         <div class="section-title" data-i18n="members-title">Участники союза</div>
         <div class="section-desc" data-i18n="members-desc">Подпишись — так ты поддержишь каждого из нас.</div>
-
         <div class="group-title" data-i18n="group-founders">Основатели</div>
         <div class="members-grid" id="grid-founders"></div>
-
         <div class="group-title" data-i18n="group-team">Команда</div>
         <div class="members-grid" id="grid-team"></div>
-
         <div class="group-title" data-i18n="group-youtubers">Ютуберы</div>
         <div class="members-grid" id="grid-youtubers"></div>
-
         <div class="show-more-wrap">
             <button class="btn btn-outline" id="showMoreBtn" onclick="toggleMembers()"></button>
         </div>
-
         <div class="group-title" data-i18n="group-allies">Союзники</div>
         <p class="allies-list">dimon · Leoknoopers · Мама Габена</p>
     </section>
@@ -454,25 +418,22 @@
         <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты.</div>
         <div class="servers-grid">
             <div class="server-card">
-                <img class="server-icon" src="sg-server.png" alt="SaguloStopol" loading="lazy">
+                <img class="server-icon" src="flagnew-1.jpg" alt="SaguloStopol">
                 <div class="server-name">SaguloStopol [SG]</div>
                 <div class="server-type" data-i18n="server-main">Discord · основной</div>
                 <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
-                <img class="server-icon" src="zhenrov-server.png" alt="Zhenrov Community" loading="lazy">
                 <div class="server-name">Zhenrov Community</div>
                 <div class="server-type">Discord</div>
                 <a class="btn btn-discord" href="https://discord.gg/TVc2XZh3HT" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
-                <img class="server-icon" src="terrov-server.png" alt="Terrov World" loading="lazy">
                 <div class="server-name">Terrov World</div>
                 <div class="server-type">Discord</div>
                 <a class="btn btn-discord" href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
             <div class="server-card">
-                <img class="server-icon" src="lineburg-icon.png" alt="ЛайнемБург" loading="lazy">
                 <div class="server-name">ЛайнемБург</div>
                 <div class="server-type">Telegram</div>
                 <a class="btn btn-outline" href="https://t.me/linemburg" target="_blank" rel="noopener" data-i18n="server-open">Открыть</a>
@@ -483,26 +444,24 @@
     <section id="join">
         <div class="section-title" data-i18n="join-sec-title">Как вступить в ССТ</div>
         <div class="section-desc" data-i18n="join-sec-desc">Заявки принимают лично основатели союза. Никаких форм и анкет.</div>
-
         <div class="why-block">
             <div class="why-title" data-i18n="why-title">Почему нет формы?</div>
             <p data-i18n="why-p1">Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.</p>
             <p data-i18n="why-p2">Поэтому заявка в ССТ — это не анкета, а диалог с основателем.</p>
         </div>
-
         <div class="steps">
             <div class="step">
                 <div class="step-num">1</div>
                 <div>
                     <div class="step-title" data-i18n="step1-title">Познакомься с союзом</div>
-                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на сервера сообщества — так ты поймёшь, своё ли это место для тебя.</div>
+                    <div class="step-text" data-i18n="step1-text">Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.</div>
                 </div>
             </div>
             <div class="step">
                 <div class="step-num">2</div>
                 <div>
                     <div class="step-title" data-i18n="step2-title">Напиши заявку основателю</div>
-                    <div class="step-text" data-i18n="step2-text">В личные сообщения Discord или прямо на серверах сообщества. Контакты — ниже.</div>
+                    <div class="step-text" data-i18n="step2-text">В личные сообщения Discord или прямо на серверы сообщества. Контакты — ниже.</div>
                 </div>
             </div>
             <div class="step">
@@ -513,7 +472,6 @@
                 </div>
             </div>
         </div>
-
         <div class="group-title" data-i18n="contact-title">Контакты основателей</div>
         <div class="section-desc" data-i18n="contact-desc">Discord · нажми «Копировать» и вставь ник в поиске пользователей</div>
         <div class="contact-grid">
@@ -534,16 +492,16 @@
                 </div>
             </div>
         </div>
-
         <div class="apply-hint">
-            <div class="why-title" data-i18n="hint-title">Что указать в сообщении:</div>
+            <div class="why-title" data-i18n="hint-title">Официальный шаблон заявки:</div>
             <ul>
-                <li data-i18n="hint-1">Твой ник и ссылка на канал, если он есть</li>
-                <li data-i18n="hint-2">Чем занимаешься: видео, арт, анимация, модели…</li>
-                <li data-i18n="hint-3">Почему хочешь вступить в союз</li>
+                <li data-i18n="hint-1">Твой никнейм / имя</li>
+                <li data-i18n="hint-2">Ссылка на YouTube-канал или Discord-сервер, если есть</li>
+                <li data-i18n="hint-3">Состоишь ли в других союзах или сквадах?</li>
+                <li data-i18n="hint-4">Немного о себе — кто ты и чем занимаешься</li>
+                <li data-i18n="hint-5">Почему хочешь вступить в союз, какова твоя цель и готов ли помогать союзникам при необходимости</li>
             </ul>
         </div>
-
         <div class="join-note">
             <span data-i18n="join-warning">Заявки принимают только основатели. Сообщения другим участникам заявками не считаются.</span>
         </div>
@@ -589,7 +547,7 @@
             { name: 'Gerit',              tags: ['deputy', 'artist'],      link: 'https://youtube.com/@gerit742' },
             { name: 'Barricade228 [SG]',  tags: ['admin'],                 link: null },
             { name: 'Soldier Anims [SL]', tags: ['moderator', 'youtuber'], link: 'https://youtube.com/@soldieranims' },
-            { name: 'Emptiness',          tags: ['moderator', 'animator'], link: null }, // Ссылка убрана (как у Баррикады)
+            { name: 'Emptiness',          tags: ['moderator', 'animator'], link: null },
         ],
         youtubers: [
             { name: 'DezoTubby [SG]',      tags: ['artist'],   link: 'https://youtube.com/@dezoniyofficial' },
@@ -630,19 +588,21 @@
             'why-p1': 'Форма уходит в бездну и рассказывает о человеке лишь то, что он хочет показать. Личное сообщение — это сразу разговор: мы видим, как ты общаешься, и можем задать вопросы.',
             'why-p2': 'Поэтому заявка в ССТ — это не анкета, а диалог с основателем.',
             'step1-title': 'Познакомься с союзом',
-            'step1-text': 'Посмотри каналы участников и загляни на сервера сообщества — так ты поймёшь, своё ли это место для тебя.',
+            'step1-text': 'Посмотри каналы участников и загляни на серверы сообщества — так ты поймёшь, своё ли это место для тебя.',
             'step2-title': 'Напиши заявку основателю',
-            'step2-text': 'В личные сообщения Discord или прямо на серверах сообщества. Контакты — ниже.',
+            'step2-text': 'В личные сообщения Discord или прямо на серверы сообщества. Контакты — ниже.',
             'step3-title': 'Дождись решения',
             'step3-text': 'Основатели рассматривают каждую заявку лично и отвечают сами.',
             'contact-title': 'Контакты основателей',
             'contact-desc': 'Discord · нажми «Копировать» и вставь ник в поиске пользователей',
             'contact-founder': 'Основатель TCU',
             'copy': 'Копировать', 'copied': 'Скопировано!',
-            'hint-title': 'Что указать в сообщении:',
-            'hint-1': 'Твой ник и ссылка на канал, если он есть',
-            'hint-2': 'Чем занимаешься: видео, арт, анимация, модели…',
-            'hint-3': 'Почему хочешь вступить в союз',
+            'hint-title': 'Официальный шаблон заявки:',
+            'hint-1': 'Твой никнейм / имя',
+            'hint-2': 'Ссылка на YouTube-канал или Discord-сервер, если есть',
+            'hint-3': 'Состоишь ли в других союзах или сквадах?',
+            'hint-4': 'Немного о себе — кто ты и чем занимаешься',
+            'hint-5': 'Почему хочешь вступить в союз, какова твоя цель и готов ли помогать союзникам при необходимости',
             'join-warning': 'Заявки принимают только основатели. Сообщения другим участникам заявками не считаются.',
             'history-title': 'Хроника',
             'h1-date': 'Январь 2026', 'h1-title': 'Основание ССТ — Sagulik и Zhenrov',
@@ -680,10 +640,12 @@
             'contact-desc': 'Discord · hit "Copy" and paste the username into the user search',
             'contact-founder': 'TCU Founder',
             'copy': 'Copy', 'copied': 'Copied!',
-            'hint-title': 'What to include in your message:',
-            'hint-1': 'Your nickname and a link to your channel, if you have one',
-            'hint-2': 'What you do: videos, art, animation, models…',
-            'hint-3': 'Why you want to join the union',
+            'hint-title': 'Official application template:',
+            'hint-1': 'Your nickname / name',
+            'hint-2': 'A link to your YouTube channel or Discord server, if you have one',
+            'hint-3': 'Are you a member of any other unions or squads?',
+            'hint-4': 'A bit about yourself — who you are and what you do',
+            'hint-5': 'Why you want to join the union, what your goal is, and whether you are ready to help allies when needed',
             'join-warning': 'Only the founders accept applications. Messages to other members do not count as applications.',
             'history-title': 'History',
             'h1-date': 'January 2026', 'h1-title': 'TCU founded by Sagulik and Zhenrov',
@@ -792,11 +754,10 @@
     document.addEventListener('DOMContentLoaded', () => {
         const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
         document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
-
         const saved = localStorage.getItem('tcu-lang');
         const browserLang = navigator.language && navigator.language.startsWith('ru') ? 'ru' : 'en';
         setLang(saved || browserLang || 'ru');
     });
 </script>
 </body>
-</html>
+                                                                                                </html>
