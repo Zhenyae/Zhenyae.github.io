@@ -373,7 +373,7 @@
     <div class="header-inner">
         <a class="logo" href="#">
             <img class="logo-img" src="photo_2026-01-24_21-23-46-2.jpg" alt="TCU">
-            <span data-i18n='logo-text'<ССТ></span>
+            <span data-i18n="logo-text">ССТ</span>
         </a>
         <nav>
             <a href="#about" data-i18n="nav-about">О союзе</a>
@@ -405,7 +405,7 @@
         <div class="stats">
             <div class="stat"><div class="stat-num">20</div><div class="stat-label" data-i18n="stat-members">участников</div></div>
             <div class="stat"><div class="stat-num">16</div><div class="stat-label" data-i18n="stat-channels">каналов</div></div>
-            <div class="stat"><div class="stat-num">4</div><div class="stat-label" data-i18n="stat-servers">сервера</div></div>
+            <div class="stat"><div class="stat-num">3</div><div class="stat-label" data-i18n="stat-servers">сервера</div></div>
             <div class="stat"><div class="stat-num">2026</div><div class="stat-label" data-i18n="stat-founded">год основания</div></div>
         </div>
     </div>
@@ -448,16 +448,16 @@
         <div class="section-title" data-i18n="servers-title">Официальные сервера ССТ</div>
         <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты. Других серверов у ССТ нет — все остальные не имеют к нам отношения.</div>
         <div class="servers-grid">
-        <div class="server-card">
-            <img class="server-icon" src="sg-server.png" alt="SaguloStopol">
-            <div class="server-name">SaguloStopol [SG]</div>
-            <div class="server-type">Discord</div>
-            <span class="tag key" data-i18n="server-main">Основной</span>
-            <div style="display: flex; gap: 8px; width: 100%; justify-content: center; flex-wrap: wrap;">
-                <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
-                <a class="btn btn-outline" href="servers/sagulo.html" data-i18n="server-wiki">Вики</a>
+            <div class="server-card">
+                <img class="server-icon" src="sg-server.png" alt="SaguloStopol">
+                <div class="server-name">SaguloStopol [SG]</div>
+                <div class="server-type">Discord</div>
+                <span class="tag key" data-i18n="server-main">Основной</span>
+                <div style="display: flex; gap: 8px; width: 100%; justify-content: center; flex-wrap: wrap;">
+                    <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+                    <a class="btn btn-outline" href="servers/sagulo.html" data-i18n="server-wiki">Вики</a>
+                </div>
             </div>
-       </div>
             <div class="server-card">
                 <img class="server-icon" src="zhenrov-server.png" alt="Zhenrov Community">
                 <div class="server-name">Zhenrov Community</div>
@@ -471,6 +471,8 @@
                 <div class="server-type">Discord</div>
                 <a class="btn btn-discord" href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
+        </div>
+    </section>
 
     <section id="join">
         <div class="section-title" data-i18n="join-sec-title">Как вступить в ССТ</div>
@@ -555,7 +557,7 @@
             </div>
             <div class="history-item">
                 <div class="history-date" data-i18n="h4-date">Июль 2026</div>
-                <div class="history-title" data-i18n="h4-title">20 участников, 4 сервера, запуск нового сайта</div>
+                <div class="history-title" data-i18n="h4-title">20 участников, 3 сервера, запуск нового сайта</div>
             </div>
         </div>
     </section>
@@ -598,8 +600,7 @@
 
     const I18N = {
         ru: {
-            'server-wiki': 'Вики'
-            'logo-text': 'ССТ'
+            'logo-text': 'ССТ',
             'nav-about': 'О союзе', 'nav-members': 'Участники', 'nav-servers': 'Сервера', 'nav-join': 'Вступление', 'nav-history': 'Хроника',
             'hero-sub': 'Объединение независимых ютуберов по Slendytubbies и другим играм.',
             'cta-join': 'Как вступить в ССТ', 'cta-members': 'Смотреть участников',
@@ -618,7 +619,7 @@
             'show-more': 'Показать ещё', 'show-less': 'Свернуть',
             'servers-title': 'Официальные сервера ССТ',
             'servers-desc': 'Здесь живёт союз: общение, новости, совместные проекты. Других серверов у ССТ нет — все остальные не имеют к нам отношения.',
-            'server-main': 'Основной', 'server-join': 'Войти', 'server-open': 'Открыть',
+            'server-main': 'Основной', 'server-join': 'Войти', 'server-wiki': 'Вики', 'server-open': 'Открыть',
             'join-sec-title': 'Как вступить в ССТ',
             'join-sec-desc': 'Заявки принимают лично основатели союза. Никаких форм и анкет.',
             'why-title': 'Почему нет формы?',
@@ -645,12 +646,11 @@
             'h1-date': 'Январь 2026', 'h1-title': 'Основание ССТ — Sagulik и Zhenrov',
             'h2-date': 'Апрель 2026', 'h2-title': 'Массовое расширение — присоединились 9 участников',
             'h3-date': 'Июнь 2026', 'h3-title': 'Завершение конфликта СГ vs Анти-СГ — мир',
-            'h4-date': 'Июль 2026', 'h4-title': '20 участников, 4 сервера, запуск нового сайта',
+            'h4-date': 'Июль 2026', 'h4-title': '20 участников, 3 сервера, запуск нового сайта',
             'footer-note': 'Официальный сайт союза',
         },
         en: {
-            'server-wiki': 'Wiki'
-            'logo-text': 'TCU'
+            'logo-text': 'TCU',
             'nav-about': 'About', 'nav-members': 'Members', 'nav-servers': 'Servers', 'nav-join': 'Join', 'nav-history': 'History',
             'hero-sub': 'An association of independent YouTubers creating Slendytubbies and other game content.',
             'cta-join': 'How to join TCU', 'cta-members': 'Meet the members',
@@ -669,7 +669,7 @@
             'show-more': 'Show more', 'show-less': 'Show less',
             'servers-title': 'Official TCU Servers',
             'servers-desc': 'Where the union lives: chat, news, joint projects. TCU has no other servers — anything else is not affiliated with us.',
-            'server-main': 'Main', 'server-join': 'Join', 'server-open': 'Open',
+            'server-main': 'Main', 'server-join': 'Join', 'server-wiki': 'Wiki', 'server-open': 'Open',
             'join-sec-title': 'How to Join TCU',
             'join-sec-desc': 'Applications are reviewed personally by the founders. No forms, no questionnaires.',
             'why-title': 'Why no form?',
@@ -696,7 +696,7 @@
             'h1-date': 'January 2026', 'h1-title': 'TCU founded by Sagulik and Zhenrov',
             'h2-date': 'April 2026', 'h2-title': 'Major expansion — 9 new members joined',
             'h3-date': 'June 2026', 'h3-title': 'SG vs Anti-SG conflict ends — peace',
-            'h4-date': 'July 2026', 'h4-title': '20 members, 4 servers, new website launched',
+            'h4-date': 'July 2026', 'h4-title': '20 members, 3 servers, new website launched',
             'footer-note': 'Official union website',
         },
     };
