@@ -373,7 +373,7 @@
     <div class="header-inner">
         <a class="logo" href="#">
             <img class="logo-img" src="photo_2026-01-24_21-23-46-2.jpg" alt="TCU">
-            <span>ССТ</span>
+            <span data-i18n='logo-text'<ССТ></span>
         </a>
         <nav>
             <a href="#about" data-i18n="nav-about">О союзе</a>
@@ -448,13 +448,16 @@
         <div class="section-title" data-i18n="servers-title">Официальные сервера ССТ</div>
         <div class="section-desc" data-i18n="servers-desc">Здесь живёт союз: общение, новости, совместные проекты. Других серверов у ССТ нет — все остальные не имеют к нам отношения.</div>
         <div class="servers-grid">
-            <div class="server-card">
-                <img class="server-icon" src="sg-server.png" alt="SaguloStopol">
-                <div class="server-name">SaguloStopol [SG]</div>
-                <div class="server-type">Discord</div>
-                <span class="tag key" data-i18n="server-main">Основной</span>
+        <div class="server-card">
+            <img class="server-icon" src="sg-server.png" alt="SaguloStopol">
+            <div class="server-name">SaguloStopol [SG]</div>
+            <div class="server-type">Discord</div>
+            <span class="tag key" data-i18n="server-main">Основной</span>
+            <div style="display: flex; gap: 8px; width: 100%; justify-content: center; flex-wrap: wrap;">
                 <a class="btn btn-discord" href="https://discord.com/invite/FEEUXT3PJw" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
+                <a class="btn btn-outline" href="servers/sagulo.html" data-i18n="server-wiki">Вики</a>
             </div>
+       </div>
             <div class="server-card">
                 <img class="server-icon" src="zhenrov-server.png" alt="Zhenrov Community">
                 <div class="server-name">Zhenrov Community</div>
@@ -468,14 +471,6 @@
                 <div class="server-type">Discord</div>
                 <a class="btn btn-discord" href="https://discord.gg/dpew4mjxVn" target="_blank" rel="noopener" data-i18n="server-join">Войти</a>
             </div>
-            <div class="server-card">
-                <img class="server-icon" src="lineburg-icon.png" alt="ЛайнемБург">
-                <div class="server-name">ЛайнемБург</div>
-                <div class="server-type">Telegram</div>
-                <a class="btn btn-outline" href="https://t.me/linemburg" target="_blank" rel="noopener" data-i18n="server-open">Открыть</a>
-            </div>
-        </div>
-    </section>
 
     <section id="join">
         <div class="section-title" data-i18n="join-sec-title">Как вступить в ССТ</div>
@@ -583,12 +578,10 @@
             { name: 'Gerit',              tags: ['deputy', 'artist'],      link: 'https://youtube.com/@gerit742' },
             { name: 'Barricade228 [SG]',  tags: ['admin'],                 link: null },
             { name: 'Soldier Anims [SL]', tags: ['moderator', 'youtuber'], link: 'https://youtube.com/@soldieranims' },
-            { name: 'Emptiness',          tags: ['moderator', 'animator'], link: null },
         ],
         youtubers: [
             { name: 'DezoTubby [SG]',      tags: ['artist'],   link: 'https://youtube.com/@dezoniyofficial' },
-            { name: 'Terrov',              tags: ['owner', 'designer'], link: 'https://youtube.com/@tvik_tubbie' },
-            { name: 'Linem',               tags: ['owner', 'artist'],   link: 'https://youtube.com/@linem-0889' },
+            { name: 'Terov',               tags: ['owner', 'designer'], link: 'https://youtube.com/@tvik_tubbie' },
             { name: 'maionezz',            tags: ['designer'], link: 'https://youtube.com/@maioonezz-f7w' },
             { name: 'Regiturf',            tags: ['artist'],   link: 'https://youtube.com/@regiturfst' },
             { name: 'Ураникс / UraniksRB', tags: ['youtuber'], link: 'https://youtube.com/@uraniks_roblox' },
@@ -605,6 +598,8 @@
 
     const I18N = {
         ru: {
+            'server-wiki': 'Вики'
+            'logo-text': 'ССТ'
             'nav-about': 'О союзе', 'nav-members': 'Участники', 'nav-servers': 'Сервера', 'nav-join': 'Вступление', 'nav-history': 'Хроника',
             'hero-sub': 'Объединение независимых ютуберов по Slendytubbies и другим играм.',
             'cta-join': 'Как вступить в ССТ', 'cta-members': 'Смотреть участников',
@@ -654,6 +649,8 @@
             'footer-note': 'Официальный сайт союза',
         },
         en: {
+            'server-wiki': 'Wiki'
+            'logo-text': 'TCU'
             'nav-about': 'About', 'nav-members': 'Members', 'nav-servers': 'Servers', 'nav-join': 'Join', 'nav-history': 'History',
             'hero-sub': 'An association of independent YouTubers creating Slendytubbies and other game content.',
             'cta-join': 'How to join TCU', 'cta-members': 'Meet the members',
